@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rabin — RuHRabin</title>
+<title>Rabin</title>
 <meta name="description" content="Rabin (RuHRabin) — lifelong learner working on machine learning, simulation, and small sharp Linux tools, in the open.">
 
 <link rel="icon" href="data:,">
@@ -22,8 +22,22 @@
     --accent: #D4A054;
     --accent-soft: rgba(212,160,84,0.14);
     --teal: #5E9C8F;
+    --dot: rgba(236,231,218,0.05);
     --radius: 8px;
     --wrap: 1120px;
+  }
+
+  html[data-theme="light"]{
+    --bg: #F6F2E8;
+    --bg-raised: #FFFFFF;
+    --line: rgba(20,22,18,0.12);
+    --line-soft: rgba(20,22,18,0.07);
+    --text: #201C14;
+    --text-muted: #6B675C;
+    --accent: #B8752E;
+    --accent-soft: rgba(184,117,46,0.14);
+    --teal: #3E7C6F;
+    --dot: rgba(20,22,18,0.06);
   }
 
   *{box-sizing:border-box;}
@@ -31,12 +45,19 @@
   body{
     margin:0;
     background:
-      radial-gradient(circle at 1px 1px, rgba(236,231,218,0.05) 1px, transparent 0) 0 0/28px 28px,
+      radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0) 0 0/28px 28px,
       var(--bg);
     color:var(--text);
     font-family:'IBM Plex Sans', -apple-system, sans-serif;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    transition:background-color .35s ease, color .35s ease;
+  }
+
+  body, header, .terminal, .terminal-bar, .project-feature, .pf-visual, .more-projects, .nav-gh, .btn-ghost{
+    transition-property:background-color, border-color, color, box-shadow;
+    transition-duration:.35s;
+    transition-timing-function:ease;
   }
 
   ::selection{ background:var(--accent-soft); color:var(--accent); }
@@ -68,10 +89,26 @@
   /* ---------- Nav ---------- */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(15,20,28,0.82);
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line-soft);
   }
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:38px; height:38px;
+    border:1px solid var(--line);
+    border-radius:50%;
+    background:none;
+    color:var(--text-muted);
+    cursor:pointer;
+    transition:border-color .2s ease, color .2s ease, transform .2s ease;
+  }
+  .theme-toggle:hover{ border-color:var(--accent); color:var(--accent); transform:rotate(12deg); }
+  .theme-toggle svg{ width:17px; height:17px; }
+  .theme-toggle .sun{ display:none; }
+  html[data-theme="light"] .theme-toggle .moon{ display:none; }
+  html[data-theme="light"] .theme-toggle .sun{ display:block; }
+  .nav-right{ display:flex; align-items:center; gap:14px; }
   nav.wrap{
     display:flex; align-items:center; justify-content:space-between;
     height:72px;
@@ -200,7 +237,7 @@
     padding:22px 22px 26px;
     font-family:'IBM Plex Mono', monospace;
     font-size:0.86rem;
-    color:#C7CFD8;
+    color:var(--text-muted);
     min-height:230px;
     white-space:pre-wrap;
   }
@@ -409,9 +446,31 @@
   footer a{ text-decoration:none; color:var(--text-muted); }
   footer a:hover{ color:var(--accent); }
 
+  /* ---------- Scroll reveal ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(22px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .reveal-stagger.is-visible > *{
+    animation:none;
+  }
+  .focus-row.reveal{ transition-delay:calc(var(--i, 0) * 90ms); }
+
+  @keyframes floatIn{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .caret{ animation:none; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
   }
 </style>
 </head>
@@ -426,10 +485,16 @@
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a class="nav-gh" href="https://github.com/RuHRabin" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
-      RuHRabin
-    </a>
+    <div class="nav-right">
+      <a class="nav-gh" href="https://github.com/RuHRabin" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        RuHRabin
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1M18.4 18.4l-2.1-2.1M7.7 7.7 5.6 5.6"/></svg>
+      </button>
+    </div>
   </nav>
 </header>
 
@@ -458,12 +523,12 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>About</h2>
         <p class="lede">A short version of who I am and what I'm chasing right now.</p>
       </div>
 
-      <div class="about-grid">
+      <div class="about-grid reveal">
         <img class="avatar" src="https://avatars.githubusercontent.com/u/222196609?v=4" alt="Portrait of Rabin">
         <div class="about-body">
           <p><strong>I'm Rabin</strong> (also known online as RuHRabin) — a lifelong learner driven by curiosity, working through complex problems for the sake of understanding them, not just solving them.</p>
@@ -483,12 +548,12 @@
   <!-- FOCUS -->
   <section id="focus">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>What I'm working on</h2>
         <p class="lede">Three threads I keep pulling on, in no particular order.</p>
       </div>
 
-      <div class="focus-row">
+      <div class="focus-row reveal" style="--i:0;">
         <div class="focus-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5" cy="12" r="2.4"/><circle cx="19" cy="6" r="2.4"/><circle cx="19" cy="18" r="2.4"/><path d="M7.1 11.1 16.9 6.9M7.1 12.9l9.8 4.2"/></svg>
         </div>
@@ -496,7 +561,7 @@
         <p>Modeling how systems and behavior play out computationally. Currently deep in coursework and personal experiments — more theory than product, for now, and that's on purpose.</p>
       </div>
 
-      <div class="focus-row">
+      <div class="focus-row reveal" style="--i:1;">
         <div class="focus-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 5h16v10H4z"/><path d="M8 20h8M9 15l-1 5M15 15l1 5"/></svg>
         </div>
@@ -504,7 +569,7 @@
         <p>Small, offline, no-nonsense command-line utilities — no telemetry, no cloud upload, just tools that do one job well. My metadata remover for images and video is the first of these to ship.</p>
       </div>
 
-      <div class="focus-row">
+      <div class="focus-row reveal" style="--i:2;">
         <div class="focus-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="12" r="2.2"/><path d="M6 8.2V15.8M8 6.6l7.7 4.3M8 17.4l7.7-4.3"/></svg>
         </div>
@@ -517,12 +582,12 @@
   <!-- PROJECTS -->
   <section id="projects">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>Featured project</h2>
         <p class="lede">One I've actually shipped. More are on the way as they're ready.</p>
       </div>
 
-      <div class="project-feature">
+      <div class="project-feature reveal">
         <div class="pf-text">
           <div class="pf-tag">open source · linux · privacy</div>
           <h3>Metadata remover for images &amp; video</h3>
@@ -542,7 +607,7 @@
         </div>
       </div>
 
-      <div class="more-projects">
+      <div class="more-projects reveal">
         <span>New repos land on GitHub before they land here.</span>
         <a href="https://github.com/RuHRabin?tab=repositories" target="_blank" rel="noopener">Browse all repositories →</a>
       </div>
@@ -552,7 +617,7 @@
   <!-- CONTACT -->
   <section id="contact" class="contact" style="border-bottom:none;">
     <div class="wrap">
-      <div class="contact-inner">
+      <div class="contact-inner reveal">
         <div>
           <h2>Got a problem worth solving? Let's talk.</h2>
           <p class="lede">I'm slow to reply on socials but quick over email. Reach out if something here resonates.</p>
@@ -578,12 +643,6 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M8 7h9v9"/></svg>
             </a>
           </li>
-          <li>
-            <a href="https://www.facebook.com/M.RakibUlHasanRabin" target="_blank" rel="noopener">
-              <span>Facebook</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M8 7h9v9"/></svg>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
@@ -598,6 +657,41 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---- Theme toggle (dark / light, persisted) ----
+  (function(){
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initial = stored || (prefersLight ? 'light' : 'dark');
+    root.setAttribute('data-theme', initial);
+
+    toggle.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  })();
+
+  // ---- Scroll reveal ----
+  (function(){
+    const items = document.querySelectorAll('.reveal');
+    if (!items.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      items.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    items.forEach(el => io.observe(el));
+  })();
 
   // One deliberate motion moment: hero terminal "typing" reveal.
   const lines = [
