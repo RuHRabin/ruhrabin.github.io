@@ -555,6 +555,71 @@
   .more-projects a{ color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; }
   .more-projects a:hover{ border-color:var(--accent); }
 
+  /* ---------- Downloads ---------- */
+  .release-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .release-card{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--bg-raised);
+    padding:24px 28px;
+  }
+  .release-card .release-repo{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--teal);
+    margin-bottom:6px;
+  }
+  .release-card h4{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.15rem;
+    margin:0 0 4px 0;
+  }
+  .release-card .release-date{
+    display:block;
+    color:var(--text-muted);
+    font-size:0.82rem;
+    margin-bottom:16px;
+  }
+  .release-assets{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+  .asset-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 16px;
+    background:var(--accent-soft);
+    border:1px solid rgba(212,160,84,0.3);
+    border-radius:100px;
+    text-decoration:none;
+    color:var(--accent);
+    font-size:0.85rem;
+    transition:background .2s ease;
+  }
+  .asset-chip:hover{ background:rgba(212,160,84,0.25); }
+  .asset-chip svg{ width:14px; height:14px; }
+  .release-empty{
+    color:var(--text-muted);
+    font-size:0.95rem;
+  }
+  .release-skeleton{
+    height:110px;
+    border:1px dashed var(--line);
+    border-radius:var(--radius);
+    background:var(--line-soft);
+  }
+
   /* ---------- Contact ---------- */
   .contact-inner{
     display:grid;
@@ -637,6 +702,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#focus">Focus</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#downloads">Downloads</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="nav-right">
@@ -779,6 +845,26 @@
       <div class="more-projects reveal">
         <span>New repos land on GitHub before they land here.</span>
         <a href="https://github.com/RuHRabin?tab=repositories" target="_blank" rel="noopener">Browse all repositories<span class="sr-only"> (opens in a new tab)</span> →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOADS -->
+  <section id="downloads">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Downloads</h2>
+        <p class="lede">Every published GitHub Release across my repos, pulled in live — publish a release and it shows up here on its own, no manual updates.</p>
+      </div>
+
+      <p class="sync-note" id="releaseSyncNote" role="status" aria-live="polite">
+        <span class="sync-dot" id="releaseSyncDot"></span>
+        <span id="releaseSyncNoteText">Syncing releases from GitHub…</span>
+      </p>
+
+      <div class="release-list" id="releaseList">
+        <div class="release-skeleton" aria-hidden="true"></div>
+        <div class="release-skeleton" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -1100,6 +1186,81 @@
     }
 
     sync();
+  })();
+
+  // ---- Live release sync: pulls every published GitHub Release across all repos ----
+  (function(){
+    const GH_USER = 'RuHRabin';
+    const releaseSyncDot = document.getElementById('releaseSyncDot');
+    const releaseSyncNoteText = document.getElementById('releaseSyncNoteText');
+    const releaseListEl = document.getElementById('releaseList');
+
+    function escapeHtml(str){
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    function formatDate(dateStr){
+      return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    const downloadIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>';
+
+    function renderReleases(releases){
+      if (!releases.length){
+        releaseListEl.innerHTML = '<p class="release-empty">No releases published yet — check back soon.</p>';
+        return;
+      }
+      releaseListEl.innerHTML = releases.map(r => {
+        const assets = r.assets.length
+          ? r.assets.map(a =>
+              '<li><a class="asset-chip" href="' + a.browser_download_url + '">' + downloadIcon + '<span>' + escapeHtml(a.name) + '</span></a></li>'
+            ).join('')
+          : '<li><a class="asset-chip" href="' + r.html_url + '">' + downloadIcon + '<span>Source</span></a></li>';
+        return '<div class="release-card">' +
+          '<span class="release-repo">' + escapeHtml(r.repoName) + '</span>' +
+          '<h4>' + escapeHtml(r.tag_name) + (r.name ? ' — ' + escapeHtml(r.name) : '') + '</h4>' +
+          '<span class="release-date">Published ' + formatDate(r.published_at) + '</span>' +
+          '<ul class="release-assets">' + assets + '</ul>' +
+        '</div>';
+      }).join('');
+    }
+
+    async function syncReleases(){
+      try {
+        const reposRes = await fetch('https://api.github.com/users/' + GH_USER + '/repos?per_page=100&sort=pushed');
+        if (!reposRes.ok) throw new Error('repo list fetch failed');
+        const repos = await reposRes.json();
+
+        const releaseLists = await Promise.all(
+          repos.filter(r => !r.fork).map(r =>
+            fetch('https://api.github.com/repos/' + GH_USER + '/' + r.name + '/releases')
+              .then(res => res.ok ? res.json() : [])
+              .then(list => list.map(rel => ({ ...rel, repoName: r.name })))
+              .catch(() => [])
+          )
+        );
+
+        const allReleases = releaseLists
+          .flat()
+          .filter(r => !r.draft)
+          .sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+
+        renderReleases(allReleases);
+
+        releaseSyncDot.classList.remove('is-error');
+        releaseSyncNoteText.textContent = allReleases.length
+          ? 'Synced ' + allReleases.length + ' release' + (allReleases.length === 1 ? '' : 's') + ' from GitHub just now.'
+          : 'Synced with GitHub — no releases published yet.';
+      } catch (err) {
+        releaseSyncDot.classList.add('is-error');
+        releaseSyncNoteText.textContent = "Couldn't reach the GitHub API right now (rate limits reset hourly).";
+        releaseListEl.innerHTML = '';
+      }
+    }
+
+    syncReleases();
   })();
 </script>
 
