@@ -821,7 +821,7 @@
         <div class="repo-skeleton" aria-hidden="true"></div>
       </div>
 
-      <!-- Fallback content: shown if the GitHub API request fails (e.g. rate limit) -->
+      <!-- Fallback content: shown if the synced data can't be loaded -->
       <div class="project-feature reveal" id="fallbackProject" hidden>
         <div class="pf-text">
           <div class="pf-tag">open source · linux · privacy</div>
@@ -854,7 +854,7 @@
     <div class="wrap">
       <div class="section-head reveal">
         <h2>Downloads</h2>
-        <p class="lede">Every published GitHub Release across my repos, pulled in live — publish a release and it shows up here on its own, no manual updates.</p>
+        <p class="lede">Every published GitHub Release across my repos, synced periodically — publish a release and it shows up here within a few hours, no manual updates.</p>
       </div>
 
       <p class="sync-note" id="releaseSyncNote" role="status" aria-live="polite">
@@ -1061,9 +1061,15 @@
     setTimeout(tick, 400);
   })();
 
-  // ---- Live GitHub sync: pulls repos + published sites straight from the profile ----
+  // ---- Synced GitHub data: reads the static JSON file a GitHub Actions
+  // workflow refreshes periodically (see .github/workflows/sync-github-data.yml),
+  // instead of calling api.github.com directly from every visitor's browser.
+  // This avoids the ~60 req/hour unauthenticated GitHub API rate limit entirely.
   (function(){
+    const DATA_URL = '/data/github-sync.json';
     const GH_USER = 'RuHRabin';
+    const userPageRepoName = (GH_USER + '.github.io').toLowerCase();
+
     const syncDot = document.getElementById('syncDot');
     const syncNoteText = document.getElementById('syncNoteText');
     const liveSitesEl = document.getElementById('liveSites');
@@ -1071,7 +1077,18 @@
     const statReposEl = document.getElementById('statRepos');
     const fallbackEl = document.getElementById('fallbackProject');
 
+    const releaseSyncDot = document.getElementById('releaseSyncDot');
+    const releaseSyncNoteText = document.getElementById('releaseSyncNoteText');
+    const releaseListEl = document.getElementById('releaseList');
+
     const externalIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+    const downloadIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>';
+
+    function escapeHtml(str){
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
 
     function timeAgo(dateStr){
       const diffMs = Date.now() - new Date(dateStr).getTime();
@@ -1084,25 +1101,20 @@
       return 'updated ' + Math.floor(months / 12) + 'y ago';
     }
 
-    function escapeHtml(str){
-      const div = document.createElement('div');
-      div.textContent = str || '';
-      return div.innerHTML;
+    function formatDate(dateStr){
+      return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     }
-
-    const userPageRepoName = (GH_USER + '.github.io').toLowerCase();
 
     // Works out the public URL for a repo, covering three cases:
     // 1) a custom homepage set in repo settings
-    // 2) the special {user}.github.io user-site repo (this site itself)
+    // 2) the special {user}.github.io user-site repo (this site itself) — skipped
     // 3) a GitHub Pages *project* site with no homepage set, which is
     //    published at https://{user}.github.io/{repo}/ whenever the repo
-    //    has Pages enabled (has_pages: true) — this is how most of the
-    //    games/tools deployed straight from a repo end up live.
+    //    has Pages enabled (has_pages: true).
     function sitePages(repos){
       return repos
         .filter(r => !r.fork)
-        .filter(r => r.name.toLowerCase() !== userPageRepoName) // skip this portfolio itself
+        .filter(r => r.name.toLowerCase() !== userPageRepoName)
         .filter(r => (r.homepage && r.homepage.trim().length > 0) || r.has_pages)
         .map(r => {
           let url;
@@ -1121,6 +1133,7 @@
         liveSitesEl.hidden = true;
         return;
       }
+      liveSitesEl.hidden = false;
       liveSitesEl.innerHTML = sites.map(s => {
         return '<a class="site-chip" href="' + s.url + '" target="_blank" rel="noopener">' +
           externalIcon +
@@ -1143,6 +1156,7 @@
         return;
       }
 
+      repoGridEl.hidden = false;
       repoGridEl.innerHTML = top.map(r => {
         const desc = r.description ? escapeHtml(r.description) : 'No description yet.';
         const lang = r.language ? '<span><span class="lang-dot" aria-hidden="true"></span>' + escapeHtml(r.language) + '</span>' : '';
@@ -1155,65 +1169,13 @@
       }).join('');
     }
 
-    async function sync(){
-      try {
-        const [userRes, reposRes] = await Promise.all([
-          fetch('https://api.github.com/users/' + GH_USER),
-          fetch('https://api.github.com/users/' + GH_USER + '/repos?sort=pushed&per_page=100')
-        ]);
-
-        if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API request failed');
-
-        const user = await userRes.json();
-        const repos = await reposRes.json();
-
-        if (typeof user.public_repos === 'number') {
-          statReposEl.textContent = user.public_repos;
-        }
-
-        renderLiveSites(repos);
-        renderRepoGrid(repos);
-
-        syncDot.classList.remove('is-error');
-        syncNoteText.textContent = 'Synced ' + repos.length + ' repositories from GitHub just now.';
-      } catch (err) {
-        syncDot.classList.add('is-error');
-        syncNoteText.textContent = "Couldn't reach the GitHub API right now (rate limits reset hourly) — showing a saved project below.";
-        repoGridEl.hidden = true;
-        liveSitesEl.hidden = true;
-        fallbackEl.hidden = false;
-      }
-    }
-
-    sync();
-  })();
-
-  // ---- Live release sync: pulls every published GitHub Release across all repos ----
-  (function(){
-    const GH_USER = 'RuHRabin';
-    const releaseSyncDot = document.getElementById('releaseSyncDot');
-    const releaseSyncNoteText = document.getElementById('releaseSyncNoteText');
-    const releaseListEl = document.getElementById('releaseList');
-
-    function escapeHtml(str){
-      const div = document.createElement('div');
-      div.textContent = str || '';
-      return div.innerHTML;
-    }
-
-    function formatDate(dateStr){
-      return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    }
-
-    const downloadIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>';
-
     function renderReleases(releases){
       if (!releases.length){
         releaseListEl.innerHTML = '<p class="release-empty">No releases published yet — check back soon.</p>';
         return;
       }
       releaseListEl.innerHTML = releases.map(r => {
-        const assets = r.assets.length
+        const assets = (r.assets && r.assets.length)
           ? r.assets.map(a =>
               '<li><a class="asset-chip" href="' + a.browser_download_url + '">' + downloadIcon + '<span>' + escapeHtml(a.name) + '</span></a></li>'
             ).join('')
@@ -1227,40 +1189,43 @@
       }).join('');
     }
 
-    async function syncReleases(){
+    async function sync(){
       try {
-        const reposRes = await fetch('https://api.github.com/users/' + GH_USER + '/repos?per_page=100&sort=pushed');
-        if (!reposRes.ok) throw new Error('repo list fetch failed');
-        const repos = await reposRes.json();
+        const res = await fetch(DATA_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error('synced data fetch failed');
+        const data = await res.json();
 
-        const releaseLists = await Promise.all(
-          repos.filter(r => !r.fork).map(r =>
-            fetch('https://api.github.com/repos/' + GH_USER + '/' + r.name + '/releases')
-              .then(res => res.ok ? res.json() : [])
-              .then(list => list.map(rel => ({ ...rel, repoName: r.name })))
-              .catch(() => [])
-          )
-        );
+        const repos = data.repos || [];
+        const releases = data.releases || [];
 
-        const allReleases = releaseLists
-          .flat()
-          .filter(r => !r.draft)
-          .sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+        if (data.user && typeof data.user.public_repos === 'number') {
+          statReposEl.textContent = data.user.public_repos;
+        }
 
-        renderReleases(allReleases);
+        renderLiveSites(repos);
+        renderRepoGrid(repos);
+        syncDot.classList.remove('is-error');
+        syncNoteText.textContent = 'Synced ' + repos.length + ' repositories from GitHub.';
 
+        renderReleases(releases);
         releaseSyncDot.classList.remove('is-error');
-        releaseSyncNoteText.textContent = allReleases.length
-          ? 'Synced ' + allReleases.length + ' release' + (allReleases.length === 1 ? '' : 's') + ' from GitHub just now.'
+        releaseSyncNoteText.textContent = releases.length
+          ? 'Synced ' + releases.length + ' release' + (releases.length === 1 ? '' : 's') + ' from GitHub.'
           : 'Synced with GitHub — no releases published yet.';
       } catch (err) {
+        syncDot.classList.add('is-error');
+        syncNoteText.textContent = "Couldn't load synced project data right now — showing a saved project below.";
+        repoGridEl.hidden = true;
+        liveSitesEl.hidden = true;
+        fallbackEl.hidden = false;
+
         releaseSyncDot.classList.add('is-error');
-        releaseSyncNoteText.textContent = "Couldn't reach the GitHub API right now (rate limits reset hourly).";
+        releaseSyncNoteText.textContent = "Couldn't load synced release data right now.";
         releaseListEl.innerHTML = '';
       }
     }
 
-    syncReleases();
+    sync();
   })();
 </script>
 
