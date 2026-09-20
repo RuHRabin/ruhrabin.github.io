@@ -1,0 +1,192 @@
+{
+  "generated_at": "2026-09-20T14:21:37.613Z",
+  "user": {
+    "public_repos": 13
+  },
+  "repos": [
+    {
+      "name": "ruhrabin.github.io",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-20T14:21:29Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
+    },
+    {
+      "name": "html-bangla",
+      "description": "Offline Android app teaching HSC ICT Chapter 4 (Web Design & HTML) in Bengali — live split-view code editor, 21-question quiz, bookmarks & progress tracking. Built with Kotlin + Jetpack Compose.",
+      "language": "Kotlin",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-20T13:55:57Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/html-bangla"
+    },
+    {
+      "name": "RuHRabin",
+      "description": null,
+      "language": "Python",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-20T10:27:50Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/RuHRabin"
+    },
+    {
+      "name": "Pixel-Perfect-Web",
+      "description": null,
+      "language": "JavaScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-16T16:09:23Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Pixel-Perfect-Web"
+    },
+    {
+      "name": "Larkspur-Lane",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-16T14:22:14Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Larkspur-Lane"
+    },
+    {
+      "name": "HTML-Shikhi-HSC-ICT",
+      "description": null,
+      "language": "JavaScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-16T02:57:10Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/HTML-Shikhi-HSC-ICT"
+    },
+    {
+      "name": "GlimmerWoodGame",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-14T15:32:35Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/GlimmerWoodGame"
+    },
+    {
+      "name": "Anime-Assault-Game",
+      "description": "Anime Assault Game, a complete neon-soaked arena shooter in a single HTML file. Just open it in any browser (double-click, or host it anywhere) and it runs instantly on desktop and mobile.",
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-13T15:08:24Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Anime-Assault-Game"
+    },
+    {
+      "name": "Remove-Metadata-from-image-and-videos-on-Linux-",
+      "description": "This is a list of commands for using metadata remover tools for linux. The tools are free and opensource and fully work on offline.  ",
+      "language": null,
+      "stargazers_count": 0,
+      "pushed_at": "2026-07-01T16:20:31Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Remove-Metadata-from-image-and-videos-on-Linux-"
+    },
+    {
+      "name": "xkb-avro",
+      "description": "Native XKB keyboard layout for Bengali Avro Phonetic on Linux — no IBus, no Fcitx, no daemon required.",
+      "language": "Shell",
+      "stargazers_count": 0,
+      "pushed_at": "2026-06-15T11:03:18Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/xkb-avro"
+    },
+    {
+      "name": "Android-Weather-App",
+      "description": "It's an Android app built with Google AI Studio and is completely free. It also has radar images.",
+      "language": "Kotlin",
+      "stargazers_count": 0,
+      "pushed_at": "2026-06-10T15:05:26Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Android-Weather-App"
+    },
+    {
+      "name": "Python-Simple-Codes",
+      "description": "This is a collection of simple python codes",
+      "language": "Python",
+      "stargazers_count": 0,
+      "pushed_at": "2026-05-29T16:41:57Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Python-Simple-Codes"
+    },
+    {
+      "name": "bitterbot-desktop",
+      "description": "A local-first AI agent with persistent memory, emotional intelligence, and a peer-to-peer skills economy.",
+      "language": null,
+      "stargazers_count": 0,
+      "pushed_at": "2026-05-23T03:41:37Z",
+      "fork": true,
+      "homepage": "https://bitterbot.ai",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/bitterbot-desktop"
+    }
+  ],
+  "releases": [
+    {
+      "repoName": "html-bangla",
+      "tag_name": "v1.0.0",
+      "name": "HTML Bangla APK",
+      "published_at": "2026-09-20T13:55:57Z",
+      "html_url": "https://github.com/RuHRabin/html-bangla/releases/tag/v1.0.0",
+      "assets": [
+        {
+          "name": "Learn.HTML.Bangla.HSC.HTML.Simple.apk",
+          "browser_download_url": "https://github.com/RuHRabin/html-bangla/releases/download/v1.0.0/Learn.HTML.Bangla.HSC.HTML.Simple.apk"
+        }
+      ]
+    },
+    {
+      "repoName": "HTML-Shikhi-HSC-ICT",
+      "tag_name": "HTML_Shikhi",
+      "name": "",
+      "published_at": "2026-09-16T02:57:10Z",
+      "html_url": "https://github.com/RuHRabin/HTML-Shikhi-HSC-ICT/releases/tag/HTML_Shikhi",
+      "assets": [
+        {
+          "name": "HTML.Shikhi.apk",
+          "browser_download_url": "https://github.com/RuHRabin/HTML-Shikhi-HSC-ICT/releases/download/HTML_Shikhi/HTML.Shikhi.apk"
+        }
+      ]
+    },
+    {
+      "repoName": "Android-Weather-App",
+      "tag_name": "weather_app",
+      "name": "APK file of weather app",
+      "published_at": "2026-06-10T15:02:18Z",
+      "html_url": "https://github.com/RuHRabin/Android-Weather-App/releases/tag/weather_app",
+      "assets": [
+        {
+          "name": "Weather_App.apk",
+          "browser_download_url": "https://github.com/RuHRabin/Android-Weather-App/releases/download/weather_app/Weather_App.apk"
+        }
+      ]
+    }
+  ]
+}
