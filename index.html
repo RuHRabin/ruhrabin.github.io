@@ -183,6 +183,8 @@
     .wrap{ padding:0 20px; }
     .btn{ padding:13px 20px; }
     .row{ padding:16px 0; }
+    .row-side{ align-items:flex-start; width:100%; }
+    .row-meta{ justify-content:flex-start; }
     .release-row{ padding:16px 0; }
     .asset-btn{ padding:10px 14px; }
     .section-head h2{ font-size:1.25rem; }
@@ -209,21 +211,31 @@
   /* ---------- Row lists (projects + releases) ---------- */
   .row-list{ display:flex; flex-direction:column; }
   .row{
-    display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between;
-    gap:6px 16px; padding:18px 0; border-top:1px solid var(--line-soft);
-    text-decoration:none; color:inherit;
+    display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between;
+    gap:8px 16px; padding:18px 0; border-top:1px solid var(--line-soft);
   }
   .row:last-child{ border-bottom:1px solid var(--line-soft); }
   .row-main{ flex:1; min-width:220px; }
   .row-name{
     font-size:1.02rem; font-weight:600; display:flex; align-items:center; gap:8px;
   }
-  a.row:hover .row-name{ color:var(--accent); }
+  .row-name a{ text-decoration:none; color:inherit; }
+  .row-name a:hover{ color:var(--accent); }
   .row-desc{ margin-top:4px; color:var(--muted); font-size:0.92rem; max-width:56ch; }
+  .row-side{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
   .row-meta{
-    display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:0.85rem;
-    white-space:nowrap;
+    display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end;
+    color:var(--muted); font-size:0.85rem; white-space:nowrap;
   }
+  .row-live{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 12px; border:1px solid var(--line); border-radius:100px;
+    text-decoration:none; color:var(--ink); font-size:0.82rem; font-weight:500;
+    white-space:nowrap;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .row-live:hover{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .row-live svg{ width:12px; height:12px; }
   .ext-icon{ width:13px; height:13px; opacity:0.6; flex:none; }
 
   /* download rows keep their assets on a line of their own */
@@ -511,16 +523,22 @@
           r.language ? escapeHtml(r.language) : null,
           r.stargazers_count ? (r.stargazers_count + ' stars') : null,
           timeAgo(r.pushed_at),
-          live ? 'live' : null,
         ].filter(Boolean).join(' \u00b7 ');
 
-        return '<a class="row" style="animation-delay:' + (i * 45) + 'ms" href="' + r.html_url + '" target="_blank" rel="noopener">' +
+        const liveLink = live
+          ? '<a class="row-live" href="' + live + '" target="_blank" rel="noopener">' + extIcon + '<span>Open live</span><span class="sr-only"> (opens in a new tab)</span></a>'
+          : '';
+
+        return '<div class="row" style="animation-delay:' + (i * 45) + 'ms">' +
           '<div class="row-main">' +
-            '<div class="row-name">' + escapeHtml(r.name) + extIcon + '</div>' +
+            '<div class="row-name"><a href="' + r.html_url + '" target="_blank" rel="noopener">' + escapeHtml(r.name) + '</a></div>' +
             (desc ? '<p class="row-desc">' + desc + '</p>' : '') +
           '</div>' +
-          '<div class="row-meta">' + meta + '</div>' +
-        '</a>';
+          '<div class="row-side">' +
+            '<div class="row-meta">' + meta + '</div>' +
+            liveLink +
+          '</div>' +
+        '</div>';
       }).join('');
     }
 
