@@ -4,68 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rabin</title>
-<meta name="description" content="Rabin (RuHRabin) — lifelong learner working on machine learning, simulation, and small sharp Linux tools, in the open.">
+<meta name="description" content="Open-source tools, apps, and releases from Rabin. Browse the projects, grab the latest download.">
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F141C'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23D4A054' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
-<meta id="themeColorMeta" name="theme-color" content="#0F141C">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232F5D50'/%3E%3Ctext x='16' y='22' font-family='Arial,sans-serif' font-weight='700' font-size='16' fill='%23F3F1EA' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+<meta id="themeColorMeta" name="theme-color" content="#F3F1EA">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --bg: #0F141C;
-    --bg-raised: #161D28;
-    --line: rgba(236,231,218,0.13);
-    --line-soft: rgba(236,231,218,0.07);
-    --text: #ECE7DA;
-    --text-muted: #8D96A3;
-    --accent: #D4A054;
-    --accent-soft: rgba(212,160,84,0.14);
-    --teal: #5E9C8F;
-    --dot: rgba(236,231,218,0.05);
-    --radius: 8px;
-    --wrap: 1120px;
+    --paper: #F3F1EA;
+    --surface: #FFFFFF;
+    --ink: #21251F;
+    --muted: #656A5D;
+    --accent: #2F5D50;
+    --accent-ink: #F3F1EA;
+    --line: rgba(33,37,31,0.16);
+    --line-soft: rgba(33,37,31,0.09);
+    --radius: 6px;
+    --wrap: 780px;
   }
 
-  html[data-theme="light"]{
-    --bg: #F6F2E8;
-    --bg-raised: #FFFFFF;
-    --line: rgba(20,22,18,0.12);
-    --line-soft: rgba(20,22,18,0.07);
-    --text: #201C14;
-    --text-muted: #6B675C;
-    --accent: #B8752E;
-    --accent-soft: rgba(184,117,46,0.14);
-    --teal: #3E7C6F;
-    --dot: rgba(20,22,18,0.06);
+  html[data-theme="dark"]{
+    --paper: #15181A;
+    --surface: #1C201F;
+    --ink: #E9E8DF;
+    --muted: #8D9188;
+    --accent: #74BFA0;
+    --accent-ink: #10231C;
+    --line: rgba(233,232,223,0.16);
+    --line-soft: rgba(233,232,223,0.08);
   }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+  @keyframes fadeInUp{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes shimmer{
+    from{ background-position:-260px 0; }
+    to{ background-position:260px 0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:0.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:0.001ms !important;
+    }
+  }
+
   body{
     margin:0;
-    background:#0F141C; /* fallback for browsers without color-mix() */
-    background:
-      radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0) 0 0/28px 28px,
-      var(--bg);
-    color:var(--text);
-    font-family:'IBM Plex Sans', -apple-system, sans-serif;
-    line-height:1.6;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk', -apple-system, sans-serif;
+    line-height:1.55;
     -webkit-font-smoothing:antialiased;
-    transition:background-color .35s ease, color .35s ease;
+    transition:background-color .25s ease, color .25s ease;
   }
-
-  body, header, .terminal, .terminal-bar, .project-feature, .pf-visual, .more-projects, .nav-gh, .btn-ghost, .repo-card{
-    transition-property:background-color, border-color, color, box-shadow;
-    transition-duration:.35s;
-    transition-timing-function:ease;
-  }
-
-  ::selection{ background:var(--accent-soft); color:var(--accent); }
 
   a{ color:inherit; }
+  p{ margin:0; }
+  h1,h2,h3{ margin:0; font-weight:600; letter-spacing:-0.01em; }
+
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
 
   :focus-visible{
     outline:2px solid var(--accent);
@@ -73,617 +80,207 @@
     border-radius:3px;
   }
 
-  h1,h2,h3{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    line-height:1.12;
-    margin:0;
-    letter-spacing:-0.01em;
-  }
+  .wrap{ max-width:var(--wrap); margin:0 auto; padding:0 28px; }
 
-  p{ margin:0; }
-
-  .wrap{
-    max-width:var(--wrap);
-    margin:0 auto;
-    padding:0 32px;
-  }
-
-  /* ---------- Accessibility helpers ---------- */
   .sr-only{
-    position:absolute;
-    width:1px; height:1px;
-    padding:0; margin:-1px;
-    overflow:hidden;
-    clip:rect(0,0,0,0);
-    white-space:nowrap;
-    border:0;
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
   }
   .skip-link{
-    position:absolute;
-    left:12px; top:-60px;
-    background:var(--accent);
-    color:#161104;
-    padding:10px 18px;
-    border-radius:6px;
-    font-size:0.9rem;
-    font-weight:600;
-    text-decoration:none;
-    z-index:100;
-    transition:top .2s ease;
+    position:absolute; left:12px; top:-60px;
+    background:var(--accent); color:var(--accent-ink);
+    padding:10px 16px; border-radius:var(--radius);
+    font-size:0.9rem; font-weight:600; text-decoration:none;
+    z-index:100; transition:top .2s ease;
   }
   .skip-link:focus{ top:12px; }
 
-  /* ---------- Nav ---------- */
+  /* ---------- Header ---------- */
   header{
     position:sticky; top:0; z-index:50;
-    background:color-mix(in srgb, var(--bg) 82%, transparent);
-    backdrop-filter:blur(10px);
+    background:var(--paper);
     border-bottom:1px solid var(--line-soft);
   }
-  .theme-toggle{
-    display:inline-flex; align-items:center; justify-content:center;
-    width:38px; height:38px;
-    border:1px solid var(--line);
-    border-radius:50%;
-    background:none;
-    color:var(--text-muted);
-    cursor:pointer;
-    transition:border-color .2s ease, color .2s ease, transform .2s ease;
-  }
-  .theme-toggle:hover{ border-color:var(--accent); color:var(--accent); transform:rotate(12deg); }
-  .theme-toggle svg{ width:17px; height:17px; }
-  .theme-toggle .sun{ display:none; }
-  html[data-theme="light"] .theme-toggle .moon{ display:none; }
-  html[data-theme="light"] .theme-toggle .sun{ display:block; }
-  .nav-right{ display:flex; align-items:center; gap:14px; }
   nav.wrap{
     display:flex; align-items:center; justify-content:space-between;
-    height:72px;
-    position:relative;
+    height:64px; position:relative;
   }
   .mark{
-    font-family:'Fraunces', serif;
-    font-size:1.15rem;
-    font-weight:600;
-    text-decoration:none;
-    letter-spacing:0.01em;
+    font-size:1.05rem; font-weight:700; text-decoration:none;
   }
-  .mark span{ color:var(--accent); }
-  .nav-links{
-    display:flex; gap:34px; list-style:none; margin:0; padding:0;
-  }
+  .nav-links{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
   .nav-links a{
-    text-decoration:none;
-    font-size:0.95rem;
-    color:var(--text-muted);
-    transition:color .2s ease;
+    text-decoration:none; font-size:0.95rem; color:var(--muted);
+    transition:color .15s ease;
   }
-  .nav-links a:hover{ color:var(--text); }
-  .nav-gh{
-    display:flex; align-items:center; gap:8px;
-    text-decoration:none;
-    font-size:0.9rem;
-    color:var(--text-muted);
-    border:1px solid var(--line);
-    padding:8px 14px;
-    border-radius:100px;
-    transition:border-color .2s ease, color .2s ease;
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-right{ display:flex; align-items:center; gap:10px; }
+  .icon-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border:1px solid var(--line);
+    border-radius:50%; background:none; color:var(--muted); cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, transform .25s ease;
   }
-  .nav-gh:hover{ border-color:var(--accent); color:var(--accent); }
-  .nav-gh svg{ width:16px; height:16px; }
+  .icon-btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .theme-toggle:hover{ transform:rotate(14deg); }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-toggle .sun{ display:none; }
+  html[data-theme="dark"] .theme-toggle .moon{ display:none; }
+  html[data-theme="dark"] .theme-toggle .sun{ display:block; }
 
-  .nav-toggle{
-    display:none;
-    width:38px; height:38px;
-    align-items:center; justify-content:center;
-    border:1px solid var(--line);
-    border-radius:50%;
-    background:none;
-    color:var(--text);
-    cursor:pointer;
-  }
-  .nav-toggle svg{ width:18px; height:18px; }
-  .nav-toggle:hover{ border-color:var(--accent); color:var(--accent); }
-
-  @media (max-width: 720px){
+  .nav-toggle{ display:none; }
+  @media (max-width:640px){
+    .icon-btn{ width:42px; height:42px; }
     .nav-links{
-      display:none;
-      position:absolute;
-      top:100%; left:0; right:0;
-      flex-direction:column;
-      gap:0;
-      background:var(--bg-raised);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:8px;
-      margin-top:8px;
-      box-shadow:0 20px 40px -20px rgba(0,0,0,0.5);
+      display:flex; position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0; background:var(--surface);
+      border:1px solid var(--line); border-radius:var(--radius);
+      padding:0 6px; margin-top:8px;
+      max-height:0; opacity:0; overflow:hidden;
+      transform:translateY(-6px);
+      transition:max-height .25s ease, opacity .2s ease, transform .2s ease, padding .25s ease;
+      pointer-events:none;
     }
-    .nav-links.is-open{ display:flex; }
-    .nav-links li{ width:100%; }
-    .nav-links a{
-      display:block;
-      padding:12px 14px;
-      border-radius:6px;
+    .nav-links.is-open{
+      max-height:260px; opacity:1; transform:translateY(0);
+      padding:6px; pointer-events:auto;
     }
+    .nav-links a{ display:block; padding:13px 14px; border-radius:4px; }
     .nav-links a:hover{ background:var(--line-soft); }
     .nav-toggle{ display:inline-flex; }
   }
+  @media (max-width:420px){
+    .cta-row .btn{ flex:1 1 auto; justify-content:center; }
+  }
+
+  /* ---------- Sections ---------- */
+  section{ padding:64px 0; border-bottom:1px solid var(--line-soft); }
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:16px; margin-bottom:28px;
+  }
+  .section-head h2{ font-size:1.4rem; }
+  .section-count{ font-size:0.9rem; color:var(--muted); white-space:nowrap; }
 
   /* ---------- Hero ---------- */
-  .hero{
-    padding:96px 0 88px;
-    border-bottom:1px solid var(--line-soft);
-  }
-  .hero .wrap{
-    display:grid;
-    grid-template-columns:1.15fr 0.85fr;
-    gap:72px;
-    align-items:center;
-  }
-  .kicker{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.85rem;
-    color:var(--teal);
-    margin-bottom:22px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .kicker::before{
-    content:"";
-    width:7px; height:7px;
-    border-radius:50%;
-    background:var(--teal);
-    box-shadow:0 0 0 3px rgba(94,156,143,0.18);
-  }
+  .hero{ padding:76px 0 60px; }
   .hero h1{
-    font-size:clamp(2.3rem, 4vw, 3.4rem);
-    max-width:15ch;
+    font-size:clamp(1.9rem, 4vw, 2.5rem);
+    max-width:18ch;
+    animation:fadeInUp .6s ease both;
   }
-  .hero h1 em{
-    font-style:italic;
-    color:var(--accent);
-    font-weight:400;
-  }
-  .hero-sub{
-    margin-top:26px;
-    max-width:52ch;
-    color:var(--text-muted);
-    font-size:1.05rem;
+  .hero p{
+    margin-top:18px; max-width:52ch; color:var(--muted); font-size:1.05rem;
+    animation:fadeInUp .6s ease both .12s;
   }
   .cta-row{
-    margin-top:38px;
-    display:flex;
-    gap:16px;
-    flex-wrap:wrap;
+    margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;
+    animation:fadeInUp .6s ease both .22s;
+  }
+  @media (max-width:640px){
+    .hero{ padding:48px 0 40px; }
+    section{ padding:48px 0; }
+    .wrap{ padding:0 20px; }
+    .btn{ padding:13px 20px; }
+    .row{ padding:16px 0; }
+    .release-row{ padding:16px 0; }
+    .asset-btn{ padding:10px 14px; }
+    .section-head h2{ font-size:1.25rem; }
   }
   .btn{
     display:inline-flex; align-items:center; gap:8px;
-    padding:13px 24px;
-    border-radius:100px;
-    text-decoration:none;
-    font-size:0.95rem;
-    font-weight:500;
-    transition:transform .2s ease, background .2s ease, border-color .2s ease;
+    padding:11px 20px; border-radius:var(--radius);
+    text-decoration:none; font-size:0.95rem; font-weight:500;
+    border:1px solid transparent;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
   }
-  .btn-primary{
-    background:var(--accent);
-    color:#161104;
-  }
-  .btn-primary:hover{ transform:translateY(-1px); background:#e0ac60; }
-  .btn-ghost{
-    border:1px solid var(--line);
-    color:var(--text);
-  }
-  .btn-ghost:hover{ border-color:var(--text-muted); }
+  .btn-primary{ background:var(--accent); color:var(--accent-ink); }
+  .btn-primary:hover{ opacity:0.9; }
+  .btn-ghost{ border-color:var(--line); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
 
-  /* Terminal card */
-  .terminal{
-    background:var(--bg-raised);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
-    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  /* ---------- Status line ---------- */
+  .status-line{
+    font-size:0.85rem; color:var(--muted); margin-bottom:20px;
   }
-  .terminal-bar{
-    display:flex; gap:7px;
-    padding:13px 16px;
-    border-bottom:1px solid var(--line-soft);
-  }
-  .terminal-bar span{
-    width:10px; height:10px; border-radius:50%;
-    background:var(--line);
-  }
-  .terminal-body{
-    padding:22px 22px 26px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.86rem;
-    color:var(--text-muted);
-    min-height:230px;
-    white-space:pre-wrap;
-  }
-  .terminal-body .prompt{ color:var(--teal); }
-  .terminal-body .out{ color:var(--text); }
-  .terminal-body .dim{ color:var(--text-muted); }
-  .caret{
-    display:inline-block;
-    width:7px; height:1.1em;
-    background:var(--accent);
-    vertical-align:text-bottom;
-    animation:blink 1s step-end infinite;
-  }
-  @keyframes blink{ 50%{ opacity:0; } }
+  .status-line.is-error{ color:#B5563B; }
+  html[data-theme="dark"] .status-line.is-error{ color:#E08A6E; }
 
-  @media (max-width: 860px){
-    .hero .wrap{ grid-template-columns:1fr; gap:48px; }
+  /* ---------- Row lists (projects + releases) ---------- */
+  .row-list{ display:flex; flex-direction:column; }
+  .row{
+    display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between;
+    gap:6px 16px; padding:18px 0; border-top:1px solid var(--line-soft);
+    text-decoration:none; color:inherit;
   }
+  .row:last-child{ border-bottom:1px solid var(--line-soft); }
+  .row-main{ flex:1; min-width:220px; }
+  .row-name{
+    font-size:1.02rem; font-weight:600; display:flex; align-items:center; gap:8px;
+  }
+  a.row:hover .row-name{ color:var(--accent); }
+  .row-desc{ margin-top:4px; color:var(--muted); font-size:0.92rem; max-width:56ch; }
+  .row-meta{
+    display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:0.85rem;
+    white-space:nowrap;
+  }
+  .ext-icon{ width:13px; height:13px; opacity:0.6; flex:none; }
 
-  /* ---------- Section shell ---------- */
-  section{ padding:96px 0; border-bottom:1px solid var(--line-soft); }
-  .section-head{
-    display:grid;
-    grid-template-columns:0.8fr 1.2fr;
-    gap:48px;
-    margin-bottom:52px;
+  /* download rows keep their assets on a line of their own */
+  .release-row{ padding:18px 0; border-top:1px solid var(--line-soft); }
+  .release-row:last-child{ border-bottom:1px solid var(--line-soft); }
+  .release-top{
+    display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:6px 16px;
   }
-  .section-head h2{ font-size:2rem; }
-  .section-head .lede{
-    color:var(--text-muted);
-    max-width:48ch;
-  }
-  @media (max-width:760px){
-    .section-head{ grid-template-columns:1fr; gap:16px; }
-  }
-
-  /* ---------- About ---------- */
-  .about-grid{
-    display:grid;
-    grid-template-columns:200px 1fr;
-    gap:48px;
-    align-items:start;
-  }
-  .avatar{
-    width:160px; height:160px;
-    border-radius:50%;
-    object-fit:cover;
-    border:1px solid var(--line);
-    padding:6px;
-  }
-  .about-body p{ max-width:62ch; color:var(--text-muted); }
-  .about-body p + p{ margin-top:18px; }
-  .about-body strong{ color:var(--text); font-weight:500; }
-  .stat-row{
-    display:flex; gap:40px;
-    margin-top:34px;
-    padding-top:28px;
-    border-top:1px solid var(--line-soft);
-  }
-  .stat b{
-    display:block;
-    font-family:'Fraunces', serif;
-    font-size:1.6rem;
-    color:var(--accent);
-    font-weight:500;
-  }
-  .stat span{ color:var(--text-muted); font-size:0.88rem; }
-
-  @media (max-width:700px){
-    .about-grid{ grid-template-columns:1fr; }
-    .avatar{ width:110px; height:110px; }
-  }
-
-  /* ---------- Focus rows ---------- */
-  .focus-row{
-    display:grid;
-    grid-template-columns:44px 1fr 1.4fr;
-    gap:28px;
-    align-items:start;
-    padding:32px 0;
-    border-top:1px solid var(--line-soft);
-  }
-  .focus-row:last-child{ border-bottom:none; }
-  .focus-icon{
-    width:44px; height:44px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--accent);
-  }
-  .focus-icon svg{ width:20px; height:20px; }
-  .focus-row h3{ font-size:1.25rem; font-weight:500; padding-top:8px; }
-  .focus-row p{ color:var(--text-muted); padding-top:8px; max-width:56ch; }
-  @media (max-width:760px){
-    .focus-row{ grid-template-columns:40px 1fr; }
-    .focus-row p{ grid-column:2 / 3; }
-  }
-
-  /* ---------- Projects ---------- */
-  .project-feature{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:0;
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
-    background:var(--bg-raised);
-  }
-  .project-feature .pf-text{
-    padding:44px;
-    display:flex; flex-direction:column; justify-content:center;
-  }
-  .pf-tag{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.78rem;
-    color:var(--teal);
-    margin-bottom:14px;
-  }
-  .project-feature h3{ font-size:1.6rem; margin-bottom:16px; }
-  .project-feature p{ color:var(--text-muted); max-width:44ch; }
-  .pf-links{ margin-top:26px; display:flex; gap:14px; flex-wrap:wrap; }
-  .pf-links a{
-    text-decoration:none;
-    font-size:0.9rem;
-    border-bottom:1px solid var(--line);
-    padding-bottom:2px;
-    transition:border-color .2s ease, color .2s ease;
-  }
-  .pf-links a:hover{ color:var(--accent); border-color:var(--accent); }
-  .pf-visual{
-    background:
-      repeating-linear-gradient(135deg, rgba(212,160,84,0.06) 0 2px, transparent 2px 22px),
-      var(--bg);
-    border-left:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    padding:44px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.82rem;
-    color:var(--text-muted);
-    min-height:280px;
-  }
-  .pf-visual .code-block{
-    width:100%;
-  }
-  .pf-visual .code-line{ display:flex; gap:10px; padding:3px 0; }
-  .pf-visual .ln{ color:rgba(236,231,218,0.28); width:1.4em; text-align:right; }
-  .pf-visual .kw{ color:var(--accent); }
-  .pf-visual .str{ color:var(--teal); }
-
-  @media (max-width:800px){
-    .project-feature{ grid-template-columns:1fr; }
-    .pf-visual{ border-left:none; border-top:1px solid var(--line); min-height:200px; }
-  }
-
-  /* ---------- Live GitHub sync ---------- */
-  .sync-note{
-    display:flex; align-items:center; gap:10px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.8rem;
-    color:var(--text-muted);
-    margin-bottom:28px;
-  }
-  .sync-dot{
-    width:7px; height:7px; border-radius:50%;
-    background:var(--teal);
-    flex:none;
-  }
-  .sync-dot.is-error{ background:#c9704f; }
-
-  .live-sites{
-    display:flex; flex-wrap:wrap; gap:12px;
-    margin-bottom:36px;
-  }
-  .site-chip{
+  .release-name{ font-size:1.02rem; font-weight:600; }
+  .release-repo{ color:var(--muted); font-weight:400; }
+  .release-date{ color:var(--muted); font-size:0.85rem; white-space:nowrap; }
+  .asset-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+  .asset-btn{
     display:inline-flex; align-items:center; gap:8px;
-    padding:10px 16px;
-    border:1px solid var(--line);
-    border-radius:100px;
-    text-decoration:none;
-    font-size:0.88rem;
-    color:var(--text);
-    background:var(--bg-raised);
-    transition:border-color .2s ease, color .2s ease;
+    padding:8px 14px; border:1px solid var(--line); border-radius:var(--radius);
+    text-decoration:none; color:var(--ink); font-size:0.85rem;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
   }
-  .site-chip:hover{ border-color:var(--accent); color:var(--accent); }
-  .site-chip svg{ width:14px; height:14px; opacity:0.7; flex:none; }
+  .asset-btn:hover{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .asset-btn svg{ width:14px; height:14px; }
 
-  .repo-grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:20px;
+  .empty-note{ color:var(--muted); font-size:0.95rem; }
+  .more-link{
+    margin-top:22px; display:inline-block; font-size:0.92rem;
+    color:var(--accent); text-decoration:none; border-bottom:1px solid transparent;
   }
-  @media (max-width:800px){
-    .repo-grid{ grid-template-columns:1fr; }
-  }
-  .repo-card{
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    background:var(--bg-raised);
-    padding:26px;
-    text-decoration:none;
-    color:var(--text);
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  .repo-card:hover{ border-color:var(--accent); }
-  .repo-card h4{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:1.1rem;
-    margin:0;
-    word-break:break-word;
-  }
-  .repo-card p{
-    color:var(--text-muted);
-    font-size:0.92rem;
-    flex:1;
-  }
-  .repo-meta{
-    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.78rem;
-    color:var(--text-muted);
-  }
-  .repo-meta .lang-dot{
-    width:8px; height:8px; border-radius:50%;
-    background:var(--accent);
-    display:inline-block;
-    margin-right:6px;
-  }
-  .repo-skeleton{
-    height:150px;
-    border:1px dashed var(--line);
-    border-radius:var(--radius);
-    background:var(--line-soft);
-  }
+  .more-link:hover{ border-color:var(--accent); }
 
-  .more-projects{
-    margin-top:24px;
-    padding:24px 28px;
-    border:1px dashed var(--line);
-    border-radius:var(--radius);
-    color:var(--text-muted);
-    font-size:0.95rem;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
+  .skeleton-row{
+    height:64px; border-top:1px solid var(--line-soft);
+    background-image:linear-gradient(90deg, transparent, var(--line-soft), transparent);
+    background-size:260px 100%;
+    background-repeat:no-repeat;
+    animation:shimmer 1.3s ease-in-out infinite;
   }
-  .more-projects a{ color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; }
-  .more-projects a:hover{ border-color:var(--accent); }
+  .skeleton-row:last-child{ border-bottom:1px solid var(--line-soft); }
 
-  /* ---------- Downloads ---------- */
-  .release-list{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-  }
-  .release-card{
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    background:var(--bg-raised);
-    padding:24px 28px;
-  }
-  .release-card .release-repo{
-    display:block;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.78rem;
-    color:var(--teal);
-    margin-bottom:6px;
-  }
-  .release-card h4{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:1.15rem;
-    margin:0 0 4px 0;
-  }
-  .release-card .release-date{
-    display:block;
-    color:var(--text-muted);
-    font-size:0.82rem;
-    margin-bottom:16px;
-  }
-  .release-assets{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    list-style:none;
-    padding:0;
-    margin:0;
-  }
-  .asset-chip{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:8px 16px;
-    background:var(--accent-soft);
-    border:1px solid rgba(212,160,84,0.3);
-    border-radius:100px;
-    text-decoration:none;
-    color:var(--accent);
-    font-size:0.85rem;
-    transition:background .2s ease;
-  }
-  .asset-chip:hover{ background:rgba(212,160,84,0.25); }
-  .asset-chip svg{ width:14px; height:14px; }
-  .release-empty{
-    color:var(--text-muted);
-    font-size:0.95rem;
-  }
-  .release-skeleton{
-    height:110px;
-    border:1px dashed var(--line);
-    border-radius:var(--radius);
-    background:var(--line-soft);
-  }
+  .row, .release-row{ animation:fadeInUp .45s ease both; }
 
   /* ---------- Contact ---------- */
-  .contact-inner{
-    display:grid;
-    grid-template-columns:1.2fr 1fr;
-    gap:60px;
-    align-items:end;
-  }
-  .contact h2{ font-size:clamp(1.8rem, 3.4vw, 2.6rem); max-width:14ch; }
-  .contact .lede{ color:var(--text-muted); margin-top:18px; max-width:48ch; }
-  .contact .btn-primary{ margin-top:30px; }
-  .link-list{ list-style:none; margin:0; padding:0; }
-  .link-list li{ border-top:1px solid var(--line-soft); }
-  .link-list li:last-child{ border-bottom:1px solid var(--line-soft); }
-  .link-list a{
+  .contact-list{ list-style:none; margin:0; padding:0; max-width:420px; }
+  .contact-list li{ border-top:1px solid var(--line-soft); }
+  .contact-list li:last-child{ border-bottom:1px solid var(--line-soft); }
+  .contact-list a{
     display:flex; align-items:center; justify-content:space-between;
-    padding:16px 2px;
-    text-decoration:none;
-    color:var(--text);
-    transition:color .2s ease;
+    padding:16px 0; text-decoration:none; color:var(--ink);
+    transition:color .15s ease;
   }
-  .link-list a:hover{ color:var(--accent); }
-  .link-list svg{ width:16px; height:16px; opacity:0.6; }
-
-  @media (max-width:760px){
-    .contact-inner{ grid-template-columns:1fr; align-items:start; }
-  }
+  .contact-list a:hover{ color:var(--accent); }
+  .contact-list svg{ width:15px; height:15px; opacity:0.55; }
 
   footer{
-    padding:32px 0;
-    display:flex; justify-content:space-between; align-items:center;
-    color:var(--text-muted);
-    font-size:0.85rem;
-    flex-wrap:wrap;
-    gap:12px;
+    padding:28px 0; display:flex; justify-content:space-between; align-items:center;
+    color:var(--muted); font-size:0.85rem; flex-wrap:wrap; gap:10px;
   }
-  footer a{ text-decoration:none; color:var(--text-muted); }
+  footer a{ text-decoration:none; color:var(--muted); }
   footer a:hover{ color:var(--accent); }
-
-  /* ---------- Scroll reveal ---------- */
-  .reveal{
-    opacity:0;
-    transform:translateY(22px);
-    transition:opacity .7s ease, transform .7s ease;
-  }
-  .reveal.is-visible{
-    opacity:1;
-    transform:translateY(0);
-  }
-  .reveal-stagger.is-visible > *{
-    animation:none;
-  }
-  .focus-row.reveal{ transition-delay:calc(var(--i, 0) * 90ms); }
-
-  @keyframes floatIn{
-    from{ opacity:0; transform:translateY(14px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; }
-    .caret{ animation:none; }
-    .reveal{ opacity:1; transform:none; transition:none; }
-    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
-  }
 </style>
 </head>
 <body>
@@ -692,25 +289,23 @@
 
 <header>
   <nav class="wrap">
-    <a href="#top" class="mark">Rabin<span>.</span></a>
+    <a href="#top" class="mark">Rabin</a>
 
-    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
 
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#focus">Focus</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#downloads">Downloads</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+
     <div class="nav-right">
-      <a class="nav-gh" href="https://github.com/RuHRabin" target="_blank" rel="noopener">
+      <a class="icon-btn" href="https://github.com/RuHRabin" target="_blank" rel="noopener" aria-label="Rabin on GitHub, opens in a new tab">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
-        RuHRabin
       </a>
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light mode" aria-pressed="false">
+      <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1M18.4 18.4l-2.1-2.1M7.7 7.7 5.6 5.6"/></svg>
       </button>
@@ -720,228 +315,119 @@
 
 <main id="top">
 
-  <!-- HERO -->
-  <section class="hero" style="border-bottom:1px solid var(--line-soft); padding-top:96px;">
+  <section class="hero">
     <div class="wrap">
-      <div>
-        <div class="kicker">currently focusing</div>
-        <h1>Rabin builds small, sharp tools — and learns loudly <em>in the open.</em></h1>
-        <p class="hero-sub">I'm a lifelong learner working through machine learning and simulation, one problem at a time. Most days I'm deep in a new subject, breaking something on Linux, or writing a tool to fix a problem I just created for myself.</p>
-        <div class="cta-row">
-          <a href="#projects" class="btn btn-primary">See my work</a>
-          <a href="#contact" class="btn btn-ghost">Say hello</a>
-        </div>
-      </div>
-
-      <div class="terminal" aria-hidden="true">
-        <div class="terminal-bar"><span></span><span></span><span></span></div>
-        <div class="terminal-body" id="termBody"></div>
+      <h1>Small tools, shipped in the open.</h1>
+      <p>Open-source software from Rabin — mostly Linux utilities and the occasional app. Browse what's out, or jump straight to a download.</p>
+      <div class="cta-row">
+        <a href="#projects" class="btn btn-primary">Browse projects</a>
+        <a href="#downloads" class="btn btn-ghost">Get a download</a>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <h2>About</h2>
-        <p class="lede">A short version of who I am and what I'm chasing right now.</p>
-      </div>
-
-      <div class="about-grid reveal">
-        <img class="avatar" src="https://avatars.githubusercontent.com/u/222196609?v=4" alt="Portrait of Rabin">
-        <div class="about-body">
-          <p><strong>I'm Rabin</strong> — a lifelong learner driven by curiosity, working through complex problems for the sake of understanding them, not just solving them.</p>
-          <p>Right now I'm focused on <strong>machine learning and simulation</strong>, and I spend a lot of time in Linux, building small command-line tools that scratch a very specific itch — like stripping hidden metadata out of images and video before they ever leave my machine.</p>
-          <p>I keep almost everything I build in public. Half-finished experiments included.</p>
-
-          <div class="stat-row">
-            <div class="stat"><b id="statRepos">8</b><span>public repos</span></div>
-            <div class="stat"><b>ML</b><span>current focus</span></div>
-            <div class="stat"><b aria-hidden="true">🎯</b><span>status: focusing</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOCUS -->
-  <section id="focus">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <h2>What I'm working on</h2>
-        <p class="lede">Three threads I keep pulling on, in no particular order.</p>
-      </div>
-
-      <div class="focus-row reveal" style="--i:0;">
-        <div class="focus-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="5" cy="12" r="2.4"/><circle cx="19" cy="6" r="2.4"/><circle cx="19" cy="18" r="2.4"/><path d="M7.1 11.1 16.9 6.9M7.1 12.9l9.8 4.2"/></svg>
-        </div>
-        <h3>Machine learning &amp; simulation</h3>
-        <p>Modeling how systems and behavior play out computationally. Currently deep in coursework and personal experiments — more theory than product, for now, and that's on purpose.</p>
-      </div>
-
-      <div class="focus-row reveal" style="--i:1;">
-        <div class="focus-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 5h16v10H4z"/><path d="M8 20h8M9 15l-1 5M15 15l1 5"/></svg>
-        </div>
-        <h3>Linux tooling &amp; privacy</h3>
-        <p>Small, offline, no-nonsense command-line utilities — no telemetry, no cloud upload, just tools that do one job well. My metadata remover for images and video is the first of these to ship.</p>
-      </div>
-
-      <div class="focus-row reveal" style="--i:2;">
-        <div class="focus-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="12" r="2.2"/><path d="M6 8.2V15.8M8 6.6l7.7 4.3M8 17.4l7.7-4.3"/></svg>
-        </div>
-        <h3>Building in the open</h3>
-        <p>Almost everything lives on GitHub while it's still rough. I'd rather learn in front of people than wait for something polished enough to be proud of alone.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="wrap">
-      <div class="section-head reveal">
-        <h2>Projects &amp; live sites</h2>
-        <p class="lede">Pulled straight from my GitHub profile, so this list updates itself whenever I ship something new.</p>
+      <div class="section-head">
+        <h2>Projects</h2>
+        <span class="section-count" id="repoCount"></span>
       </div>
 
-      <p class="sync-note" id="syncNote" role="status" aria-live="polite">
-        <span class="sync-dot" id="syncDot"></span>
-        <span id="syncNoteText">Syncing latest repositories from GitHub…</span>
-      </p>
+      <p class="status-line" id="syncNote" role="status" aria-live="polite">Loading projects…</p>
 
-      <div class="live-sites" id="liveSites" aria-label="Live sites published from GitHub Pages"></div>
-
-      <div class="repo-grid" id="repoGrid">
-        <div class="repo-skeleton" aria-hidden="true"></div>
-        <div class="repo-skeleton" aria-hidden="true"></div>
-        <div class="repo-skeleton" aria-hidden="true"></div>
-        <div class="repo-skeleton" aria-hidden="true"></div>
+      <div class="row-list" id="repoList">
+        <div class="skeleton-row" aria-hidden="true"></div>
+        <div class="skeleton-row" aria-hidden="true"></div>
+        <div class="skeleton-row" aria-hidden="true"></div>
       </div>
 
-      <!-- Fallback content: shown if the synced data can't be loaded -->
-      <div class="project-feature reveal" id="fallbackProject" hidden>
-        <div class="pf-text">
-          <div class="pf-tag">open source · linux · privacy</div>
-          <h3>Metadata remover for images &amp; video</h3>
-          <p>A free, offline collection of command-line tools for stripping hidden metadata from images and video on Linux — no cloud upload, no telemetry, just clean files before you share them.</p>
-          <div class="pf-links">
-            <a href="https://github.com/RuHRabin/Remove-Metadata-from-image-and-videos-on-Linux-" target="_blank" rel="noopener">View on GitHub<span class="sr-only"> (opens in a new tab)</span></a>
-          </div>
-        </div>
-        <div class="pf-visual">
-          <div class="code-block">
-            <div class="code-line"><span class="ln">1</span><span><span class="kw">$</span> exiftool <span class="str">-all=</span> photo.jpg</span></div>
-            <div class="code-line"><span class="ln">2</span><span>1 image files updated</span></div>
-            <div class="code-line"><span class="ln">3</span><span></span></div>
-            <div class="code-line"><span class="ln">4</span><span><span class="kw">$</span> ffmpeg -i in.mp4 <span class="str">-map_metadata -1</span> out.mp4</span></div>
-            <div class="code-line"><span class="ln">5</span><span>metadata stripped, offline, no upload</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="more-projects reveal">
-        <span>New repos land on GitHub before they land here.</span>
-        <a href="https://github.com/RuHRabin?tab=repositories" target="_blank" rel="noopener">Browse all repositories<span class="sr-only"> (opens in a new tab)</span> →</a>
-      </div>
+      <a class="more-link" href="https://github.com/RuHRabin?tab=repositories" target="_blank" rel="noopener">
+        Browse all repositories on GitHub<span class="sr-only"> (opens in a new tab)</span>
+      </a>
     </div>
   </section>
 
-  <!-- DOWNLOADS -->
   <section id="downloads">
     <div class="wrap">
-      <div class="section-head reveal">
+      <div class="section-head">
         <h2>Downloads</h2>
-        <p class="lede">Every published GitHub Release across my repos, synced periodically — publish a release and it shows up here within a few hours, no manual updates.</p>
       </div>
 
-      <p class="sync-note" id="releaseSyncNote" role="status" aria-live="polite">
-        <span class="sync-dot" id="releaseSyncDot"></span>
-        <span id="releaseSyncNoteText">Syncing releases from GitHub…</span>
-      </p>
+      <p class="status-line" id="releaseSyncNote" role="status" aria-live="polite">Loading releases…</p>
 
-      <div class="release-list" id="releaseList">
-        <div class="release-skeleton" aria-hidden="true"></div>
-        <div class="release-skeleton" aria-hidden="true"></div>
+      <div class="row-list" id="releaseList">
+        <div class="skeleton-row" aria-hidden="true"></div>
+        <div class="skeleton-row" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="contact" style="border-bottom:none;">
+  <section id="contact" style="border-bottom:none;">
     <div class="wrap">
-      <div class="contact-inner reveal">
-        <div>
-          <h2>Got a problem worth solving? Let's talk.</h2>
-          <p class="lede">I'm slow to reply on socials but quick over email. Reach out if something here resonates.</p>
-          <a href="mailto:contact@rabin.pro.bd" class="btn btn-primary">contact@rabin.pro.bd</a>
-        </div>
-
-        <ul class="link-list">
-          <li>
-            <a href="https://rabin.pro.bd" target="_blank" rel="noopener">
-              <span>Website — rabin.pro.bd</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
-              <span class="sr-only"> (opens in a new tab)</span>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/RuHRabin" target="_blank" rel="noopener">
-              <span>GitHub — @RuHRabin</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
-              <span class="sr-only"> (opens in a new tab)</span>
-            </a>
-          </li>
-          <li>
-            <a href="https://x.com/RuHRabin" target="_blank" rel="noopener">
-              <span>X — @RuHRabin</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
-              <span class="sr-only"> (opens in a new tab)</span>
-            </a>
-          </li>
-        </ul>
+      <div class="section-head">
+        <h2>Get in touch</h2>
       </div>
+
+      <ul class="contact-list">
+        <li>
+          <a href="mailto:contact@rabin.pro.bd">
+            <span>Email</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/RuHRabin" target="_blank" rel="noopener">
+            <span>GitHub</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            <span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://x.com/RuHRabin" target="_blank" rel="noopener">
+            <span>X</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            <span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
 
 </main>
 
 <footer class="wrap">
-  <span>© <span id="year"></span> Rabin (RuHRabin). Built by hand, published on GitHub Pages.</span>
+  <span>© <span id="year"></span> Rabin</span>
   <a href="#top">Back to top</a>
 </footer>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // ---- Theme toggle (dark / light, persisted) ----
+  // ---- Theme toggle (persisted) ----
   (function(){
     const root = document.documentElement;
     const toggle = document.getElementById('themeToggle');
     const themeColorMeta = document.getElementById('themeColorMeta');
     const stored = localStorage.getItem('theme');
-    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-    const initial = stored || (prefersLight ? 'light' : 'dark');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initial = stored || (prefersDark ? 'dark' : 'light');
 
     function applyTheme(theme){
       root.setAttribute('data-theme', theme);
-      themeColorMeta.setAttribute('content', theme === 'light' ? '#F6F2E8' : '#0F141C');
-      toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
-      toggle.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+      themeColorMeta.setAttribute('content', theme === 'dark' ? '#15181A' : '#F3F1EA');
+      toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
-
     applyTheme(initial);
 
     toggle.addEventListener('click', () => {
-      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       applyTheme(next);
       localStorage.setItem('theme', next);
     });
   })();
 
-  // ---- Mobile nav toggle ----
+  // ---- Mobile nav ----
   (function(){
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
@@ -949,139 +435,31 @@
     function closeMenu(){
       navLinks.classList.remove('is-open');
       navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.setAttribute('aria-label', 'Open menu');
     }
-
     navToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     });
-
-    navLinks.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') closeMenu();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
-    });
+    navLinks.addEventListener('click', (e) => { if (e.target.tagName === 'A') closeMenu(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
   })();
 
-  // ---- Scroll reveal ----
-  (function(){
-    const items = document.querySelectorAll('.reveal');
-    if (!items.length) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      items.forEach(el => el.classList.add('is-visible'));
-      return;
-    }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting){
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-    items.forEach(el => io.observe(el));
-  })();
-
-  // One deliberate motion moment: hero terminal "typing" reveal.
-  // This is purely decorative (aria-hidden on the container), so it's safe
-  // to build up character-by-character without confusing screen readers.
-  (function(){
-    const lines = [
-      { type: 'prompt', text: '$ whoami' },
-      { type: 'out',    text: 'rabin@RuHRabin' },
-      { type: 'blank' },
-      { type: 'prompt', text: '$ cat status.txt' },
-      { type: 'out',    text: '🎯 focusing — learning ML & simulation' },
-      { type: 'blank' },
-      { type: 'prompt', text: '$ cat focus.txt' },
-      { type: 'out',    text: 'machine learning, simulation,' },
-      { type: 'out',    text: 'linux systems, privacy tooling' },
-      { type: 'blank' },
-      { type: 'prompt', text: '$ echo $CONTACT' },
-      { type: 'out',    text: 'contact@rabin.pro.bd' },
-    ];
-
-    const body = document.getElementById('termBody');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function renderStatic(){
-      body.innerHTML = '';
-      lines.forEach(l => {
-        const div = document.createElement('div');
-        if (l.type === 'blank'){ div.innerHTML = '&nbsp;'; }
-        else {
-          const cls = l.type === 'prompt' ? 'prompt' : 'out';
-          div.innerHTML = '<span class="'+cls+'">'+l.text+'</span>';
-        }
-        body.appendChild(div);
-      });
-    }
-
-    if (reduceMotion){
-      renderStatic();
-      return;
-    }
-
-    let li = 0, ci = 0;
-    let currentLine = document.createElement('div');
-    body.appendChild(currentLine);
-
-    function tick(){
-      if (li >= lines.length){
-        const caret = document.createElement('span');
-        caret.className = 'caret';
-        body.appendChild(caret);
-        return;
-      }
-      const line = lines[li];
-      if (line.type === 'blank'){
-        currentLine.innerHTML = '&nbsp;';
-        li++; ci = 0;
-        currentLine = document.createElement('div');
-        body.appendChild(currentLine);
-        setTimeout(tick, 120);
-        return;
-      }
-      const cls = line.type === 'prompt' ? 'prompt' : 'out';
-      ci++;
-      currentLine.innerHTML = '<span class="'+cls+'">'+line.text.slice(0, ci)+'</span>';
-      if (ci >= line.text.length){
-        li++; ci = 0;
-        currentLine = document.createElement('div');
-        body.appendChild(currentLine);
-        setTimeout(tick, line.type === 'prompt' ? 220 : 90);
-      } else {
-        setTimeout(tick, line.type === 'prompt' ? 26 : 14);
-      }
-    }
-    setTimeout(tick, 400);
-  })();
-
-  // ---- Synced GitHub data: reads the static JSON file a GitHub Actions
-  // workflow refreshes periodically (see .github/workflows/sync-github-data.yml),
-  // instead of calling api.github.com directly from every visitor's browser.
-  // This avoids the ~60 req/hour unauthenticated GitHub API rate limit entirely.
+  // ---- Synced GitHub data: reads the static JSON a GitHub Actions workflow
+  // refreshes periodically (.github/workflows/sync-github-data.yml), instead
+  // of calling api.github.com from every visitor's browser.
   (function(){
     const DATA_URL = '/data/github-sync.json';
     const GH_USER = 'RuHRabin';
     const userPageRepoName = (GH_USER + '.github.io').toLowerCase();
 
-    const syncDot = document.getElementById('syncDot');
-    const syncNoteText = document.getElementById('syncNoteText');
-    const liveSitesEl = document.getElementById('liveSites');
-    const repoGridEl = document.getElementById('repoGrid');
-    const statReposEl = document.getElementById('statRepos');
-    const fallbackEl = document.getElementById('fallbackProject');
+    const repoCountEl = document.getElementById('repoCount');
+    const syncNote = document.getElementById('syncNote');
+    const repoListEl = document.getElementById('repoList');
 
-    const releaseSyncDot = document.getElementById('releaseSyncDot');
-    const releaseSyncNoteText = document.getElementById('releaseSyncNoteText');
+    const releaseSyncNote = document.getElementById('releaseSyncNote');
     const releaseListEl = document.getElementById('releaseList');
 
-    const externalIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+    const extIcon = '<svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
     const downloadIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>';
 
     function escapeHtml(str){
@@ -1091,100 +469,80 @@
     }
 
     function timeAgo(dateStr){
-      const diffMs = Date.now() - new Date(dateStr).getTime();
-      const days = Math.floor(diffMs / 86400000);
-      if (days < 1) return 'updated today';
-      if (days === 1) return 'updated yesterday';
-      if (days < 30) return 'updated ' + days + 'd ago';
+      const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
+      if (days < 1) return 'today';
+      if (days === 1) return 'yesterday';
+      if (days < 30) return days + 'd ago';
       const months = Math.floor(days / 30);
-      if (months < 12) return 'updated ' + months + 'mo ago';
-      return 'updated ' + Math.floor(months / 12) + 'y ago';
+      if (months < 12) return months + 'mo ago';
+      return Math.floor(months / 12) + 'y ago';
     }
 
     function formatDate(dateStr){
       return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
-    // Works out the public URL for a repo, covering three cases:
-    // 1) a custom homepage set in repo settings
-    // 2) the special {user}.github.io user-site repo (this site itself) — skipped
-    // 3) a GitHub Pages *project* site with no homepage set, which is
-    //    published at https://{user}.github.io/{repo}/ whenever the repo
-    //    has Pages enabled (has_pages: true).
-    function sitePages(repos){
-      return repos
-        .filter(r => !r.fork)
-        .filter(r => r.name.toLowerCase() !== userPageRepoName)
-        .filter(r => (r.homepage && r.homepage.trim().length > 0) || r.has_pages)
-        .map(r => {
-          let url;
-          if (r.homepage && r.homepage.trim().length > 0){
-            url = r.homepage.startsWith('http') ? r.homepage.trim() : 'https://' + r.homepage.trim();
-          } else {
-            url = 'https://' + GH_USER.toLowerCase() + '.github.io/' + r.name + '/';
-          }
-          return { name: r.name, url };
-        });
-    }
-
-    function renderLiveSites(repos){
-      const sites = sitePages(repos);
-      if (!sites.length){
-        liveSitesEl.hidden = true;
-        return;
+    function livePageUrl(r){
+      if (r.homepage && r.homepage.trim().length > 0){
+        return r.homepage.startsWith('http') ? r.homepage.trim() : 'https://' + r.homepage.trim();
       }
-      liveSitesEl.hidden = false;
-      liveSitesEl.innerHTML = sites.map(s => {
-        return '<a class="site-chip" href="' + s.url + '" target="_blank" rel="noopener">' +
-          externalIcon +
-          '<span>' + escapeHtml(s.name) + '</span>' +
-          '<span class="sr-only"> (opens in a new tab)</span>' +
-        '</a>';
-      }).join('');
+      if (r.has_pages){
+        return 'https://' + GH_USER.toLowerCase() + '.github.io/' + r.name + '/';
+      }
+      return null;
     }
 
-    function renderRepoGrid(repos){
-      const top = repos
+    function renderRepos(repos){
+      const list = repos
         .filter(r => !r.fork)
         .filter(r => r.name.toLowerCase() !== userPageRepoName)
         .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
-        .slice(0, 6);
+        .slice(0, 8);
 
-      if (!top.length){
-        repoGridEl.hidden = true;
-        fallbackEl.hidden = false;
+      if (!list.length){
+        repoListEl.innerHTML = '<p class="empty-note">No public projects yet.</p>';
         return;
       }
 
-      repoGridEl.hidden = false;
-      repoGridEl.innerHTML = top.map(r => {
-        const desc = r.description ? escapeHtml(r.description) : 'No description yet.';
-        const lang = r.language ? '<span><span class="lang-dot" aria-hidden="true"></span>' + escapeHtml(r.language) + '</span>' : '';
-        const stars = r.stargazers_count ? '<span>★ ' + r.stargazers_count + '</span>' : '';
-        return '<a class="repo-card" href="' + r.html_url + '" target="_blank" rel="noopener" aria-label="' + escapeHtml(r.name) + ' repository on GitHub, opens in a new tab">' +
-          '<h4>' + escapeHtml(r.name) + '</h4>' +
-          '<p>' + desc + '</p>' +
-          '<div class="repo-meta">' + lang + stars + '<span>' + timeAgo(r.pushed_at) + '</span></div>' +
+      repoListEl.innerHTML = list.map((r, i) => {
+        const desc = r.description ? escapeHtml(r.description) : '';
+        const live = livePageUrl(r);
+        const meta = [
+          r.language ? escapeHtml(r.language) : null,
+          r.stargazers_count ? (r.stargazers_count + ' stars') : null,
+          timeAgo(r.pushed_at),
+          live ? 'live' : null,
+        ].filter(Boolean).join(' \u00b7 ');
+
+        return '<a class="row" style="animation-delay:' + (i * 45) + 'ms" href="' + r.html_url + '" target="_blank" rel="noopener">' +
+          '<div class="row-main">' +
+            '<div class="row-name">' + escapeHtml(r.name) + extIcon + '</div>' +
+            (desc ? '<p class="row-desc">' + desc + '</p>' : '') +
+          '</div>' +
+          '<div class="row-meta">' + meta + '</div>' +
         '</a>';
       }).join('');
     }
 
     function renderReleases(releases){
       if (!releases.length){
-        releaseListEl.innerHTML = '<p class="release-empty">No releases published yet — check back soon.</p>';
+        releaseListEl.innerHTML = '<p class="empty-note">No releases published yet.</p>';
         return;
       }
-      releaseListEl.innerHTML = releases.map(r => {
+
+      releaseListEl.innerHTML = releases.map((r, i) => {
         const assets = (r.assets && r.assets.length)
           ? r.assets.map(a =>
-              '<li><a class="asset-chip" href="' + a.browser_download_url + '">' + downloadIcon + '<span>' + escapeHtml(a.name) + '</span></a></li>'
+              '<a class="asset-btn" href="' + a.browser_download_url + '">' + downloadIcon + '<span>' + escapeHtml(a.name) + '</span></a>'
             ).join('')
-          : '<li><a class="asset-chip" href="' + r.html_url + '">' + downloadIcon + '<span>Source</span></a></li>';
-        return '<div class="release-card">' +
-          '<span class="release-repo">' + escapeHtml(r.repoName) + '</span>' +
-          '<h4>' + escapeHtml(r.tag_name) + (r.name ? ' — ' + escapeHtml(r.name) : '') + '</h4>' +
-          '<span class="release-date">Published ' + formatDate(r.published_at) + '</span>' +
-          '<ul class="release-assets">' + assets + '</ul>' +
+          : '<a class="asset-btn" href="' + r.html_url + '">' + downloadIcon + '<span>Source</span></a>';
+
+        return '<div class="release-row" style="animation-delay:' + (i * 45) + 'ms">' +
+          '<div class="release-top">' +
+            '<span class="release-name"><span class="release-repo">' + escapeHtml(r.repoName) + ' \u2014 </span>' + escapeHtml(r.tag_name) + '</span>' +
+            '<span class="release-date">' + formatDate(r.published_at) + '</span>' +
+          '</div>' +
+          '<div class="asset-row">' + assets + '</div>' +
         '</div>';
       }).join('');
     }
@@ -1192,35 +550,26 @@
     async function sync(){
       try {
         const res = await fetch(DATA_URL, { cache: 'no-store' });
-        if (!res.ok) throw new Error('synced data fetch failed');
+        if (!res.ok) throw new Error('data fetch failed');
         const data = await res.json();
 
         const repos = data.repos || [];
         const releases = data.releases || [];
+        const count = (data.user && typeof data.user.public_repos === 'number') ? data.user.public_repos : repos.length;
 
-        if (data.user && typeof data.user.public_repos === 'number') {
-          statReposEl.textContent = data.user.public_repos;
-        }
-
-        renderLiveSites(repos);
-        renderRepoGrid(repos);
-        syncDot.classList.remove('is-error');
-        syncNoteText.textContent = 'Synced ' + repos.length + ' repositories from GitHub.';
+        repoCountEl.textContent = count + (count === 1 ? ' repository' : ' repositories');
+        renderRepos(repos);
+        syncNote.hidden = true;
 
         renderReleases(releases);
-        releaseSyncDot.classList.remove('is-error');
-        releaseSyncNoteText.textContent = releases.length
-          ? 'Synced ' + releases.length + ' release' + (releases.length === 1 ? '' : 's') + ' from GitHub.'
-          : 'Synced with GitHub — no releases published yet.';
+        releaseSyncNote.hidden = true;
       } catch (err) {
-        syncDot.classList.add('is-error');
-        syncNoteText.textContent = "Couldn't load synced project data right now — showing a saved project below.";
-        repoGridEl.hidden = true;
-        liveSitesEl.hidden = true;
-        fallbackEl.hidden = false;
+        syncNote.textContent = "Couldn't load projects right now \u2014 try again shortly.";
+        syncNote.classList.add('is-error');
+        repoListEl.innerHTML = '';
 
-        releaseSyncDot.classList.add('is-error');
-        releaseSyncNoteText.textContent = "Couldn't load synced release data right now.";
+        releaseSyncNote.textContent = "Couldn't load releases right now \u2014 try again shortly.";
+        releaseSyncNote.classList.add('is-error');
         releaseListEl.innerHTML = '';
       }
     }
