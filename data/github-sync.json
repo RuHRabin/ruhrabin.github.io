@@ -1,30 +1,30 @@
 {
-  "generated_at": "2026-09-23T03:10:58.597Z",
+  "generated_at": "2026-09-23T10:43:36.467Z",
   "user": {
     "public_repos": 13
   },
   "repos": [
     {
-      "name": "ruhrabin.github.io",
-      "description": null,
-      "language": "HTML",
-      "stargazers_count": 0,
-      "pushed_at": "2026-09-22T23:28:26Z",
-      "fork": false,
-      "homepage": null,
-      "has_pages": true,
-      "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
-    },
-    {
       "name": "RuHRabin",
       "description": null,
       "language": "Python",
       "stargazers_count": 0,
-      "pushed_at": "2026-09-22T10:47:54Z",
+      "pushed_at": "2026-09-23T10:37:36Z",
       "fork": false,
       "homepage": null,
       "has_pages": false,
       "html_url": "https://github.com/RuHRabin/RuHRabin"
+    },
+    {
+      "name": "ruhrabin.github.io",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-23T03:10:59Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
     },
     {
       "name": "Python-Simple-Codes",
