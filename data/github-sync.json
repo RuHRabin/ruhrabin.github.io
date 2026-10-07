@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T09:45:17.780Z",
+  "generated_at": "2026-10-07T18:23:32.562Z",
   "user": {
     "public_repos": 12
   },
@@ -9,33 +9,33 @@
       "description": null,
       "language": "JavaScript",
       "stargazers_count": 3,
-      "pushed_at": "2026-10-07T07:05:44Z",
+      "pushed_at": "2026-10-07T14:33:35Z",
       "fork": false,
       "homepage": "https://ruhrabin.github.io/earthpulse/",
       "has_pages": true,
       "html_url": "https://github.com/RuHRabin/earthpulse"
     },
     {
-      "name": "ruhrabin.github.io",
-      "description": null,
-      "language": "HTML",
-      "stargazers_count": 1,
-      "pushed_at": "2026-10-07T00:20:29Z",
-      "fork": false,
-      "homepage": "https://ruhrabin.github.io/",
-      "has_pages": true,
-      "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
-    },
-    {
       "name": "RuHRabin",
       "description": null,
       "language": "Python",
       "stargazers_count": 1,
-      "pushed_at": "2026-10-06T12:35:27Z",
+      "pushed_at": "2026-10-07T12:28:36Z",
       "fork": false,
       "homepage": null,
       "has_pages": false,
       "html_url": "https://github.com/RuHRabin/RuHRabin"
+    },
+    {
+      "name": "ruhrabin.github.io",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 1,
+      "pushed_at": "2026-10-07T09:45:18Z",
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
     },
     {
       "name": "Python-Simple-Codes",
