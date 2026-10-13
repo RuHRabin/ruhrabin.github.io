@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-13T10:03:47.071Z",
+  "generated_at": "2026-10-13T18:50:19.896Z",
   "user": {
-    "public_repos": 13
+    "public_repos": 14
   },
   "repos": [
     {
@@ -9,18 +9,40 @@
       "description": null,
       "language": "JavaScript",
       "stargazers_count": 3,
-      "pushed_at": "2026-10-13T08:31:02Z",
+      "pushed_at": "2026-10-13T16:28:36Z",
       "fork": false,
       "homepage": "https://ruhrabin.github.io/earthpulse/",
       "has_pages": true,
       "html_url": "https://github.com/RuHRabin/earthpulse"
     },
     {
+      "name": "RuHRabin",
+      "description": null,
+      "language": null,
+      "stargazers_count": 2,
+      "pushed_at": "2026-10-13T15:32:37Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/RuHRabin"
+    },
+    {
+      "name": "Schemify",
+      "description": "A single-file, dependency-free CLI that scans a messy CSV/TSV/JSON file, infers a clean type for every field, and emits a typed schema (JSON Schema, Pydantic, Python dataclass, or TypeScript interface) plus an optional cleaned copy of the data.",
+      "language": "Python",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-13T15:10:42Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Schemify"
+    },
+    {
       "name": "ruhrabin.github.io",
       "description": null,
       "language": "HTML",
       "stargazers_count": 1,
-      "pushed_at": "2026-10-13T02:24:05Z",
+      "pushed_at": "2026-10-13T10:03:48Z",
       "fork": false,
       "homepage": "https://ruhrabin.github.io/",
       "has_pages": true,
@@ -47,17 +69,6 @@
       "homepage": null,
       "has_pages": false,
       "html_url": "https://github.com/RuHRabin/Sol-Mesh"
-    },
-    {
-      "name": "RuHRabin",
-      "description": null,
-      "language": "Python",
-      "stargazers_count": 1,
-      "pushed_at": "2026-10-12T14:09:04Z",
-      "fork": false,
-      "homepage": null,
-      "has_pages": false,
-      "html_url": "https://github.com/RuHRabin/RuHRabin"
     },
     {
       "name": "Pixel-Perfect-Web",
