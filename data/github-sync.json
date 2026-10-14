@@ -1,15 +1,26 @@
 {
-  "generated_at": "2026-10-14T00:07:09.534Z",
+  "generated_at": "2026-10-14T08:22:05.200Z",
   "user": {
-    "public_repos": 14
+    "public_repos": 15
   },
   "repos": [
+    {
+      "name": "3D-Website-Boilerplate-Designer-Doc",
+      "description": "An agent skill that scaffolds working 3D websites with Three.js or React Three Fiber, then helps you customize them, load real assets, and make them run well on phones.",
+      "language": null,
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-14T06:48:23Z",
+      "fork": false,
+      "homepage": "https://www.agensi.io/skills/3d-website-boilerplate-designer",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/3D-Website-Boilerplate-Designer-Doc"
+    },
     {
       "name": "earthpulse",
       "description": null,
       "language": "JavaScript",
       "stargazers_count": 3,
-      "pushed_at": "2026-10-13T21:30:06Z",
+      "pushed_at": "2026-10-14T05:28:27Z",
       "fork": false,
       "homepage": "https://ruhrabin.github.io/earthpulse/",
       "has_pages": true,
@@ -20,7 +31,7 @@
       "description": null,
       "language": "HTML",
       "stargazers_count": 1,
-      "pushed_at": "2026-10-13T18:50:23Z",
+      "pushed_at": "2026-10-14T00:07:10Z",
       "fork": false,
       "homepage": "https://ruhrabin.github.io/",
       "has_pages": true,
