@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T04:42:39.216Z",
+  "generated_at": "2026-10-16T05:07:03.236Z",
   "user": {
     "public_repos": 15
   },
@@ -9,9 +9,9 @@
       "description": null,
       "language": "HTML",
       "stargazers_count": 1,
-      "pushed_at": "2026-10-16T04:42:30Z",
+      "pushed_at": "2026-10-16T05:06:55Z",
       "fork": false,
-      "homepage": "https://ruhrabin.github.io/",
+      "homepage": "http://ruhrbin.site/",
       "has_pages": true,
       "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
     },
