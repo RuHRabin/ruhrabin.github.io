@@ -204,6 +204,23 @@ export function createAudio(opts = {}) {
         }, FADE_SECONDS * 1000 + 80);
     }
 
+    // Short game cues (checkpoint, scan, mission complete). Silent unless sound is on and the context is running.
+    const CUES = { gate: [[660, 0], [990, 0.07]], scan: [[880, 0], [1320, 0.06], [1760, 0.12]], win: [[523, 0], [659, 0.1], [784, 0.2], [1047, 0.32]] };
+    api.cue = (kind) => {
+        const notes = CUES[kind];
+        if (!notes || !api.enabled || !ctx || !G || ctx.state !== 'running') return;
+        const t0 = ctx.currentTime + 0.01;
+        for (const [f, d] of notes) {
+            const o = ctx.createOscillator(), g = ctx.createGain();
+            o.type = 'triangle'; o.frequency.value = f;
+            g.gain.setValueAtTime(0.0001, t0 + d);
+            g.gain.exponentialRampToValueAtTime(0.16, t0 + d + 0.012);
+            g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.24);
+            o.connect(g); g.connect(G.master);
+            o.start(t0 + d); o.stop(t0 + d + 0.28);
+        }
+    };
+
     api.toggle = () => (api.enabled ? (disable(), false) : enable());
     api.setGamma = (g) => { if (Number.isFinite(g)) gammaT = Math.max(1, g); };
     api.stats = () => ({

@@ -42,7 +42,9 @@ const P = { x: 0, y: 0, z: 0 };
 const AIM = { x: 0, y: 0, z: 0 };
 const T = { x: 0, y: 0, z: 0 };
 
-let hole = null, system = null, SystemClass = null, dataResult = null;
+let hole = null, system = null, SystemClass = null, dataResult = null, game = null;
+const LOOK = { x: 0, z: 0 };
+const STATION_NAMES = Array.from(document.querySelectorAll('#stations a')).map((a) => a.textContent.trim());
 let ctxLost = false, onScreen = true, booted = false, raf = 0, lastT = 0;
 let markersOn = false, active = [], fpsS = 60, dbgT = 0, resizeTimer = 0;
 /* Idle throttle: the scene never stops moving, so after IDLE_MS without input
@@ -76,6 +78,7 @@ function setListMode(on) {
     root.classList.toggle('list-view', state.list);
     hud.setList(state.list);
     hud.setNavHidden(1, state.list);        // Orbit needs the 3D view; Instruments works in both modes
+    if (game) game.setActive(!state.list);
     if (state.list) {
         if (system) system.close();
         hud.setLegend(false);
@@ -207,6 +210,13 @@ function poseAt(y) {
     return pose;
 }
 
+/* Position on the camera's rail at fractional station index u (the same spiral the scroll drives). The game puts its gates here. */
+function railAt(u, out) {
+    const n = POSE.length - 1, uu = clamp(u, 0, n), i0 = Math.min(Math.floor(uu), n - 1), s = smoothstep(uu - i0);
+    const A = POSE[i0], B = POSE[i0 + 1];
+    return cameraPose(Math.max(logLerp(STATION_R[i0], STATION_R[i0 + 1], s), MIN_R), lerp(A.pitch, B.pitch, s), lerp(A.azim, B.azim, s), out);
+}
+
 function updateCamera(dt, calm) {
     poseAt(state.scrollS);
     state.u = pose.u;
@@ -284,6 +294,10 @@ function frame(now) {
 
     if (system) system.advance(state.simTime, dt, calm);
     const r = updateCamera(dt, calm);
+    if (game) {
+        LOOK.x = T.x - P.x; LOOK.z = T.z - P.z;
+        game.update(dt, calm, P, LOOK, state.u, state.simTime);
+    }
     markersOn = !state.list && state.u > 0.55 && state.u < 1.6;
     if (system) {
         system.setMarkersActive(markersOn);
@@ -324,12 +338,14 @@ function frame(now) {
 
 /* ---------- system (bodies) ---------- */
 function onOpen(body) {
+    if (game) game.onOpen(body);
     fly.body = body;
     fly.target = 1;
     state.warp = isCalm() ? 0 : 0.5;
     wake();
 }
 function onClose() {
+    if (game) game.onClose();
     fly.target = 0;
     wake();
 }
@@ -337,6 +353,7 @@ function tryAttach() {
     if (system || !hole || !SystemClass || !dataResult) return;
     try {
         system = new SystemClass(hole.scene, dataResult.repos, { onOpen, onClose });
+        if (game) game.setSystem(system);
     } catch (err) {
         console.warn('[main] system failed', err);
         system = null;
@@ -495,9 +512,10 @@ function enter3D() {
         status3d('Loading the 3D view…');
         try {
             // three.js lives behind dynamic imports, so a blocked or failed download falls back to the plain page
-            const mods = await Promise.all([import('./hole.js'), import('./system.js')]);
+            const mods = await Promise.all([import('./hole.js'), import('./system.js'), import('./game.js')]);
             hole = mods[0].createHole($('gl'));
             SystemClass = mods[1].System;
+            game = mods[2].createGame({ scene: hole.scene, camera: hole.camera, rail: railAt, stations: STATION_NAMES, host: $('game'), audio, isCalm });
         } catch (err) {
             console.warn('[main] 3D unavailable, showing the plain page', err);
             hole = null;

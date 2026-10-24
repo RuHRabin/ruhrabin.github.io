@@ -55,6 +55,7 @@
 
 <canvas id="gl" aria-hidden="true"></canvas>
 <div id="markers" role="group" aria-label="Projects in orbit"></div>
+<div id="game"></div>
 <pre id="debug" hidden></pre>
 
 <header class="site-header" id="site-header">
@@ -85,14 +86,14 @@
 <header id="hud">
   <div class="hud-brand">Rabin</div>
   <dl class="readout" aria-label="Time dilation instruments">
-    <div class="sym"><dt>Distance r</dt><dd><span id="hud-r">34.00</span> rs</dd></div>
-    <div class="sym"><dt>γ</dt><dd id="hud-gamma">1.015</dd></div>
-    <div class="hide-xs"><dt>1 h here</dt><dd><span id="hud-ratio">1.015</span> h Earth</dd></div>
+    <div class="sym"><dt>Distance</dt><dd><span id="hud-r">34.00</span> rs</dd></div>
+    <div class="sym"><dt class="no-caps">γ</dt><dd id="hud-gamma">1.015</dd></div>
+    <div class="hide-md"><dt>1 h here</dt><dd><span id="hud-ratio">1.015</span> h Earth</dd></div>
     <div class="you"><dt>Your time</dt><dd id="clock-you">00:00:00</dd></div>
     <div class="earth"><dt>Earth time</dt><dd id="clock-earth">00:00:00</dd></div>
   </dl>
   <div class="controls">
-    <span class="q hide-xs">Quality <b id="quality">auto</b></span>
+    <span class="q hide-sm">Quality <b id="quality">auto</b></span>
     <button id="btn-list" class="btn" type="button" aria-label="Explore the site in 3D" title="Load the interactive 3D black-hole view">Explore in 3D</button>
     <button id="btn-pause" class="btn" type="button" aria-pressed="false" aria-label="Pause motion">Pause<span class="hide-xs"> motion</span></button>
     <button id="btn-sound" class="btn" type="button" aria-pressed="false" aria-label="Sound: soft drone and clock tick" title="Turn on a soft drone and a clock tick (off by default)">Sound</button>
@@ -191,7 +192,7 @@
         <p>Rabin (<a href="https://github.com/RuHRabin">@RuHRabin</a> on GitHub and X) builds machine learning, simulation and software projects in the open. Current public work includes a ray-marched black-hole game (Gargantua), a serverless peer-to-peer Android messenger (Sol-Mesh), a live earthquake and severe-weather map (earthpulse), and Bengali-language tools (xkb-avro and html-bangla).</p>
         <dl class="facts">
           <dt>Name</dt><dd>Rabin</dd>
-          <dt>Handle</dt><dd>@RuHRabin on <a href="https://github.com/RuHRabin">GitHub</a>, <a href="https://x.com/RuHRabin">X</a> and <a href="https://facebook.com/RuHRabin">Facebook</a></dd>
+          <dt>Handle</dt><dd>@RuHRabin on <a href="https://github.com/RuHRabin">GitHub</a> and <a href="https://x.com/RuHRabin">X</a></dd>
           <dt>Focus</dt><dd>Machine learning and simulation</dd>
           <dt>Languages used</dt><dd>JavaScript / TypeScript, Python, Kotlin, HTML</dd>
           <dt>Contact</dt><dd><a href="mailto:rabin@ruhrbin.site">rabin@ruhrbin.site</a></dd>
@@ -300,7 +301,6 @@
             <li><span>Email</span><a href="mailto:rabin@ruhrbin.site">rabin@ruhrbin.site</a></li>
             <li><span>X</span><a href="https://x.com/RuHRabin" rel="me">@RuHRabin</a></li>
             <li><span>GitHub</span><a href="https://github.com/RuHRabin" rel="me">github.com/RuHRabin</a></li>
-            <li><span>Facebook</span><a href="https://facebook.com/RuHRabin" rel="me">facebook.com/RuHRabin</a></li>
           </ul>
         </div>
         <p class="signoff only-3d">∂(loss)/∂t &lt; 0 · ∂(curiosity)/∂t &gt; 0</p>

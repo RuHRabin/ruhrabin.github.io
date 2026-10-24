@@ -22,7 +22,6 @@ const NAME = 'Rabin';
 const SOCIAL = {
     github: 'https://github.com/RuHRabin',
     x: 'https://x.com/RuHRabin',
-    facebook: 'https://facebook.com/RuHRabin',
 };
 const SOCIAL_IMG = SITE + '/img/social.png';
 
@@ -438,7 +437,7 @@ await write('llms.txt', `# ${NAME} (@${OWNER})
 
 > ${NAME} builds machine learning, simulation and software projects in the open. This site is his portfolio: a plain, fast page with an optional interactive 3D black-hole view in which each public GitHub repository is a body in orbit.
 
-Key facts: handle @${OWNER} on GitHub, X and Facebook. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync ${genStamp}).
+Key facts: handle @${OWNER} on GitHub and X. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync ${genStamp}).
 
 ## Projects
 ${featured.map((r) => `- [${r.name}](${SITE}/projects/${r.slug}/): ${r.line}`).join('\n')}
@@ -450,7 +449,6 @@ ${featured.map((r) => `- [${r.name}](${SITE}/projects/${r.slug}/): ${r.line}`).j
 ## Profiles
 - [GitHub](${SOCIAL.github})
 - [X](${SOCIAL.x})
-- [Facebook](${SOCIAL.facebook})
 `);
 
 /* ---------- 11. keep sources out of the published site (Jekyll runs on GitHub Pages by default) ---------- */

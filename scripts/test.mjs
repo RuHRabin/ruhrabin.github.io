@@ -1,5 +1,6 @@
 // Validates the BUILT site. Run after `npm run build`; the workflow refuses to publish if anything here fails.
 import fs from 'node:fs';
+import zlib from 'node:zlib';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -83,7 +84,9 @@ for (const p of pages) {
     check('home: font preload present', /rel="preload" as="font"/.test(home));
     check('home: main script is a module near the end of body', /<script type="module" src="\/assets\/js\/main-[A-Z0-9]+\.js"><\/script>\s*<\/body>/.test(home));
     check('home: inlined CSS (no render-blocking request)', /<style>[\s\S]{2000,}<\/style>/.test(home));
-    check('home: page weight under 60 KB', Buffer.byteLength(home) < 60 * 1024, String(Buffer.byteLength(home)));
+    const gz = zlib.gzipSync(home).length;
+    check('home: HTML + inlined CSS under 22 KB compressed', gz < 22 * 1024, `${gz} bytes gzipped`);
+    check('home: game flight-deck container exists (3D only)', home.includes('<div id="game"></div>'));
 }
 
 // project pages: SoftwareSourceCode with repo link
@@ -111,6 +114,12 @@ for (const p of pages.filter((x) => /^projects\/[^/]+\/index\.html$/.test(x))) {
     check('sitemap: lastmod dates are ISO', [...sm.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].every((m) => /^\d{4}-\d{2}-\d{2}$/.test(m[1])));
     const llms = read('llms.txt');
     check('llms.txt: H1 + blockquote summary + project links', /^# /.test(llms) && /\n> /.test(llms) && (llms.match(/\(https:\/\/rabin\.ruhrbin\.site\/projects\//g) || []).length >= 6);
+}
+
+// Facebook was removed everywhere: no published file may mention it
+{
+    const files = ['index.html', '404.html', 'llms.txt', 'robots.txt', 'sitemap.xml', ...pages];
+    for (const f of new Set(files)) check(`no Facebook reference in ${f}`, !/facebook/i.test(read(f)));
 }
 
 // assets referenced by the built JS and CSS exist (hashed names stay in sync)
