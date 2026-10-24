@@ -1,0 +1,9 @@
+# Sources and tooling are not part of the published site.
+exclude:
+  - src
+  - scripts
+  - node_modules
+  - package.json
+  - package-lock.json
+  - README.md
+  - CHANGELOG.md

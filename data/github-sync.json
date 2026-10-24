@@ -1,0 +1,212 @@
+{
+  "generated_at": "2026-10-21T06:15:14.230Z",
+  "user": {
+    "public_repos": 16
+  },
+  "repos": [
+    {
+      "name": "ruhrabin.github.io",
+      "description": null,
+      "language": "JavaScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-21T06:15:01Z",
+      "fork": false,
+      "homepage": "http://rabin.ruhrbin.site/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
+    },
+    {
+      "name": "earthpulse",
+      "description": null,
+      "language": "JavaScript",
+      "stargazers_count": 1,
+      "pushed_at": "2026-10-21T06:05:02Z",
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/earthpulse/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/earthpulse"
+    },
+    {
+      "name": "RuHRabin",
+      "description": null,
+      "language": "Python",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-21T04:48:17Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/RuHRabin"
+    },
+    {
+      "name": "BIMI",
+      "description": null,
+      "language": null,
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-20T06:43:15Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/BIMI"
+    },
+    {
+      "name": "Sol-Mesh",
+      "description": "A p2p messaging and file transferring app.",
+      "language": "Kotlin",
+      "stargazers_count": 1,
+      "pushed_at": "2026-10-20T06:33:36Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Sol-Mesh"
+    },
+    {
+      "name": "Gargantua",
+      "description": "A browser game inspired by Interstellar. Fly a small ship around a black hole, collect data, and get back to the Endurance before Earth runs out of time. Built with Three.js, React, and Vite.",
+      "language": "TypeScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-19T07:15:40Z",
+      "fork": false,
+      "homepage": "http://rabin.ruhrbin.site/Gargantua/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Gargantua"
+    },
+    {
+      "name": "3D-Website-Boilerplate-Designer-Doc",
+      "description": "An agent skill that scaffolds working 3D websites with Three.js or React Three Fiber, then helps you customize them, load real assets, and make them run well on phones.       You can buy the skill from here: https://www.agensi.io/skills/3d-website-boilerplate-designer",
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-19T06:24:50Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/3D-Website-Boilerplate-Designer-Doc"
+    },
+    {
+      "name": "Schemify",
+      "description": "A single-file, dependency-free CLI that scans a messy CSV/TSV/JSON file, infers a clean type for every field, and emits a typed schema (JSON Schema, Pydantic, Python dataclass, or TypeScript interface) plus an optional cleaned copy of the data.",
+      "language": "Python",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-13T15:10:42Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Schemify"
+    },
+    {
+      "name": "Pixel-Perfect-Web",
+      "description": "Pixel Perfect Web is a eye-catching and modern web created by simple tech",
+      "language": "JavaScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-09T04:20:12Z",
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/Pixel-Perfect-Web/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Pixel-Perfect-Web"
+    },
+    {
+      "name": "Python-Simple-Codes",
+      "description": "This is a collection of simple python codes",
+      "language": "Python",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-21T13:54:45Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Python-Simple-Codes"
+    },
+    {
+      "name": "html-bangla",
+      "description": "Offline Android app teaching HSC ICT Chapter 4 (Web Design & HTML) in Bengali — live split-view code editor, 21-question quiz, bookmarks & progress tracking. Built with Kotlin + Jetpack Compose.",
+      "language": "Kotlin",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-20T15:13:56Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/html-bangla"
+    },
+    {
+      "name": "Larkspur-Lane",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-16T14:22:14Z",
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/Larkspur-Lane/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Larkspur-Lane"
+    },
+    {
+      "name": "GlimmerWoodGame",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-14T15:32:35Z",
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/GlimmerWoodGame/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/GlimmerWoodGame"
+    },
+    {
+      "name": "Anime-Assault-Game",
+      "description": "Anime Assault Game, a complete neon-soaked arena shooter in a single HTML file. Just open it in any browser (double-click, or host it anywhere) and it runs instantly on desktop and mobile.",
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-13T15:08:24Z",
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/Anime-Assault-Game/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Anime-Assault-Game"
+    },
+    {
+      "name": "Remove-Metadata-from-image-and-videos-on-Linux-",
+      "description": "This is a list of commands for using metadata remover tools for linux. The tools are free and opensource and fully work on offline.  ",
+      "language": null,
+      "stargazers_count": 0,
+      "pushed_at": "2026-07-01T16:20:31Z",
+      "fork": false,
+      "homepage": null,
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Remove-Metadata-from-image-and-videos-on-Linux-"
+    },
+    {
+      "name": "xkb-avro",
+      "description": "Native XKB keyboard layout for Bengali Avro Phonetic on Linux — no IBus, no Fcitx, no daemon required.",
+      "language": "Shell",
+      "stargazers_count": 0,
+      "pushed_at": "2026-06-15T11:03:18Z",
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/xkb-avro"
+    }
+  ],
+  "releases": [
+    {
+      "repoName": "Sol-Mesh",
+      "tag_name": "Sol-Mesh",
+      "name": "Sol-Mesh apk",
+      "published_at": "2026-10-20T06:33:36Z",
+      "html_url": "https://github.com/RuHRabin/Sol-Mesh/releases/tag/Sol-Mesh",
+      "assets": [
+        {
+          "name": "Sol-Mesh.apk",
+          "browser_download_url": "https://github.com/RuHRabin/Sol-Mesh/releases/download/Sol-Mesh/Sol-Mesh.apk"
+        }
+      ]
+    },
+    {
+      "repoName": "html-bangla",
+      "tag_name": "v1.0.0",
+      "name": "HTML Bangla APK",
+      "published_at": "2026-09-20T13:55:57Z",
+      "html_url": "https://github.com/RuHRabin/html-bangla/releases/tag/v1.0.0",
+      "assets": [
+        {
+          "name": "Learn_HSC_HTML.apk",
+          "browser_download_url": "https://github.com/RuHRabin/html-bangla/releases/download/v1.0.0/Learn_HSC_HTML.apk"
+        }
+      ]
+    }
+  ]
+}

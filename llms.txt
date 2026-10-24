@@ -1,0 +1,22 @@
+# Rabin (@RuHRabin)
+
+> Rabin builds machine learning, simulation and software projects in the open. This site is his portfolio: a plain, fast page with an optional interactive 3D black-hole view in which each public GitHub repository is a body in orbit.
+
+Key facts: handle @RuHRabin on GitHub, X and Facebook. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync 2026-10-21 06:15 UTC).
+
+## Projects
+- [Gargantua](https://rabin.ruhrbin.site/projects/gargantua/): Fly a small ship around a black hole. A fragment shader ray-marches light through Schwarzschild-style curvature, so the lensing is computed per pixel; the clock runs on time dilation; the score is generated live with Web Audio. Three.js, React, Vite.
+- [earthpulse](https://rabin.ruhrbin.site/projects/earthpulse/): Live map of the last 24 hours of earthquakes (USGS) plus active US severe-weather alerts. No server: a Python script on GitHub Actions refreshes the data every 15 minutes. An awareness tool, not an official warning system.
+- [Sol-Mesh](https://rabin.ruhrbin.site/projects/sol-mesh/): Serverless peer-to-peer messaging and file transfer for Android. Peers find each other by UDP multicast on the LAN or a Kademlia DHT over the internet, authenticate with Ed25519, and talk over X25519 + Double Ratchet + AES-256-GCM.
+- [xkb-avro](https://rabin.ruhrbin.site/projects/xkb-avro/): Native XKB keyboard layout for Bengali Avro Phonetic on Linux. No IBus, no Fcitx, no daemon.
+- [html-bangla](https://rabin.ruhrbin.site/projects/html-bangla/): Offline Android app teaching HSC ICT Chapter 4 (Web Design & HTML) in Bengali, with a live split-view code editor.
+- [Schemify](https://rabin.ruhrbin.site/projects/schemify/): A single-file, dependency-free CLI that scans a messy CSV/TSV/JSON file, infers a clean type for every field, and emits a typed schema (JSON Schema, Pydantic, dataclass or TypeScript interface) plus an optional cleaned copy.
+
+## Pages
+- [Home](https://rabin.ruhrbin.site/): About, projects, interactive instruments (Lorenz attractor, double pendulum, Kepler orbit, loss landscape, particle in a box), how the black hole is rendered, and contact details.
+- [All projects](https://rabin.ruhrbin.site/projects/): every project with details, source links and release downloads.
+
+## Profiles
+- [GitHub](https://github.com/RuHRabin)
+- [X](https://x.com/RuHRabin)
+- [Facebook](https://facebook.com/RuHRabin)

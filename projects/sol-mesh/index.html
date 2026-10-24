@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" class="list-view">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sol-Mesh: serverless encrypted messaging for Android | Rabin</title>
+<meta name="description" content="Sol-Mesh by Rabin: Serverless peer-to-peer messaging and file transfer for Android. Peers find each other by UDP multicast on the LAN or a Kademlia DHT over…">
+<meta name="author" content="Rabin">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fb">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1020">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://rabin.ruhrbin.site/projects/sol-mesh/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0e1a'/%3E%3Cellipse cx='16' cy='17' rx='13' ry='4.2' fill='none' stroke='%23ffb454' stroke-width='2' transform='rotate(-14 16 17)'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23000' stroke='%235ce1e6' stroke-width='1.5'/%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Rabin">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Sol-Mesh: serverless encrypted messaging for Android | Rabin">
+<meta property="og:description" content="Sol-Mesh by Rabin: Serverless peer-to-peer messaging and file transfer for Android. Peers find each other by UDP multicast on the LAN or a Kademlia DHT over…">
+<meta property="og:url" content="https://rabin.ruhrbin.site/projects/sol-mesh/">
+<meta property="og:image" content="https://rabin.ruhrbin.site/img/social.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sol-Mesh: serverless encrypted messaging for Android | Rabin">
+<meta name="twitter:description" content="Sol-Mesh by Rabin: Serverless peer-to-peer messaging and file transfer for Android. Peers find each other by UDP multicast on the LAN or a Kademlia DHT over…">
+<meta name="twitter:creator" content="@RuHRabin">
+<meta name="twitter:image" content="https://rabin.ruhrbin.site/img/social.png">
+<meta name="google-site-verification" content="8Vy-N8YD2XVepEK29woVuej9vWf2BGLKiCcuVfmZY0I" />
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/source-serif-4-latin-600-normal.woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/style-6EL3NKNS.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://rabin.ruhrbin.site/"},{"@type":"ListItem","position":2,"name":"Projects","item":"https://rabin.ruhrbin.site/projects/"},{"@type":"ListItem","position":3,"name":"Sol-Mesh","item":"https://rabin.ruhrbin.site/projects/sol-mesh/"}]},{"@type":"WebPage","@id":"https://rabin.ruhrbin.site/projects/sol-mesh/#webpage","url":"https://rabin.ruhrbin.site/projects/sol-mesh/","name":"Sol-Mesh: serverless encrypted messaging for Android | Rabin","description":"Sol-Mesh by Rabin: Serverless peer-to-peer messaging and file transfer for Android. Peers find each other by UDP multicast on the LAN or a Kademlia DHT over…","inLanguage":"en","isPartOf":{"@id":"https://rabin.ruhrbin.site/#website"},"mainEntity":{"@id":"https://rabin.ruhrbin.site/projects/sol-mesh/#software"},"dateModified":"2026-10-20T06:33:36Z"},{"@type":"SoftwareSourceCode","@id":"https://rabin.ruhrbin.site/projects/sol-mesh/#software","name":"Sol-Mesh","description":"Serverless peer-to-peer messaging and file transfer for Android. Peers find each other by UDP multicast on the LAN or a Kademlia DHT over the internet, authenticate with Ed25519, and talk over X25519 + Double Ratchet + AES-256-GCM.","url":"https://rabin.ruhrbin.site/projects/sol-mesh/","codeRepository":"https://github.com/RuHRabin/Sol-Mesh","author":{"@id":"https://rabin.ruhrbin.site/#person"},"isAccessibleForFree":true,"inLanguage":"en","programmingLanguage":"Kotlin","dateModified":"2026-10-20"}]}</script>
+<script>(function(d){try{var t=localStorage.getItem('rabin.theme');if(t==='light'||t==='dark')d.documentElement.setAttribute('data-theme',t)}catch(e){}})(document)</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header" id="site-header">
+  <div class="container bar">
+    <a class="brand" href="/" aria-label="Rabin, home"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><ellipse cx="16" cy="17" rx="13" ry="4.2" fill="none" stroke="var(--fig-disc-a)" stroke-width="2" transform="rotate(-14 16 17)"/><circle cx="16" cy="16" r="7" fill="var(--fig-core)" stroke="var(--c-accent)" stroke-width="1.5"/></svg>Rabin</a>
+    <div class="bar-actions"><button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch theme"><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+    <nav class="nav" id="site-nav" aria-label="Primary">
+      <a href="/#about">About</a>
+      <a href="/projects/" aria-current="page">Projects</a>
+      <a href="/#st-2">Instruments</a>
+      <a href="/#st-4">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="page">
+  <div class="container">
+    <p class="crumbs"><a href="/">Home</a> / <a href="/projects/">Projects</a> / Sol-Mesh</p>
+    <div class="page-grid">
+      <article>
+        <h1>Sol-Mesh</h1>
+        <p class="lead">Serverless encrypted messaging for Android.</p>
+        <p>Serverless peer-to-peer messaging and file transfer for Android. Peers find each other by UDP multicast on the LAN or a Kademlia DHT over the internet, authenticate with Ed25519, and talk over X25519 + Double Ratchet + AES-256-GCM.</p>
+        <p class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/RuHRabin/Sol-Mesh" rel="noopener">Source code</a>
+        </p>
+        <p class="links">
+          <a href="https://github.com/RuHRabin/Sol-Mesh" rel="noopener">Source code</a>
+            <a href="https://github.com/RuHRabin/Sol-Mesh/releases/tag/Sol-Mesh" rel="noopener">Release Sol-Mesh</a>
+            <a href="https://github.com/RuHRabin/Sol-Mesh/releases/download/Sol-Mesh/Sol-Mesh.apk" rel="noopener">Download Sol-Mesh.apk</a>
+        </p>
+      </article>
+      <aside class="side-card" aria-labelledby="h-facts">
+        <h2 id="h-facts">Project facts</h2>
+        <dl class="facts">
+          <dt>Author</dt><dd>Rabin (<a href="https://github.com/RuHRabin">@RuHRabin</a>)</dd>
+          <dt>Main language</dt><dd>Kotlin</dd>
+          <dt>Last commit</dt><dd>20 Oct 2026</dd>
+          <dt>GitHub stars</dt><dd>1</dd>
+          <dt>Source code</dt><dd><a href="https://github.com/RuHRabin/Sol-Mesh" rel="noopener">github.com/RuHRabin/Sol-Mesh</a></dd>
+          <dt>Latest release</dt><dd><a href="https://github.com/RuHRabin/Sol-Mesh/releases/tag/Sol-Mesh" rel="noopener">Sol-Mesh</a> (20 Oct 2026)</dd>
+        </dl>
+      </aside>
+    </div>
+    <section class="related" aria-labelledby="h-related">
+      <h2 id="h-related">More by Rabin</h2>
+      <ul class="plain">
+          <li><a href="/projects/gargantua/">Gargantua</a>: black-hole flight game with real-time lensing</li>
+          <li><a href="/projects/earthpulse/">earthpulse</a>: live earthquake and severe-weather map</li>
+          <li><a href="/projects/xkb-avro/">xkb-avro</a>: Bengali Avro Phonetic keyboard layout for Linux</li>
+          <li><a href="/projects/html-bangla/">html-bangla</a>: offline Android app teaching HTML in Bengali</li>
+          <li><a href="/projects/schemify/">Schemify</a>: CSV, TSV and JSON schema inference CLI</li>
+      </ul>
+      <p class="more"><a href="/projects/">See all projects</a></p>
+    </section>
+  </div>
+</main>
+<footer id="foot">
+  <div class="container">
+    <p>© 2026 Rabin · <a href="/">rabin.ruhrbin.site</a> · <a href="/projects/">Projects</a> · <a href="/llms.txt">Plain-text summary</a></p>
+  </div>
+</footer>
+<script>(function(){var d=document,r=d.documentElement,b=d.getElementById('theme-toggle'),m=d.getElementById('menu-toggle'),h=d.getElementById('site-header');
+function cur(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
+function lab(){if(b)b.setAttribute('aria-label','Switch to '+(cur()==='dark'?'light':'dark')+' theme')}
+if(b){lab();b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('rabin.theme',n)}catch(e){}lab()})}
+if(m&&h){var close=function(f){h.classList.remove('nav-open');m.setAttribute('aria-expanded','false');if(f)m.focus()};
+m.addEventListener('click',function(){var o=h.classList.toggle('nav-open');m.setAttribute('aria-expanded',o?'true':'false')});
+h.addEventListener('keydown',function(e){if(e.key==='Escape'&&h.classList.contains('nav-open'))close(true)});
+Array.prototype.forEach.call(h.querySelectorAll('.nav a'),function(a){a.addEventListener('click',function(){close(false)})})}})()</script>
+</body>
+</html>
