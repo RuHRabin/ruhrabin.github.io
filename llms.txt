@@ -1,8 +1,8 @@
 # Rabin (@RuHRabin)
 
-> Rabin builds machine learning, simulation and software projects in the open.
+> Rabin builds machine learning, simulation and software projects in the open. This site is his portfolio: a plain, fast page with an optional interactive 3D black-hole view in which each public GitHub repository is a body in orbit.
 
-Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync 2026-10-25 15:30 UTC).
+Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync 2026-10-25 20:20 UTC).
 
 ## Projects
 - [Gargantua](https://rabin.ruhrbin.site/projects/gargantua/): Fly a small ship around a black hole. A fragment shader ray-marches light through Schwarzschild-style curvature, so the lensing is computed per pixel; the clock runs on time dilation; the score is generated live with Web Audio. Three.js, React, Vite.
@@ -11,13 +11,10 @@ Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulat
 - [xkb-avro](https://rabin.ruhrbin.site/projects/xkb-avro/): Native XKB keyboard layout for Bengali Avro Phonetic on Linux. No IBus, no Fcitx, no daemon.
 - [html-bangla](https://rabin.ruhrbin.site/projects/html-bangla/): Offline Android app teaching HSC ICT Chapter 4 (Web Design & HTML) in Bengali, with a live split-view code editor.
 - [Schemify](https://rabin.ruhrbin.site/projects/schemify/): A single-file, dependency-free CLI that scans a messy CSV/TSV/JSON file, infers a clean type for every field, and emits a typed schema (JSON Schema, Pydantic, dataclass or TypeScript interface) plus an optional cleaned copy.
-- [Science](https://rabin.ruhrbin.site/Science/): Scientific objects and materials in 3D using tree.js and more (Web based).
 
 ## Pages
 - [Home](https://rabin.ruhrbin.site/): About, projects, interactive instruments (Lorenz attractor, double pendulum, Kepler orbit, loss landscape, particle in a box), how the black hole is rendered, and contact details.
 - [All projects](https://rabin.ruhrbin.site/projects/): every project with details, source links and release downloads.
-- [Elementum 3D](https://rabin.ruhrbin.site/Science/Chemistry/periodic-table/): Elementum 3D shows each element with its atomic number, symbol, name, standard atomic mass, category, group, period, block, electron shells and a Bohr model. The page also contains a plain-text FAQ and a full data table of all 118 elements.
-
 
 ## Profiles
 - [GitHub](https://github.com/RuHRabin)
