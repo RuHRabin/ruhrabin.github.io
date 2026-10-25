@@ -11,6 +11,7 @@ Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulat
 - [xkb-avro](https://rabin.ruhrbin.site/projects/xkb-avro/): Native XKB keyboard layout for Bengali Avro Phonetic on Linux. No IBus, no Fcitx, no daemon.
 - [html-bangla](https://rabin.ruhrbin.site/projects/html-bangla/): Offline Android app teaching HSC ICT Chapter 4 (Web Design & HTML) in Bengali, with a live split-view code editor.
 - [Schemify](https://rabin.ruhrbin.site/projects/schemify/): A single-file, dependency-free CLI that scans a messy CSV/TSV/JSON file, infers a clean type for every field, and emits a typed schema (JSON Schema, Pydantic, dataclass or TypeScript interface) plus an optional cleaned copy.
+- [Science](https://rabin.ruhrbin.site/Science/): Scientific objects and materials in 3D using tree.js and more (Web based).
 
 ## Pages
 - [Home](https://rabin.ruhrbin.site/): About, projects, interactive instruments (Lorenz attractor, double pendulum, Kepler orbit, loss landscape, particle in a box), how the black hole is rendered, and contact details.
