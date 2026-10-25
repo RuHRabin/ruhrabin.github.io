@@ -142,18 +142,22 @@ html:not(.js-ready) [data-enter3d],html:not(.js-ready) [data-pause],html:not(.js
 }
 .hero{padding-block:clamp(3rem,7vw,6rem) clamp(3.5rem,8vw,6.5rem);border-top:0}
 .hero-grid{display:grid;gap:2.5rem 3rem;align-items:center}
-@media (min-width:900px){.hero-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr)}}
+@media (min-width:900px){.hero-grid{grid-template-columns:minmax(0,1.22fr) minmax(0,.78fr)}}
 .hero h1{margin-bottom:1.25rem;max-width:21ch}
 .hero .lead{max-width:44rem;margin-bottom:1.75rem}
 .cta-row{display:flex;flex-wrap:wrap;gap:.75rem;margin:0 0 1.5rem}
-.inline-links{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem;list-style:none;margin:0 0 1.25rem;padding:0}
-.inline-links a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font-weight:500}
+.social{display:flex;flex-wrap:wrap;gap:.6rem;list-style:none;margin:0 0 1.5rem;padding:0}
+.icon-link{display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--c-ui);border-radius:var(--radius);color:var(--c-ink);background:transparent;text-decoration:none;transition:border-color .15s,color .15s,background-color .15s,transform .15s}
+.icon-link:hover{border-color:var(--c-accent);color:var(--c-accent);background:var(--c-sunken)}
+.icon-link:active{transform:translateY(1px)}
+.icon-link svg{width:22px;height:22px;fill:currentColor}
+.icon-link svg.stroke{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .hint{font-size:.9375rem;color:var(--c-muted);margin:0;max-width:44rem}
-.hero-figure{justify-self:center;width:min(100%,26rem);margin:0}
-.hero-figure svg{display:block;width:100%;height:auto}
+.hero-figure{justify-self:end;width:min(100%,36rem);margin:0 -1rem 0 0}
+.hero-figure img{display:block;width:100%;height:auto}
 @media (prefers-reduced-motion:no-preference){.hero-figure{animation:fig-in .9s var(--ease) both}}
 @keyframes fig-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
-@media (max-width:899px){.hero-figure{width:min(70%,15rem);justify-self:start}}
+@media (max-width:899px){.hero-figure{width:min(100%,26rem);justify-self:start;margin-top:.5rem}}
 
 /* projects: ruled index, not a card grid */
 .index,.plist{list-style:none;margin:0;padding:0;border-top:1px solid var(--c-line)}
@@ -401,7 +405,7 @@ body:has(#dossier:not([hidden])) #legend{opacity:0;visibility:hidden}
     .btn,.icon-btn{border-color:ButtonText}
     .btn[aria-pressed=true],.nav a[aria-current=page]{border-color:Highlight}
     #stations a[aria-current=true]{outline:2px solid Highlight}
-    .hero-figure svg{forced-color-adjust:none}
+    .hero-figure img{forced-color-adjust:none}
 }
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 @media (prefers-reduced-motion:reduce){

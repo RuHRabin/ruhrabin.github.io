@@ -81,6 +81,8 @@ for (const p of pages) {
     check('home: project list is server-rendered with detail links', (home.match(/href="\/projects\/[a-z0-9-]+\/"/g) || []).length >= 6);
     check('home: About and Q&A sections are in the HTML', home.includes('id="about"') && home.includes('id="faq"'));
     check('home: first paint does not depend on a preloader overlay', !home.includes('id="preloader"'));
+    check('home: hero image has width, height and empty alt (no layout shift, decorative)', /<img src="\/assets\/img\/black-hole\.webp" width="560" height="\d+" alt=""/.test(home));
+    check('home: profile links are icon buttons with accessible names', ['GitHub profile', 'X profile', 'Email rabin'].every((n) => home.includes(`aria-label="${n}`)));
     check('home: font preload present', /rel="preload" as="font"/.test(home));
     check('home: main script is a module near the end of body', /<script type="module" src="\/assets\/js\/main-[A-Z0-9]+\.js"><\/script>\s*<\/body>/.test(home));
     check('home: inlined CSS (no render-blocking request)', /<style>[\s\S]{2000,}<\/style>/.test(home));
@@ -134,7 +136,7 @@ for (const p of pages.filter((x) => /^projects\/[^/]+\/index\.html$/.test(x))) {
             check(`assets: imported chunk exists (${m[1]})`, exists(rel));
         }
     }
-    for (const f of ['assets/fonts/source-serif-4-latin-600-normal.woff2', 'assets/vendor/katex/katex.min.js', 'assets/vendor/katex/katex.min.css', 'img/social.png', 'CNAME']) {
+    for (const f of ['assets/img/black-hole.webp', 'assets/fonts/source-serif-4-latin-600-normal.woff2', 'assets/vendor/katex/katex.min.js', 'assets/vendor/katex/katex.min.css', 'img/social.png', 'CNAME']) {
         check(`assets: ${f} exists`, exists(f));
     }
 }

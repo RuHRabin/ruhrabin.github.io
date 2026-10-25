@@ -82,6 +82,8 @@ const cssText = await fs.readFile(P(cssOut.replace(/^.*?assets\//, 'assets/')), 
 
 /* ---------- 2. self-hosted fonts and KaTeX ---------- */
 const FONT_HEAD = 'source-serif-4-latin-600-normal.woff2';   // the only web font: headings, 21 KB. Body and code use system fonts.
+await fs.mkdir(P('assets/img'), { recursive: true });
+for (const f of await fs.readdir(P('src/img'))) await fs.copyFile(P('src/img', f), P('assets/img', f));
 await fs.mkdir(P('assets/fonts'), { recursive: true });
 await fs.copyFile(P('node_modules/@fontsource/source-serif-4/files', FONT_HEAD), P('assets/fonts', FONT_HEAD));
 const katexDist = P('node_modules/katex/dist');
