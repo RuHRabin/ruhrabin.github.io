@@ -1,6 +1,6 @@
 # Rabin (@RuHRabin)
 
-> Rabin builds machine learning, simulation and software projects in the open. This site is his portfolio: a plain, fast page with an optional interactive 3D black-hole view in which each public GitHub repository is a body in orbit.
+> Rabin builds machine learning, simulation and software projects in the open.
 
 Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync 2026-10-25 15:30 UTC).
 
@@ -16,6 +16,8 @@ Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulat
 ## Pages
 - [Home](https://rabin.ruhrbin.site/): About, projects, interactive instruments (Lorenz attractor, double pendulum, Kepler orbit, loss landscape, particle in a box), how the black hole is rendered, and contact details.
 - [All projects](https://rabin.ruhrbin.site/projects/): every project with details, source links and release downloads.
+- [Elementum 3D](https://rabin.ruhrbin.site/Science/Chemistry/periodic-table/): Elementum 3D shows each element with its atomic number, symbol, name, standard atomic mass, category, group, period, block, electron shells and a Bohr model. The page also contains a plain-text FAQ and a full data table of all 118 elements.
+
 
 ## Profiles
 - [GitHub](https://github.com/RuHRabin)
