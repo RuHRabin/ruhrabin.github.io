@@ -2,7 +2,7 @@
 
 > Rabin builds machine learning, simulation and software projects in the open. This site is his portfolio: a plain, fast page with an optional interactive 3D black-hole view in which each public GitHub repository is a body in orbit.
 
-Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync 2026-10-25 23:00 UTC).
+Key facts: handle @RuHRabin on GitHub and X. Focus: machine learning and simulation. Languages used: JavaScript/TypeScript, Python, Kotlin, HTML. Contact: rabin@ruhrbin.site. Repo data on this site is synced from GitHub every few hours (last sync 2026-10-26 03:04 UTC).
 
 ## Projects
 - [Gargantua](https://rabin.ruhrbin.site/projects/gargantua/): Fly a small ship around a black hole. A fragment shader ray-marches light through Schwarzschild-style curvature, so the lensing is computed per pixel; the clock runs on time dilation; the score is generated live with Web Audio. Three.js, React, Vite.
