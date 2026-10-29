@@ -267,7 +267,7 @@ export function initWaves() {
 }
 
 /** Footer ASCII links: "decode" scramble on hover, keep original art after. */
-export function initDecode() {
+export function initDecode({ sound } = {}) {
   const SCR = '#%@*+=-:. /\\|_';
   document.querySelectorAll('[data-decode]').forEach((a) => {
     const pre = a.querySelector('pre');
@@ -276,6 +276,7 @@ export function initDecode() {
     let timer = 0;
     const run = () => {
       if (reduced()) return;
+      sound?.play('decrypt');
       clearInterval(timer);
       let step = 0;
       const total = 14;
