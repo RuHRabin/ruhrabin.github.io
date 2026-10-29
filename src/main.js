@@ -74,7 +74,9 @@ async function boot() {
   const ascii = await asciiMod;
   ascii.initAscii();           // lazy: each canvas builds itself near the viewport
   ascii.initWaves();
-  ascii.initDecode();
+  ascii.initDecode({ sound });
+  // archive panel: its ASCII art re-scrambles on hover, so give it the decrypt sound too
+  document.querySelector('.archive__panel')?.addEventListener('pointerenter', () => sound.play('decrypt'));
   const field = document.querySelector('.hero__field');
   if (field && !lite) ascii.initHeroField(field); // skipped on low-end / data-saver devices
 
