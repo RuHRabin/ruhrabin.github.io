@@ -1,0 +1,22 @@
+/* ===== DESIGN TOKENS — tweak the whole look from here ===== */
+@font-face { font-family: 'Syne'; src: url('/fonts/syne.woff2') format('woff2'); font-weight: 400 800; font-display: swap; }
+@font-face { font-family: 'Martian Mono'; src: url('/fonts/martian-mono.woff2') format('woff2'); font-weight: 100 800; font-display: swap; }
+@font-face { font-family: 'Instrument Serif'; src: url('/fonts/instrument-serif-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+:root {
+  --ink: #0a0a09;
+  --ink-2: #121210;
+  --paper: #ebe8de;
+  --dim: rgba(235, 232, 222, 0.56);
+  --line: rgba(235, 232, 222, 0.16);
+  --signal: #ff4a1c;          /* ← the one accent colour */
+
+  --f-display: 'Syne', 'Arial Black', system-ui, sans-serif;
+  --f-mono: 'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --f-serif: 'Instrument Serif', Georgia, serif;
+
+  --pad: clamp(16px, 3vw, 44px);
+  --bar-h: 56px;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --z-bar: 50; --z-chat: 80; --z-loader: 100; --z-cursor: 200;
+}

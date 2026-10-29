@@ -1,0 +1,143 @@
+{
+  "_help": "EDIT THIS FILE ONLY. Everything on the site (and the AI chatbot's knowledge) comes from here. Use *word* to make a word italic-serif. Use | to split a headline into lines.",
+  "site": {
+    "title": "RuH Rabin — Creative Developer & Designer Portfolio",
+    "description": "RuH Rabin is a creative developer and designer. Explore an interactive portfolio of motion, sound and ASCII art, with open-source work on GitHub.",
+    "domain": "ruhrbin.site",
+    "year": 2026,
+    "lang": "en",
+    "googleVerification": "",
+    "bingVerification": ""
+  },
+  "name": "RuH Rabin",
+  "heroLines": [
+    "RUH",
+    "RABIN"
+  ],
+  "role": "Creative Developer & Designer",
+  "tagline": "Turning *noise* into signal.",
+  "status": "Available for work",
+  "location": "Bangladesh",
+  "timezone": "Asia/Dhaka",
+  "links": {
+    "github": "https://github.com/RuHRabin",
+    "x": "https://x.com/RuHRabin",
+    "emails": [
+      "rabin@ruhrbin.site",
+      "contact@ruhrbin.site"
+    ]
+  },
+  "channels": {
+    "label": "CHANNELS",
+    "headline": "What I|transmit",
+    "items": [
+      {
+        "id": "CH.01",
+        "freq": "88.1",
+        "title": "BUILD",
+        "bullets": [
+          "Fast, accessible websites",
+          "Clean, editable code",
+          "Shipped on GitHub Pages"
+        ]
+      },
+      {
+        "id": "CH.02",
+        "freq": "94.5",
+        "title": "DESIGN",
+        "bullets": [
+          "Custom type, never templates",
+          "Strong grids, bold contrast",
+          "Every pixel has a reason"
+        ]
+      },
+      {
+        "id": "CH.03",
+        "freq": "101.7",
+        "title": "MOTION",
+        "bullets": [
+          "Scroll that feels physical",
+          "Sound that is tactile, not loud",
+          "Cursor as a design tool"
+        ]
+      },
+      {
+        "id": "CH.04",
+        "freq": "107.9",
+        "title": "AI",
+        "bullets": [
+          "AI as a creative co-pilot",
+          "Chat and voice interfaces",
+          "Free-tier, zero-cost stacks"
+        ]
+      }
+    ]
+  },
+  "archive": {
+    "label": "ARCHIVE / 001",
+    "headline": "The work|lives on|GitHub.",
+    "text": "Every experiment. Every repo. Open and unfiltered.",
+    "bullets": [
+      "Open source",
+      "Updated often",
+      "Fork anything"
+    ],
+    "cta": "OPEN ARCHIVE",
+    "url": "https://github.com/RuHRabin"
+  },
+  "projects": [],
+  "about": {
+    "label": "ABOUT / 002",
+    "headline": "Signal|over noise.",
+    "bullets": [
+      "Builds original, not templated",
+      "Obsessed with typography and motion",
+      "Experiments with AI, sound and ASCII",
+      "Ships in public, learns in public"
+    ],
+    "callout": {
+      "label": "STATUS",
+      "text": "Open for collaborations, freelance and curious conversations."
+    }
+  },
+  "contact": {
+    "label": "CONTACT / 003",
+    "headline": "Send a|signal.",
+    "text": "Short messages are perfect. Click an email to copy it."
+  },
+  "chat": {
+    "greeting": "SIG online. Ask me about Rabin's work, skills or how to reach him.",
+    "chips": [
+      "Work?",
+      "Skills?",
+      "Hire me?"
+    ],
+    "answers": {
+      "work": "All of Rabin's work lives on GitHub: github.com/RuHRabin. Open the Archive section to jump there.",
+      "skills": "Web building, custom design, motion, sound and AI interfaces. Short version: creative development.",
+      "hire": "Rabin is open for work. Email rabin@ruhrbin.site or contact@ruhrbin.site, or message on X: @RuHRabin.",
+      "about": "RuH Rabin is a creative developer who builds original, motion-rich websites and experiments with AI, sound and ASCII.",
+      "fallback": "I only know about Rabin, his work, skills and contact. Try: Work? Skills? Hire me?"
+    }
+  },
+  "seo": {
+    "_help": "Used for meta tags, JSON-LD (Person/WebSite/ProfilePage), llms.txt and sitemap. Keep facts true and consistent with your GitHub/X bios.",
+    "jobTitle": "Creative Developer",
+    "alsoKnownAs": [
+      "RuHRabin",
+      "Rabin"
+    ],
+    "country": "Bangladesh",
+    "countryCode": "BD",
+    "knowsAbout": [
+      "Creative development",
+      "Web animation",
+      "Interaction design",
+      "Typography",
+      "Sound design for the web",
+      "ASCII art",
+      "AI chat and voice interfaces"
+    ],
+    "summary": "RuH Rabin is a creative developer and designer who builds original, motion-rich websites and experiments with AI, sound and ASCII art. His open-source work lives on GitHub."
+  }
+}
