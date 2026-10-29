@@ -3,7 +3,7 @@
 // "enter" breath and quiet chat taps. NO hover beeps, NO drone, NO whooshes, NO typing ticks.
 //
 // API: sound.init(), enable(), disable(), toggle(), play(name), isOn(), onChange(fn), preference()
-// Names that make sound: click, enter, copy, open, close
+// Names that make sound: click, enter, copy, open, close, decrypt
 // Names kept as silent no-ops (so other modules never break): hover, section, rise, type
 //
 // TWEAK: MASTER (overall loudness 0..1) and the gain numbers inside SOUNDS.
@@ -95,10 +95,24 @@ const SOUNDS = {
   // Quiet chat panel taps.
   open() { grain({ f: 1500, q: 2, dur: 0.03, gain: 0.25 }); tone({ f: 140, f2: 110, dur: 0.06, gain: 0.12, lp: 400 }); },
   close() { grain({ f: 1200, q: 2, dur: 0.03, gain: 0.3 }); },
+  // DECRYPT: ~0.45s of soft digital grains that get denser, a few quiet high "data" chirps,
+  // then a low soft "lock" when the text resolves. Plays with the ASCII decode effect.
+  // Match its length with the decode animation in ascii.js (14 steps x 32ms).
+  decrypt() {
+    let t = 0;
+    for (let i = 0; i < 14; i++) {
+      const gap = 0.036 - i * 0.0013;                         // ticks speed up
+      grain({ f: rand(1800, 4200), q: 4, dur: 0.012, gain: rand(0.12, 0.2) + i * 0.006, at: t });
+      if (i % 3 === 1) tone({ f: [880, 1175, 1568, 1760][(Math.random() * 4) | 0], dur: 0.03, gain: 0.02, at: t, attack: 0.002 });
+      t += gap;
+    }
+    tone({ f: 329.63, dur: 0.16, gain: 0.04, at: t + 0.01, attack: 0.006, lp: 900 });   // "lock"
+    grain({ f: 2600, q: 3, dur: 0.02, gain: 0.24, at: t + 0.01 });
+  },
   // Intentionally silent:
   hover: NOOP, section: NOOP, rise: NOOP, type: NOOP
 };
-const THROTTLE = { click: 45, copy: 200 };
+const THROTTLE = { click: 45, copy: 200, decrypt: 500 };
 
 function emit() { subs.forEach((fn) => fn(on)); }
 
