@@ -162,36 +162,36 @@ export function initAscii() {
   return arts;
 }
 
-/** Hero background: sparse character field that lights up around the pointer. */
+/** Hero background: a quiet grid of tiny dots; circles swell + change colour around the pointer. */
 export function initHeroField(canvas) {
   const hero = canvas.parentElement;
-  const GLY = '.:-=+*#';
-  let w, h, cw, ch, cols, rows, heat, dpr, raf = 0, visible = false, last = 0;
+  const TAU = Math.PI * 2;
+  let w, h, cell, cols, rows, heat, dpr, raf = 0, visible = false, last = 0;
   const p = { x: -999, y: -999 };
   const ctx = canvas.getContext('2d');
 
+  const paintStatic = () => {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(235,232,222,0.13)';
+    ctx.beginPath();
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) { const cx = x * cell + cell / 2, cy = y * cell + cell / 2; ctx.moveTo(cx + 1.1, cy); ctx.arc(cx, cy, 1.1, 0, TAU); }
+    ctx.fill();
+  };
+
   const size = () => {
     w = canvas.clientWidth; h = canvas.clientHeight;
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = w * dpr; canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cw = w < 700 ? 18 : 22; ch = cw * 1.6;
-    cols = Math.ceil(w / cw); rows = Math.ceil(h / ch);
+    cell = w < 700 ? 20 : 26;
+    cols = Math.ceil(w / cell); rows = Math.ceil(h / cell);
     heat = new Float32Array(cols * rows);
     paintStatic();
   };
 
-  const paintStatic = () => {
-    ctx.clearRect(0, 0, w, h);
-    ctx.font = `500 ${cw * 0.7}px "Martian Mono", monospace`;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = 'rgba(235,232,222,0.10)';
-    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) ctx.fillText('+', x * cw + cw / 2, y * ch + ch / 2);
-  };
-
   const move = (e) => {
     const r = hero.getBoundingClientRect();
-    p.x = (e.clientX - r.left) / cw; p.y = (e.clientY - r.top) / ch;
+    p.x = (e.clientX - r.left) / cell; p.y = (e.clientY - r.top) / cell;
   };
 
   const frame = (now) => {
@@ -200,25 +200,35 @@ export function initHeroField(canvas) {
     if (now - last < 33) return;
     last = now;
     ctx.clearRect(0, 0, w, h);
-    ctx.font = `600 ${cw * 0.8}px "Martian Mono", monospace`;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    // idle sparks
-    for (let n = 0; n < 6; n++) heat[(Math.random() * heat.length) | 0] = 0.55;
-    const R = 7;
+    ctx.fillStyle = 'rgba(235,232,222,0.13)'; // keep the resting dot grid
+    ctx.beginPath();
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) { const cx = x * cell + cell / 2, cy = y * cell + cell / 2; ctx.moveTo(cx + 1.1, cy); ctx.arc(cx, cy, 1.1, 0, TAU); }
+    ctx.fill();
+
+    for (let n = 0; n < 5; n++) heat[(Math.random() * heat.length) | 0] = 0.7; // idle sparks
+    const R = 6;
     const x0 = Math.max(0, Math.floor(p.x - R)), x1 = Math.min(cols - 1, Math.ceil(p.x + R));
     const y0 = Math.max(0, Math.floor(p.y - R)), y1 = Math.min(rows - 1, Math.ceil(p.y + R));
     for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
-      const d = Math.hypot(x - p.x, (y - p.y) * 1.6);
+      const d = Math.hypot(x - p.x, y - p.y);
       if (d < R) { const i = y * cols + x; heat[i] = Math.max(heat[i], 1 - d / R); }
     }
+    // three colour groups, one path each: white (cool), blue (warm), orange (hot)
+    const groups = [[], [], []];
     for (let i = 0; i < heat.length; i++) {
       const hv = heat[i];
-      if (hv < 0.04) { heat[i] = 0; continue; }
+      if (hv < 0.05) { heat[i] = 0; continue; }
       heat[i] = hv * 0.9;
       const x = i % cols, y = (i / cols) | 0;
-      ctx.fillStyle = hv > 0.6 ? '#ff4a1c' : `rgba(235,232,222,${0.15 + hv * 0.6})`;
-      ctx.fillText(GLY[Math.min(GLY.length - 1, (hv * GLY.length) | 0)], x * cw + cw / 2, y * ch + ch / 2);
+      groups[hv > 0.62 ? 2 : hv > 0.32 ? 1 : 0].push(x * cell + cell / 2, y * cell + cell / 2, 1.4 + hv * cell * 0.36);
     }
+    [['#ebe8de', 0.5], ['#3b7bff', 0.9], ['#ff4a1c', 1]].forEach(([color, alpha], gi) => {
+      const g = groups[gi]; if (!g.length) return;
+      ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.beginPath();
+      for (let k = 0; k < g.length; k += 3) { ctx.moveTo(g[k] + g[k + 2], g[k + 1]); ctx.arc(g[k], g[k + 1], g[k + 2], 0, TAU); }
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
   };
 
   size();
@@ -234,34 +244,51 @@ export function initHeroField(canvas) {
   return { destroy() { cancelAnimationFrame(raf); } };
 }
 
-/** Animated ASCII waveform lines: <pre data-wave>. Runs only while visible. */
+/** Signal waves: <canvas data-wave>. A DOUBLE line (orange + blue) that flows; runs only while visible. */
 export function initWaves() {
-  const els = [...document.querySelectorAll('[data-wave]')];
+  const els = [...document.querySelectorAll('canvas[data-wave]')];
   if (!els.length) return;
-  const chars = ' .:-=+*#*+=-:.';
   const reduceNow = reduced();
   const state = new Map();
   const io = new IntersectionObserver((entries) => entries.forEach((e) => state.set(e.target, e.isIntersecting)), { rootMargin: '50px' });
-  els.forEach((el, k) => { state.set(el, false); el.dataset.phase = (k * 1.7).toFixed(2); io.observe(el); });
 
-  const render = (el, t) => {
-    const n = Math.max(24, Math.floor(el.clientWidth / 6.6));
-    const ph = parseFloat(el.dataset.phase);
-    let s = '';
-    for (let i = 0; i < n; i++) {
-      const v = Math.sin(i * 0.28 + t * 2.2 + ph) * 0.5 + Math.sin(i * 0.11 - t * 1.3) * 0.35 + Math.sin(i * 0.9 + t * 4) * 0.15;
-      s += chars[Math.floor(((v + 1) / 2) * (chars.length - 1) + 0.5) % chars.length];
-    }
-    el.textContent = s;
+  const fit = (el) => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = el.clientWidth, h = el.clientHeight || 32;
+    el.width = Math.round(w * dpr); el.height = Math.round(h * dpr);
+    const ctx = el.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    el._m = { ctx, w, h };
   };
 
+  const render = (el, t) => {
+    const { ctx, w, h } = el._m;
+    const ph = parseFloat(el.dataset.phase);
+    ctx.clearRect(0, 0, w, h);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    const mid = h / 2, amp = h * 0.32;
+    // two lines, slightly different speed/phase = double-line signal
+    [['#ff4a1c', 1.6, 0, 1], ['#3b7bff', 1.2, 1.1, 0.75]].forEach(([color, lw, off, mul]) => {
+      ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.beginPath();
+      for (let x = 0; x <= w; x += 3) {
+        const env = 0.55 + 0.45 * Math.sin(x * 0.011 - t * 0.9 + ph);            // slow swelling envelope
+        const v = Math.sin(x * 0.045 + t * 2.4 * mul + ph + off) * env + Math.sin(x * 0.13 - t * 1.7 + off) * 0.18;
+        const y = mid + v * amp;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    });
+  };
+
+  els.forEach((el, k) => { state.set(el, false); el.dataset.phase = (k * 1.7).toFixed(2); fit(el); io.observe(el); });
+  const ro = new ResizeObserver((es) => es.forEach((e) => { fit(e.target); if (reduceNow) render(e.target, 0); }));
+  els.forEach((el) => ro.observe(el));
   if (reduceNow) { els.forEach((el) => render(el, 0)); return; }
-  let last = 0;
+  let lastT = 0;
   const tick = (now) => {
     requestAnimationFrame(tick);
-    if (now - last < 60) return;
-    last = now;
-    els.forEach((el) => state.get(el) && render(el, now / 1000));
+    if (now - lastT < 33) return;
+    lastT = now;
+    els.forEach((el) => { if (state.get(el)) { if (el.clientWidth !== el._m.w) fit(el); render(el, now / 1000); } });
   };
   requestAnimationFrame(tick);
 }

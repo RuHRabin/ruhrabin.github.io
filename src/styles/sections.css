@@ -30,11 +30,15 @@ section { position: relative; }
 .channels__track { display: grid; gap: 16px; padding: 0 var(--pad); }
 .panel { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; min-height: 380px; padding: 18px; border: 1px solid var(--line); background: linear-gradient(180deg, rgba(235,232,222,0.03), transparent); overflow: hidden; transition: border-color 0.4s; }
 .panel:hover { border-color: var(--signal); }
-.panel__top { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.14em; color: var(--dim); }
-.panel__top span:first-child { color: var(--signal); }
+.panel__top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.14em; }
+.panel__top span { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px; font-weight: 700; white-space: nowrap; }
+.panel__top span::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.panel__top span:first-child { background: var(--signal); color: var(--ink); }          /* CH.01 = orange pill */
+.panel__top span:last-child { border: 1.5px solid var(--blue); color: var(--blue); }    /* 88.1 MHz = blue outline pill */
+.panel__top span:last-child::before { animation: blink 1.4s infinite; }
 .panel__big { font-family: var(--f-display); font-weight: 800; font-size: clamp(3.6rem, 16vw, 8rem); letter-spacing: -0.05em; line-height: 0.85; color: transparent; -webkit-text-stroke: 1.2px var(--paper); transition: color 0.5s var(--ease); will-change: transform; }
 .panel:hover .panel__big { color: var(--paper); }
-.wave { font-size: 10px; line-height: 1.2; height: 1.2em; color: var(--signal); overflow: hidden; white-space: pre; }
+.wave { display: block; width: 100%; height: 34px; }
 /* desktop: JS adds .is-pinned and animates the track horizontally */
 .channels.is-pinned { padding: 0; border-top: 1px solid var(--line); }
 .channels.is-pinned .channels__pin { height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: 4vh; padding-top: calc(var(--bar-h) + 10px); overflow: hidden; }
@@ -92,7 +96,7 @@ section { position: relative; }
 .footer__marquee-in { display: flex; width: max-content; animation: marquee 28s linear infinite; }
 .footer__marquee pre { font-size: 9px; line-height: 1.12; letter-spacing: 0; font-family: ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace; color: var(--dim); padding-right: 0; flex: none; }
 @keyframes marquee { to { transform: translateX(-50%); } }
-.footer__wave { margin: 22px 0; font-size: 11px; color: var(--signal); overflow: hidden; white-space: pre; height: 1.4em; }
+.footer__wave { display: block; width: 100%; height: 48px; margin: 22px 0; }
 .footer__legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 11px; letter-spacing: 0.12em; color: var(--dim); }
 
 @media (prefers-reduced-motion: reduce) {
