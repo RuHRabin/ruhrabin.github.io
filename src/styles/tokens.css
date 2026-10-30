@@ -9,7 +9,8 @@
   --paper: #ebe8de;
   --dim: rgba(235, 232, 222, 0.56);
   --line: rgba(235, 232, 222, 0.16);
-  --signal: #ff4a1c;          /* ← the one accent colour */
+  --signal: #ff4a1c;          /* ← main accent (orange) */
+  --blue: #3b7bff;            /* ← second accent (blue), used with white for circles/lines */
 
   --f-display: 'Syne', 'Arial Black', system-ui, sans-serif;
   --f-mono: 'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;

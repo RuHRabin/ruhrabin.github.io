@@ -9,20 +9,20 @@ let _c;
 const scratch = () => (_c ||= document.createElement('canvas').getContext('2d', { willReadFrequently: true }));
 
 /** Decide how many rows are needed so `lines` fit `cols` columns tightly. */
-export function measureRows({ lines, cols, font = 'Syne', weight = 800, widthRatio = 0.98, leading = 0.86 }) {
+export function measureRows({ lines, cols, font = 'Syne', weight = 800, widthRatio = 0.98, leading = 0.86, aspect = ASPECT }) {
   const c = scratch();
   c.font = `${weight} 100px "${font}"`;
   const maxW = Math.max(...lines.map((l) => c.measureText(l).width));
   const fs = (cols * S * widthRatio) / maxW * 100;
   const cap = c.measureText('H').actualBoundingBoxAscent * (fs / 100);
   const totalH = cap + (lines.length - 1) * leading * fs;
-  return Math.ceil(totalH / (S * ASPECT)) + 2;
+  return Math.ceil(totalH / (S * aspect)) + 2;
 }
 
 /** Returns Float32Array(cols*rows) of 0..1 coverage. Text is centered in the grid. */
-export function rasterText({ lines, cols, rows, font = 'Syne', weight = 800, widthRatio = 0.98, leading = 0.86 }) {
+export function rasterText({ lines, cols, rows, font = 'Syne', weight = 800, widthRatio = 0.98, leading = 0.86, aspect = ASPECT }) {
   const W = cols * S;
-  const cellH = S * ASPECT;
+  const cellH = S * aspect;
   const H = Math.round(rows * cellH);
   const c = scratch();
   c.canvas.width = W;

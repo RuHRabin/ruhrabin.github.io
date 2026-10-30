@@ -24,7 +24,7 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-s
 .skip:focus { top: 12px; }
 
 .label { font-size: 11px; letter-spacing: 0.14em; color: var(--dim); text-transform: uppercase; }
-.label::before { content: '// '; color: var(--signal); }
+.label::before { content: ''; display: inline-block; width: 9px; height: 9px; margin-right: 10px; border-radius: 50%; border: 2px solid var(--signal); vertical-align: -1px; }
 .lead { font-size: clamp(14px, 1.3vw, 17px); max-width: 44ch; color: var(--paper); }
 
 .h2 { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.035em; line-height: 0.86; font-size: clamp(2.2rem, 7.4vw, 8rem); }
@@ -49,13 +49,17 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-s
 .chip-btn { font-size: 11px; letter-spacing: 0.08em; padding: 8px 10px; border: 1px solid var(--line); background: rgba(10,10,9,0.55); backdrop-filter: blur(8px); transition: background 0.25s, color 0.25s, border-color 0.25s; white-space: nowrap; }
 .chip-btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 
-.bullets { display: grid; gap: 10px; }
-.bullets li { position: relative; padding-left: 22px; }
-.bullets li::before { content: '+'; position: absolute; left: 0; color: var(--signal); font-weight: 700; }
+/* Bullets: numbered rings (circle language), display-font text. Colours cycle orange / blue / white. */
+.bullets { display: grid; gap: 14px; counter-reset: b; }
+.bullets li { position: relative; display: flex; align-items: center; min-height: 28px; padding-left: 42px; counter-increment: b; font-family: var(--f-display); font-weight: 600; font-size: clamp(0.92rem, 3.8vw, 1.1rem); letter-spacing: -0.015em; line-height: 1.15; }
+.bullets li::before { content: counter(b); position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--mk, var(--signal)); color: var(--mk, var(--signal)); display: grid; place-items: center; font: 700 10px/1 var(--f-mono); letter-spacing: 0; transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.4s var(--ease); }
+.bullets li:nth-child(3n + 2) { --mk: var(--blue); }
+.bullets li:nth-child(3n) { --mk: var(--paper); }
+.bullets li:hover::before { background: var(--mk, var(--signal)); color: var(--ink); transform: translateY(-50%) scale(1.12); }
 .bullets--big { gap: 0; }
-.bullets--big li { font-family: var(--f-display); font-weight: 700; font-size: clamp(1.1rem, 2.2vw, 2rem); letter-spacing: -0.02em; padding: 16px 0 16px 34px; border-top: 1px solid var(--line); line-height: 1.1; }
+.bullets--big li { font-weight: 700; font-size: clamp(1.1rem, 2.2vw, 2rem); letter-spacing: -0.02em; padding: 18px 0 18px 52px; border-top: 1px solid var(--line); line-height: 1.1; min-height: 0; }
 .bullets--big li:last-child { border-bottom: 1px solid var(--line); }
-.bullets--big li::before { top: 18px; font-family: var(--f-mono); font-size: 0.7em; }
+.bullets--big li::before { width: 32px; height: 32px; font-size: 11px; }
 
 /* No-JS / reduced motion safety: content always visible */
 .no-js [data-reveal] { opacity: 1; }

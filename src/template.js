@@ -60,7 +60,7 @@ export function renderPage(p) {
     <div class="loader__count"><span data-loader-count><b>0</b><b>0</b><b>0</b></span><i>%</i></div>
   </div>
   <div class="loader__enter" data-loader-enter hidden>
-    <p class="loader__ask">// ENTER THE TRANSMISSION</p>
+    <p class="loader__ask">ENTER THE TRANSMISSION</p>
     <div class="loader__btns">
       <button class="btn btn--solid" type="button" data-enter="sound"><span>[ ENTER WITH SOUND ]</span></button>
       <button class="btn" type="button" data-enter="muted"><span>[ ENTER MUTED ]</span></button>
@@ -142,7 +142,7 @@ export function renderPage(p) {
           <ul class="bullets">
             ${c.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}
           </ul>
-          <pre class="wave" data-wave aria-hidden="true"></pre>
+          <canvas class="wave" data-wave aria-hidden="true"></canvas>
         </article>`
           )
           .join('')}
@@ -227,7 +227,7 @@ export function renderPage(p) {
     <div class="footer__marquee-in"><pre>${esc(art('AVAILABLE FOR WORK  *  ', 'Small'))}</pre><pre>${esc(art('AVAILABLE FOR WORK  *  ', 'Small'))}</pre></div>
   </div>
 
-  <pre class="footer__wave" data-wave aria-hidden="true"></pre>
+  <canvas class="footer__wave" data-wave aria-hidden="true"></canvas>
 
   <div class="footer__legal">
     <span>(C) ${p.site.year} ${esc(p.name.toUpperCase())}</span>

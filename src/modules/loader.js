@@ -2,7 +2,7 @@
 // - Progress is REAL: fonts + window load + ASCII raster are tracked.
 // - Visual: noise characters resolve into the name as progress rises.
 // - Shown once per session. The "Enter" click also unlocks browser audio.
-import { RAMP, ASPECT, measureRows, rasterText, hash } from './ascii-core.js';
+import { measureRows, rasterText, hash } from './ascii-core.js';
 
 const MIN_MS = 2200;
 const MAX_MS = 5000;
@@ -44,20 +44,21 @@ export async function runLoader({ sound, lines, tasks: extra = [] }) {
   extra.forEach((p) => add(30 / extra.length, p)); // lazy chunks (GSAP, Lenis, ASCII) load in the background WHILE the loader plays
   const realProgress = () => { const tot = tasks.reduce((a, t) => a + t.weight, 0); return tasks.reduce((a, t) => a + (t.done ? t.weight : 0), 0) / tot; };
 
-  // ---------- grid ----------
-  let cols, rows, cw, ch, mask, thresh, cur, resolvedAt, dpr, fontPx;
+  // ---------- grid (square cells -> round dots) ----------
+  // Halftone look: the name is made of blue + white circles whose size follows the letter shapes.
+  const BLUE = '#3b7bff', WHITE = '#ebe8de', FLASH = '#cfe0ff';
+  let cols, rows, cell, mask, thresh, tint, resolvedAt, dpr, offX, offY;
   const build = () => {
     const w = innerWidth, h = innerHeight;
-    dpr = Math.min(devicePixelRatio || 1, 1.5);
+    dpr = Math.min(devicePixelRatio || 1, 2);
     canvas.width = w * dpr; canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cols = Math.max(48, Math.min(150, Math.floor(w / (w < 700 ? 9 : 12))));
-    cw = w / cols; ch = cw * ASPECT; rows = Math.ceil(h / ch);
-    fontPx = cw * 1.32;
-    // fit the name into the grid (stacked lines), centered
-    const nameCols = Math.round(cols * (w < 700 ? 0.9 : 0.6));
-    const nameRows = measureRows({ lines, cols: nameCols, widthRatio: 0.98 });
-    const r = rasterText({ lines, cols: nameCols, rows: nameRows, widthRatio: 0.98 });
+    cell = w < 700 ? 7 : 10;                       // dot spacing in px
+    cols = Math.floor(w / cell); rows = Math.floor(h / cell);
+    offX = (w - cols * cell) / 2; offY = (h - rows * cell) / 2;
+    const nameCols = Math.round(cols * (w < 700 ? 0.92 : 0.62));
+    const nameRows = measureRows({ lines, cols: nameCols, widthRatio: 0.98, aspect: 0.75 }); // <1 = taller letters on the square dot grid
+    const r = rasterText({ lines, cols: nameCols, rows: nameRows, widthRatio: 0.98, aspect: 0.75 }); // <1 = taller letters on the square dot grid
     mask = new Float32Array(cols * rows);
     const ox = Math.floor((cols - nameCols) / 2), oy = Math.floor((rows - nameRows) / 2);
     for (let y = 0; y < nameRows; y++) for (let x = 0; x < nameCols; x++) {
@@ -65,9 +66,9 @@ export async function runLoader({ sound, lines, tasks: extra = [] }) {
       if (X >= 0 && X < cols && Y >= 0 && Y < rows) mask[Y * cols + X] = r[y * nameCols + x];
     }
     thresh = new Float32Array(cols * rows);
-    cur = new Uint8Array(cols * rows);
+    tint = new Uint8Array(cols * rows);            // 0 = white, 1 = blue
     resolvedAt = new Float32Array(cols * rows).fill(-1);
-    for (let i = 0; i < thresh.length; i++) { thresh[i] = 0.7 * hash(i + 7) + 0.3 * ((i % cols) / cols); cur[i] = 1 + ((Math.random() * 4) | 0); }
+    for (let i = 0; i < thresh.length; i++) { thresh[i] = 0.7 * hash(i + 7) + 0.3 * ((i % cols) / cols); tint[i] = hash(i * 7 + 3) < 0.4 ? 1 : 0; }
   };
   build();
   addEventListener('resize', build);
@@ -75,7 +76,15 @@ export async function runLoader({ sound, lines, tasks: extra = [] }) {
   // ---------- loop ----------
   const t0 = performance.now();
   let shown = 0, exitT = 0, exitStart = 0, done = false, entered = false, raf = 0, lastStatus = -1, lastFrame = 0;
-  const L = RAMP.length - 1;
+  const TAU = Math.PI * 2;
+  // batched drawing: one path per colour (much faster than one fill per dot)
+  const buckets = { white: [], blue: [], flash: [], noise: [] };
+  const flush = (list, color, alpha) => {
+    if (!list.length) return;
+    ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.beginPath();
+    for (let k = 0; k < list.length; k += 3) { const x = list[k], y = list[k + 1], r = list[k + 2]; ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, TAU); }
+    ctx.fill(); list.length = 0;
+  };
 
   const frame = (now) => {
     raf = requestAnimationFrame(frame);
@@ -100,34 +109,34 @@ export async function runLoader({ sound, lines, tasks: extra = [] }) {
     }
 
     ctx.clearRect(0, 0, innerWidth, innerHeight);
-    ctx.font = `700 ${fontPx}px "Martian Mono", monospace`;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     const p = shown * 1.12;
+    const half = cell / 2, rMax = cell * 0.47;
     for (let y = 0; y < rows; y++) {
-      const rowGone = exitT > 0 && (y / rows) < exitT * 1.2 - 0.1 * hash(y);
-      if (rowGone) continue;
+      if (exitT > 0 && (y / rows) < exitT * 1.2 - 0.1 * hash(y)) continue; // wipe away on exit
+      const cy = offY + y * cell + half;
       for (let x = 0; x < cols; x++) {
         const i = y * cols + x;
         const b = mask[i];
         const inMask = b > 0.04;
-        const resolved = p > thresh[i];
-        const cx = x * cw + cw / 2, cy = y * ch + ch / 2;
-        if (resolved && inMask) {
+        const cx = offX + x * cell + half;
+        if (inMask && p > thresh[i]) {
           if (resolvedAt[i] < 0) resolvedAt[i] = now;
-          const fresh = now - resolvedAt[i] < 220;
-          ctx.fillStyle = fresh ? '#ff4a1c' : '#ebe8de';
-          ctx.globalAlpha = 0.5 + b * 0.5;
-          ctx.fillText(RAMP[Math.min(L, Math.floor(b * L + 0.5))], cx, cy);
+          const fresh = now - resolvedAt[i] < 240;
+          const r = Math.max(0.9, rMax * (0.35 + 0.65 * Math.min(1, b * 1.15)));
+          (fresh ? buckets.flash : tint[i] ? buckets.blue : buckets.white).push(cx, cy, r);
         } else {
-          if (!reduced && hash(i * 13 + ((now / 70) | 0)) < 0.16) cur[i] = 1 + ((Math.random() * 5) | 0);
-          const fade = inMask ? 0.38 : 0.16 * (1 - shown) + 0.03;
-          if (hash(i) > (inMask ? 0.2 : 0.55 - shown * 0.4)) continue;
-          ctx.fillStyle = '#ebe8de';
-          ctx.globalAlpha = fade;
-          ctx.fillText(RAMP[cur[i]], cx, cy);
+          // unresolved: faint pulsing dots (noise)
+          const keep = inMask ? 0.5 : 0.5 - shown * 0.38;
+          if (hash(i) > keep) continue;
+          const pulse = reduced ? 0.5 : 0.5 + 0.5 * Math.sin(now / 260 + hash(i + 11) * 6.28);
+          buckets.noise.push(cx, cy, 0.7 + pulse * (inMask ? 1.5 : 0.9));
         }
       }
     }
+    flush(buckets.noise, BLUE, 0.38);
+    flush(buckets.white, WHITE, 0.96);
+    flush(buckets.blue, BLUE, 1);
+    flush(buckets.flash, FLASH, 1);
     ctx.globalAlpha = 1;
   };
   raf = requestAnimationFrame(frame);
