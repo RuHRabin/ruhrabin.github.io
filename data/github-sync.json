@@ -1,0 +1,294 @@
+{
+  "generated_at": "2026-10-26T03:04:44.882Z",
+  "user": {
+    "public_repos": 19
+  },
+  "repos": [
+    {
+      "name": "Science",
+      "description": "Scientific objects and materials in 3D using tree.js and more (Web based)",
+      "language": "HTML",
+      "stargazers_count": 1,
+      "pushed_at": "2026-10-26T00:58:12Z",
+      "last_commit_at": "2026-10-26T00:58:11Z",
+      "created_at": "2026-10-24T13:33:13Z",
+      "topics": [],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "http://ruhrbin.site/Science/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Science"
+    },
+    {
+      "name": "earthpulse",
+      "description": null,
+      "language": "JavaScript",
+      "stargazers_count": 1,
+      "pushed_at": "2026-10-26T00:44:17Z",
+      "last_commit_at": "2026-10-26T00:44:16Z",
+      "created_at": "2026-09-29T01:09:40Z",
+      "topics": [
+        "earthpulse",
+        "earthquakes"
+      ],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/earthpulse/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/earthpulse"
+    },
+    {
+      "name": "ruhrabin.github.io",
+      "description": null,
+      "language": "JavaScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-25T23:00:26Z",
+      "last_commit_at": "2026-10-25T15:51:39Z",
+      "created_at": "2026-09-12T04:03:28Z",
+      "topics": [],
+      "license": {
+        "spdx_id": "Apache-2.0",
+        "name": "Apache License 2.0"
+      },
+      "fork": false,
+      "homepage": "http://ruhrbin.site/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/ruhrabin.github.io"
+    },
+    {
+      "name": "WebVid",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-21T13:53:24Z",
+      "last_commit_at": "2026-10-21T13:52:31Z",
+      "created_at": "2026-10-21T06:30:12Z",
+      "topics": [],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "http://ruhrbin.site/WebVid/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/WebVid"
+    },
+    {
+      "name": "Gargantua",
+      "description": "A browser game inspired by Interstellar. Fly a small ship around a black hole, collect data, and get back to the Endurance before Earth runs out of time. Built with Three.js, React, and Vite.",
+      "language": "TypeScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-19T07:15:40Z",
+      "last_commit_at": "2026-10-19T07:15:40Z",
+      "created_at": "2026-10-12T14:16:04Z",
+      "topics": [],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "http://ruhrbin.site/Gargantua/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Gargantua"
+    },
+    {
+      "name": "3D-Website-Boilerplate-Designer-Doc",
+      "description": "An agent skill that scaffolds working 3D websites with Three.js or React Three Fiber, then helps you customize them, load real assets, and make them run well on phones.       You can buy the skill from here: https://www.agensi.io/skills/3d-website-boilerplate-designer",
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-19T06:24:50Z",
+      "last_commit_at": "2026-10-19T06:24:50Z",
+      "created_at": "2026-10-14T06:25:15Z",
+      "topics": [],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/3D-Website-Boilerplate-Designer-Doc"
+    },
+    {
+      "name": "Schemify",
+      "description": "A single-file, dependency-free CLI that scans a messy CSV/TSV/JSON file, infers a clean type for every field, and emits a typed schema (JSON Schema, Pydantic, Python dataclass, or TypeScript interface) plus an optional cleaned copy of the data.",
+      "language": "Python",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-13T15:10:42Z",
+      "last_commit_at": "2026-10-13T15:10:41Z",
+      "created_at": "2026-10-13T15:09:38Z",
+      "topics": [],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/Schemify"
+    },
+    {
+      "name": "Pixel-Perfect-Web",
+      "description": "Pixel Perfect Web is a eye-catching and modern web created by simple tech",
+      "language": "JavaScript",
+      "stargazers_count": 0,
+      "pushed_at": "2026-10-09T04:20:12Z",
+      "last_commit_at": "2026-10-09T04:20:11Z",
+      "created_at": "2026-09-16T15:54:33Z",
+      "topics": [
+        "css3",
+        "ui-ux",
+        "web",
+        "webdesign"
+      ],
+      "license": {
+        "spdx_id": "Apache-2.0",
+        "name": "Apache License 2.0"
+      },
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/Pixel-Perfect-Web/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Pixel-Perfect-Web"
+    },
+    {
+      "name": "html-bangla",
+      "description": "Offline Android app teaching HSC ICT Chapter 4 (Web Design & HTML) in Bengali — live split-view code editor, 21-question quiz, bookmarks & progress tracking. Built with Kotlin + Jetpack Compose.",
+      "language": "Kotlin",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-20T15:13:56Z",
+      "last_commit_at": "2026-09-20T15:13:56Z",
+      "created_at": "2026-09-17T03:31:15Z",
+      "topics": [
+        "android-studio",
+        "bangladesh",
+        "code-editor",
+        "e-learning",
+        "education-app",
+        "hsc-ict",
+        "html",
+        "html-tutorial",
+        "jetpack-compose",
+        "kotlin",
+        "learning",
+        "learning-resources",
+        "learninghtmlforfree",
+        "mvvm",
+        "offline-app",
+        "quiz-app",
+        "room-database",
+        "student-app",
+        "webview"
+      ],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/html-bangla"
+    },
+    {
+      "name": "GlimmerWoodGame",
+      "description": null,
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-14T15:32:35Z",
+      "last_commit_at": "2026-09-14T15:32:35Z",
+      "created_at": "2026-09-14T15:32:02Z",
+      "topics": [],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/GlimmerWoodGame/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/GlimmerWoodGame"
+    },
+    {
+      "name": "Anime-Assault-Game",
+      "description": "Anime Assault Game, a complete neon-soaked arena shooter in a single HTML file. Just open it in any browser (double-click, or host it anywhere) and it runs instantly on desktop and mobile.",
+      "language": "HTML",
+      "stargazers_count": 0,
+      "pushed_at": "2026-09-13T15:08:24Z",
+      "last_commit_at": "2026-09-13T15:08:23Z",
+      "created_at": "2026-09-13T14:53:15Z",
+      "topics": [
+        "anime",
+        "animegame",
+        "html5canvas",
+        "vanilla-javascript",
+        "webaudioapi"
+      ],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "https://ruhrabin.github.io/Anime-Assault-Game/",
+      "has_pages": true,
+      "html_url": "https://github.com/RuHRabin/Anime-Assault-Game"
+    },
+    {
+      "name": "xkb-avro",
+      "description": "Native XKB keyboard layout for Bengali Avro Phonetic on Linux — no IBus, no Fcitx, no daemon required.",
+      "language": "Shell",
+      "stargazers_count": 0,
+      "pushed_at": "2026-06-15T11:03:18Z",
+      "last_commit_at": "2026-06-15T11:03:17Z",
+      "created_at": "2026-06-10T16:01:57Z",
+      "topics": [
+        "avro",
+        "bengali",
+        "debian",
+        "kde-plasma",
+        "keyboard-layout",
+        "linux",
+        "xkb"
+      ],
+      "license": {
+        "spdx_id": "MIT",
+        "name": "MIT License"
+      },
+      "fork": false,
+      "homepage": "",
+      "has_pages": false,
+      "html_url": "https://github.com/RuHRabin/xkb-avro"
+    }
+  ],
+  "releases": [
+    {
+      "repoName": "Sol-Mesh",
+      "tag_name": "Sol-Mesh",
+      "name": "Sol-Mesh apk",
+      "published_at": "2026-10-20T06:33:36Z",
+      "html_url": "https://github.com/RuHRabin/Sol-Mesh/releases/tag/Sol-Mesh",
+      "assets": [
+        {
+          "name": "Sol-Mesh.apk",
+          "browser_download_url": "https://github.com/RuHRabin/Sol-Mesh/releases/download/Sol-Mesh/Sol-Mesh.apk"
+        }
+      ]
+    },
+    {
+      "repoName": "html-bangla",
+      "tag_name": "v1.0.0",
+      "name": "HTML Bangla APK",
+      "published_at": "2026-09-20T13:55:57Z",
+      "html_url": "https://github.com/RuHRabin/html-bangla/releases/tag/v1.0.0",
+      "assets": [
+        {
+          "name": "Learn_HSC_HTML.apk",
+          "browser_download_url": "https://github.com/RuHRabin/html-bangla/releases/download/v1.0.0/Learn_HSC_HTML.apk"
+        }
+      ]
+    }
+  ]
+}

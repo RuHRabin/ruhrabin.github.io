@@ -1,0 +1,57 @@
+# https://rabin.ruhrbin.site
+# Search engines and AI answer engines may crawl everything. Allowing the search/retrieval bots below is what lets
+# this site be found and cited by Google, Bing, ChatGPT search, Claude, Perplexity and Apple.
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Crawlers that collect content for model TRAINING. Currently allowed, like everything else.
+# To opt out of training only (search and citations are unaffected), change "Allow: /" to "Disallow: /" in the blocks below.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://rabin.ruhrbin.site/sitemap.xml
