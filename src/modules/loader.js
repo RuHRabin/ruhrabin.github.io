@@ -99,7 +99,7 @@ export async function runLoader({ sound, tasks: extra = [] }) {
     menu.addEventListener('click', (e) => { const b = e.target.closest('[data-os]'); if (b) resolve(b.dataset.os); });
   });
 
-  theme.apply(choice);                                         // page behind the loader switches instantly
+  theme.apply(choice, true);                                       // page behind the loader switches instantly
   if (snd.checked) { sound.enable(true); sound.play('enter'); } else sound.disable();
   try { sessionStorage.setItem('sig:seen', '1'); } catch { /* ignore */ }
 

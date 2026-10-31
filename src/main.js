@@ -100,7 +100,6 @@ async function boot() {
   const ascii = await asciiMod;
   ascii.initAscii();           // lazy: each canvas builds itself near the viewport
   ascii.initDecode({ sound });
-  document.querySelector('.archive__panel')?.addEventListener('pointerenter', () => sound.play('decrypt'));
 
   scroll.start();
   scroll.intro();

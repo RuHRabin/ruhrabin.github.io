@@ -109,7 +109,6 @@ export function initTerminal({ sound, openChat }) {
     const [cmd, ...args] = raw.split(/\s+/);
     const fn = C[cmd.toLowerCase()];
     if (fn) fn(args); else print(`command not found: ${esc(cmd)}. type <span class="ok">help</span>`);
-    if (sound) sound.play('click');
   };
 
   form.addEventListener('submit', (e) => { e.preventDefault(); run(input.value); input.value = ''; });

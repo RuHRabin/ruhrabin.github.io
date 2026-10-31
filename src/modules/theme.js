@@ -2,18 +2,20 @@
 // by the inline script in index.html. Switching uses a circular reveal (View Transitions API) when available.
 const KEY = 'sig:theme';
 const html = document.documentElement;
+import { sound } from './sound.js';
 const META = { linux: '#070a0e', mac: '#e8ecf3' };
 
 export const theme = {
   get: () => (html.dataset.theme === 'mac' ? 'mac' : 'linux'),
   /** apply without animation */
-  apply(v) {
+  apply(v, quiet = false) {
     const t = v === 'mac' ? 'mac' : 'linux';
     html.dataset.theme = t;
     document.querySelectorAll('[data-theme-toggle]').forEach((b) => b.setAttribute('aria-checked', String(t === 'mac')));
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', META[t]);
     try { localStorage.setItem(KEY, t); } catch { /* private mode */ }
     window.dispatchEvent(new CustomEvent('sig:theme', { detail: t }));
+    if (!quiet) sound.play(t === 'mac' ? 'themeMac' : 'themeLinux');
   },
   /** switch with a circular reveal from (x, y) */
   set(v, origin) {
@@ -34,7 +36,7 @@ export const theme = {
 };
 
 export function initTheme() {
-  theme.apply(theme.get()); // sync aria + meta with what the inline script chose
+  theme.apply(theme.get(), true); // sync aria + meta with what the inline script chose
   document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       const r = btn.getBoundingClientRect();
