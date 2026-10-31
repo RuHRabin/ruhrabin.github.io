@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!--SEO-->
+    <link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin />
+    <script>
+      // Runs before paint: flags JS + "already seen loader this session".
+      (function () {
+        var d = document.documentElement;
+        d.classList.remove('no-js');
+        d.classList.add('js');
+        // theme BEFORE first paint: saved choice, else the visitor's system preference (light => macOS look)
+        var th = 'linux';
+        try { th = localStorage.getItem('sig:theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'mac' : 'linux'); } catch (e) {}
+        if (th !== 'mac') th = 'linux';
+        d.setAttribute('data-theme', th);
+        if (th === 'mac') { var l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = '/fonts/inter.woff2'; document.head.appendChild(l); }
+        var nav = navigator, c = nav.connection;
+        // lite mode: data-saver, <=2GB RAM or <=2 CPU cores => lighter effects
+        if ((c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) || (nav.deviceMemory && nav.deviceMemory <= 2) || (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2)) d.classList.add('is-lite');
+        var bot = /bot|crawl|spider|slurp|lighthouse|pagespeed|prerender|facebookexternalhit|embedly|preview/i.test(navigator.userAgent);
+        if (bot) { d.classList.add('is-seen', 'is-bot'); return; } // crawlers skip the intro and see content immediately
+        try { if (sessionStorage.getItem('sig:seen')) d.classList.add('is-seen'); else d.classList.add('is-loading'); } catch (e) { d.classList.add('is-loading'); }
+      })();
+    </script>
+  </head>
+  <body>
+    <!--APP-->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

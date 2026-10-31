@@ -1,0 +1,84 @@
+/* ===== DESIGN TOKENS — two themes share one layout =====
+   html[data-theme="linux"] = dark terminal   |   html[data-theme="mac"] = light glass
+   Change colours / fonts here. */
+@font-face { font-family: 'Inter'; src: url('/fonts/inter.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url('/fonts/jetbrains-mono.woff2') format('woff2'); font-weight: 100 800; font-display: swap; }
+@font-face { font-family: 'Instrument Serif'; src: url('/fonts/instrument-serif-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+:root {
+  --f-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --f-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, 'Segoe UI', sans-serif;
+  --f-serif: 'Instrument Serif', Georgia, serif;
+
+  --tl-red: #ff5f57; --tl-yellow: #febc2e; --tl-green: #28c840; /* window dots */
+
+  --pad: clamp(16px, 3vw, 44px);
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --z-bg: -1; --z-bar: 50; --z-chat: 80; --z-loader: 100; --z-cursor: 200;
+}
+
+/* ---------- LINUX (default): dark terminal, ice + terminal green ---------- */
+:root, html[data-theme='linux'] {
+  color-scheme: dark;
+  --bg: #070a0e;
+  --bg-2: #0b1015;
+  --surface: rgba(13, 19, 26, 0.72);
+  --surface-solid: #0d131a;
+  --fg: #dbe6f0;
+  --dim: rgba(219, 230, 240, 0.56);
+  --line: rgba(219, 230, 240, 0.13);
+  --line-2: rgba(219, 230, 240, 0.24);
+  --accent: #3ddc97;            /* terminal green */
+  --accent-ink: #04140c;
+  --accent-2: #59c8ff;          /* ice blue */
+  --warn: #ffb454;
+  --shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  --glow: rgba(61, 220, 151, 0.16);
+
+  --f-body: var(--f-mono);
+  --f-display: var(--f-mono);
+  --fs-body: 13px;
+  --lh-body: 1.65;
+  --d-weight: 800;
+  --d-track: -0.065em;
+  --d-case: uppercase;
+  --h2-track: -0.05em;
+  --radius: 6px;
+  --radius-pill: 6px;
+  --bar-h: 52px;
+  --hero-fs: clamp(4rem, min(30vw, 27vh), 22rem);
+  --dot-radius: 2px;
+}
+
+/* ---------- macOS: light glass, SF-like sans, rounded windows ---------- */
+html[data-theme='mac'] {
+  color-scheme: light;
+  --bg: #e8ecf3;
+  --bg-2: #f4f6fa;
+  --surface: rgba(255, 255, 255, 0.66);
+  --surface-solid: #ffffff;
+  --fg: #12151b;
+  --dim: rgba(18, 21, 27, 0.7);
+  --line: rgba(18, 21, 27, 0.1);
+  --line-2: rgba(18, 21, 27, 0.2);
+  --accent: #0071e3;            /* system blue (AA with white text) */
+  --accent-ink: #ffffff;
+  --accent-2: #bf5af2;          /* purple */
+  --warn: #ff9f0a;
+  --shadow: 0 30px 70px -24px rgba(30, 50, 90, 0.35), 0 2px 0 rgba(255, 255, 255, 0.8) inset;
+  --glow: rgba(0, 113, 227, 0.16);
+
+  --f-body: var(--f-sans);
+  --f-display: var(--f-sans);
+  --fs-body: 15px;
+  --lh-body: 1.55;
+  --d-weight: 800;
+  --d-track: -0.06em;
+  --d-case: none;
+  --h2-track: -0.045em;
+  --radius: 16px;
+  --radius-pill: 999px;
+  --bar-h: 72px;
+  --hero-fs: clamp(4rem, min(27vw, 25vh), 20rem);
+  --dot-radius: 50%;
+}

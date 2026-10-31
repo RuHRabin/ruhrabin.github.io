@@ -1,0 +1,253 @@
+{
+  "_help": "EDIT THIS FILE ONLY. Everything on the site (and the AI chatbot's knowledge) comes from here. Use *word* to make a word italic-serif. Use | to split a headline into lines.",
+  "site": {
+    "title": "Rakib Ul Hasan Rabin (RuH Rabin) — Python Developer & AI Builder",
+    "description": "RuH Rabin (Rakib Ul Hasan Rabin) is a Python developer, AI enthusiast and Linux tinkerer from Bangladesh. Explore an interactive dual-boot portfolio, with open-source work on GitHub.",
+    "domain": "ruhrbin.site",
+    "year": 2026,
+    "lang": "en",
+    "googleVerification": "",
+    "bingVerification": ""
+  },
+  "name": "Rakib Ul Hasan Rabin",
+  "shortName": "RuH Rabin",
+  "heroLines": [
+    "RUH",
+    "RABIN"
+  ],
+  "role": "Python Developer & AI Builder",
+  "roles": [
+    "Python developer",
+    "AI enthusiast",
+    "Linux & OS tinkerer"
+  ],
+  "tagline": "Linux is my playground. Python is my *language*.",
+  "status": "Available for work",
+  "location": "Bangladesh",
+  "timezone": "Asia/Dhaka",
+  "links": {
+    "github": "https://github.com/RuHRabin",
+    "x": "https://x.com/RuHRabin",
+    "emails": [
+      "rabin@ruhrbin.site",
+      "contact@ruhrbin.site"
+    ]
+  },
+  "manifesto": {
+    "label": "WHOAMI / 001",
+    "text": "I'm a programmer obsessed with how computers work at the lowest level. Linux is my playground, Python is my language, and curiosity is my fuel."
+  },
+  "channels": {
+    "label": "FOCUS",
+    "headline": "What I|do best",
+    "items": [
+      {
+        "id": "01",
+        "title": "PYTHON",
+        "path": "~/python",
+        "bullets": [
+          "Scripting and automation",
+          "APIs with FastAPI",
+          "Clean, readable code"
+        ],
+        "snippet": [
+          "$ python3 -c \"import curiosity\"",
+          "# runs forever"
+        ]
+      },
+      {
+        "id": "02",
+        "title": "LINUX",
+        "path": "~/linux",
+        "bullets": [
+          "Arch Linux, every day",
+          "Bash and shell workflows",
+          "OS internals and architecture"
+        ],
+        "snippet": [
+          "$ sudo pacman -Syu",
+          "# btw, I use Arch"
+        ]
+      },
+      {
+        "id": "03",
+        "title": "AI",
+        "path": "~/ai",
+        "bullets": [
+          "Training and tuning ML models",
+          "LLM and neural experiments",
+          "PyTorch, TensorFlow, Hugging Face"
+        ],
+        "snippet": [
+          "model.fit(curiosity)",
+          "# loss going down"
+        ]
+      },
+      {
+        "id": "04",
+        "title": "WEB",
+        "path": "~/web",
+        "bullets": [
+          "Next.js and TypeScript",
+          "Supabase and Firebase backends",
+          "Fast, accessible front-ends"
+        ],
+        "snippet": [
+          "$ npx create-next-app",
+          "# ship it"
+        ]
+      }
+    ]
+  },
+  "stack": {
+    "label": "STACK / 002",
+    "headline": "Tools I|reach for",
+    "groups": [
+      {
+        "title": "Languages",
+        "items": [
+          "Python",
+          "Bash",
+          "C",
+          "TypeScript"
+        ]
+      },
+      {
+        "title": "AI / ML",
+        "items": [
+          "PyTorch",
+          "TensorFlow",
+          "scikit-learn",
+          "Hugging Face"
+        ]
+      },
+      {
+        "title": "Backend & Data",
+        "items": [
+          "FastAPI",
+          "Supabase",
+          "Firebase",
+          "Docker"
+        ]
+      },
+      {
+        "title": "Web & Tools",
+        "items": [
+          "Next.js",
+          "Git",
+          "GitHub",
+          "Arch Linux"
+        ]
+      }
+    ]
+  },
+  "archive": {
+    "label": "ARCHIVE / 003",
+    "headline": "The work|lives on|GitHub.",
+    "text": "Every experiment. Every repo. Open and unfiltered.",
+    "bullets": [
+      "Open source",
+      "Updated often",
+      "Fork anything"
+    ],
+    "cta": "OPEN ARCHIVE",
+    "url": "https://github.com/RuHRabin"
+  },
+  "projects": [],
+  "terminal": {
+    "label": "TERMINAL / 004",
+    "headline": "Try the|terminal.",
+    "text": "Type a command, or tap one. Try: whoami, skills, theme mac, neofetch.",
+    "prompt": "rabin@ruhrbin",
+    "suggest": [
+      "help",
+      "whoami",
+      "skills",
+      "neofetch",
+      "theme mac"
+    ]
+  },
+  "about": {
+    "label": "ABOUT / 005",
+    "headline": "Low level.|High curiosity.",
+    "bullets": [
+      "Obsessed with how computers work at the lowest level",
+      "Python for automation, APIs and machine learning",
+      "Lives in Arch Linux and the shell",
+      "Experiments with LLMs and neural networks"
+    ],
+    "callout": {
+      "label": "STATUS",
+      "text": "Open for collaborations, freelance and curious conversations."
+    },
+    "facts": [
+      [
+        "OS",
+        "Arch Linux"
+      ],
+      [
+        "SHELL",
+        "Bash"
+      ],
+      [
+        "LANGS",
+        "Python, C, TypeScript"
+      ],
+      [
+        "FOCUS",
+        "AI / ML, systems, automation"
+      ]
+    ]
+  },
+  "contact": {
+    "label": "CONTACT / 006",
+    "headline": "Send a|message.",
+    "text": "Short messages are perfect. Click an email to copy it."
+  },
+  "footer": {
+    "_help": "FOOTER CONTROLS. 'pages' = links to other pages of THIS site (or anywhere). Each item: { \"label\": \"Blog\", \"url\": \"/blog/\" }. The 'Pages' column appears automatically once you add one. Paths starting with / are also added to sitemap.xml. 'columns' = extra custom columns: { \"title\": \"Resources\", \"links\": [ { \"label\": \"Resume\", \"url\": \"/resume.pdf\" } ] }. 'legal' = small links at the very bottom (Privacy, Terms...).",
+    "blurb": "Python developer and AI builder from Bangladesh. Linux is my playground, curiosity is my fuel.",
+    "ctaTitle": "Got an idea?|Let's talk.",
+    "pages": [],
+    "columns": [],
+    "legal": []
+  },
+  "chat": {
+    "greeting": "SIG online. Ask me about Rabin's skills, work or how to reach him.",
+    "chips": [
+      "Skills?",
+      "Work?",
+      "Hire me?"
+    ],
+    "answers": {
+      "work": "All of Rabin's work lives on GitHub: github.com/RuHRabin. Open the Archive section to jump there.",
+      "skills": "Python (scripting, FastAPI), Linux (Arch, Bash, OS internals), AI/ML (PyTorch, TensorFlow, Hugging Face) and web (Next.js, TypeScript, Supabase, Firebase).",
+      "hire": "Rabin is open for work. Email rabin@ruhrbin.site or contact@ruhrbin.site, or message on X: @RuHRabin.",
+      "about": "Rakib Ul Hasan Rabin (RuH Rabin) is a Python developer and AI enthusiast from Bangladesh, obsessed with how computers work at the lowest level.",
+      "fallback": "I only know about Rabin, his skills, work and contact. Try: Skills? Work? Hire me?"
+    }
+  },
+  "seo": {
+    "_help": "Used for meta tags, JSON-LD (Person/WebSite/ProfilePage), llms.txt and sitemap. Keep facts true and consistent with your GitHub/X bios.",
+    "jobTitle": "Python Developer",
+    "alsoKnownAs": [
+      "RuH Rabin",
+      "RuHRabin"
+    ],
+    "country": "Bangladesh",
+    "countryCode": "BD",
+    "knowsAbout": [
+      "Python",
+      "Linux",
+      "Arch Linux",
+      "Bash",
+      "Artificial intelligence",
+      "Machine learning",
+      "Large language models",
+      "FastAPI",
+      "Operating system architecture",
+      "Web development"
+    ],
+    "summary": "RuH Rabin (Rakib Ul Hasan Rabin) is a Python developer and AI enthusiast from Bangladesh, obsessed with how computers work at the lowest level. He works with Python, Linux, machine learning and the web, and publishes his open-source work on GitHub."
+  }
+}

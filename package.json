@@ -1,0 +1,21 @@
+{
+  "name": "ruhrabin-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Signal - portfolio of RuH Rabin",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "worker:bundle": "node scripts/bundle-worker.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.27"
+  },
+  "devDependencies": {
+    "figlet": "^1.8.0",
+    "vite": "^8.3.5"
+  }
+}
