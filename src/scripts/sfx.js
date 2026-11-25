@@ -1,5 +1,5 @@
-// Sound engine. Uses real recordings when listed in /audio/manifest.json,
-// otherwise synthesises believable sounds live (layered keyboard switches, room reverb, drive/fan, space drone).
+// sound engine. uses real recordings if they're listed in /audio/manifest.json,
+// otherwise it makes the sounds live: keyboard switches, room reverb, drive/fan hum and a space drone.
 import { $ } from './lib.js';
 
 const BASE = import.meta.env.BASE_URL || '/';
@@ -20,7 +20,7 @@ function init() {
   const d = nb.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
   brown = ac.createBuffer(1, ac.sampleRate * 4, ac.sampleRate);
   const e = brown.getChannelData(0); let l = 0; for (let i = 0; i < e.length; i++) { l = (l + 0.02 * (Math.random() * 2 - 1)) / 1.02; e[i] = l * 3.5; }
-  const len = ac.sampleRate * 2.4, ir = ac.createBuffer(2, len, ac.sampleRate); // generated room / hall impulse
+  const len = ac.sampleRate * 2.4, ir = ac.createBuffer(2, len, ac.sampleRate); // generated room/hall impulse response
   for (let c = 0; c < 2; c++) { const x = ir.getChannelData(c); for (let i = 0; i < len; i++) x[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.4); }
   rv = ac.createConvolver(); rv.buffer = ir;
   const wet = ac.createGain(); wet.gain.value = 0.3; rv.connect(wet); wet.connect(mg);
@@ -85,7 +85,7 @@ function ambStart() {
     const br = a.createOscillator(), brg = a.createGain(); br.frequency.value = 0.05; brg.gain.value = 70; br.connect(brg); brg.connect(lp.frequency); br.start(); nodes.push(br); // slow "breathing"
     [[55, 0.05], [55.35, 0.05], [82.4, 0.03], [110.2, 0.014]].forEach((p) => { const o = a.createOscillator(), og = a.createGain(); o.frequency.value = p[0]; og.gain.value = p[1]; o.connect(og); og.connect(g); o.start(); nodes.push(o); });
     const hum = a.createBiquadFilter(), hg = a.createGain(); hum.type = 'lowpass'; hum.frequency.value = 700; hg.gain.value = 1; hum.connect(hg); hg.connect(g);
-    [[100, 0.012], [200.4, 0.008], [301.1, 0.005]].forEach((p) => { const o = a.createOscillator(), og = a.createGain(); o.type = 'sawtooth'; o.frequency.value = p[0]; og.gain.value = p[1]; o.connect(og); og.connect(hum); o.start(); nodes.push(o); }); // ventilation hum
+    [[100, 0.012], [200.4, 0.008], [301.1, 0.005]].forEach((p) => { const o = a.createOscillator(), og = a.createGain(); o.type = 'sawtooth'; o.frequency.value = p[0]; og.gain.value = p[1]; o.connect(og); og.connect(hum); o.start(); nodes.push(o); }); // fan hum
     const lfo = a.createOscillator(), lg = a.createGain(); lfo.frequency.value = 0.07; lg.gain.value = 0.12; lfo.connect(lg); lg.connect(g.gain); lfo.start(); nodes.push(lfo);
   }
   const ws = a.createBufferSource(), wf = a.createBiquadFilter(); ws.buffer = nb; ws.loop = true; wf.type = 'bandpass'; wf.frequency.value = 700; wf.Q.value = 0.5;
@@ -103,13 +103,13 @@ export function audioHandle() { if (!init()) return null; return { ac, out: mg, 
 export const Sfx = {
   set(v) { on = v; if (v) { ctx(); ambStart(); } else ambStop(); window.dispatchEvent(new CustomEvent('sfx:toggle', { detail: v })); },
   get on() { return on; },
-  // layered mechanical-switch model: click transient + bottom-out thock + case resonance + plate ping (+ stabiliser rattle)
+  // layered mechanical switch: click, bottom-out thock, case resonance, plate ping (+ stabilizer rattle)
   keyDown(k) {
     if (!typing(k) || !on) return; if (play(k === ' ' ? 'space' : k === 'Enter' ? 'enter' : 'key', { pan: R(-0.25, 0.25) })) return;
     const big = BIG.has(k), pan = R(-0.25, 0.25), body = big ? R(560, 720) : R(780, 1180), pitch = big ? R(92, 122) : R(125, 195);
-    noise({ d: 0.009, f: R(2900, 4900), q: 2.2, g: R(0.08, 0.12), pan });                                   // switch click
-    noise({ d: R(0.04, 0.06), type: 'lowpass', f: body, q: 0.6, g: big ? 0.22 : R(0.15, 0.19), pan, verb: 0.06 }); // bottom-out thock
-    tone({ f: pitch, to: pitch * 0.55, d: big ? 0.12 : R(0.06, 0.085), g: big ? 0.2 : R(0.12, 0.16), pan });       // case resonance
+    noise({ d: 0.009, f: R(2900, 4900), q: 2.2, g: R(0.08, 0.12), pan });                                   // click
+    noise({ d: R(0.04, 0.06), type: 'lowpass', f: body, q: 0.6, g: big ? 0.22 : R(0.15, 0.19), pan, verb: 0.06 }); // thock
+    tone({ f: pitch, to: pitch * 0.55, d: big ? 0.12 : R(0.06, 0.085), g: big ? 0.2 : R(0.12, 0.16), pan });       // case ring
     tone({ f: R(2400, 3600), d: 0.01, g: 0.012, pan });                                                          // plate ping
     if (Math.random() < 0.16) tone({ f: R(3800, 5200), d: 0.05, g: 0.011, at: 0.012, pan, verb: 0.2 });          // spring ping
     if (big) { noise({ d: 0.045, f: 1500, q: 1.2, g: 0.05, at: 0.012, pan }); noise({ d: 0.012, f: 2600, q: 3, g: 0.05, at: 0.03, pan }); }

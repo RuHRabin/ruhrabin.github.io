@@ -1,11 +1,366 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="404 – Signal lost | RuHRabin" description="This page does not exist.">
-  <main style="min-height:100vh;display:grid;place-content:center;gap:16px;text-align:center;padding:24px">
-    <p class="mono" style="color:var(--muted);margin:0">error 404</p>
-    <h1 style="font:800 clamp(48px,12vw,120px)/1 var(--head);letter-spacing:-.04em;margin:0">Signal lost</h1>
-    <p style="color:var(--muted);margin:0">That page drifted past the event horizon.</p>
-    <p style="margin:8px 0 0"><a class="btn" href="/">Back to home</a></p>
+<Base title="404 – Signal lost | RuHRabin" description="This page drifted past the event horizon. Fly back home, or play Signal Run while you are here.">
+  <main class="nf" id="main">
+    <canvas id="nf-canvas" aria-hidden="true"></canvas>
+    <div class="nf-vig" aria-hidden="true"></div>
+
+    <div class="nf-hud mono" id="nf-hud" hidden aria-hidden="true">
+      <span>SCORE <b id="hud-score">0</b></span>
+      <span>BEST <b id="hud-best">0</b></span>
+      <span>HULL <b id="hud-hull">●●●</b></span>
+    </div>
+
+    <section class="nf-card" id="nf-start" aria-labelledby="nf-title">
+      <p class="mono nf-kicker">error 404 · page not found</p>
+      <div class="nf-big" aria-hidden="true">404</div>
+      <h1 id="nf-title">Signal lost</h1>
+      <p class="nf-sub">That page drifted past the event horizon. Fly back home, or survive the asteroid field while you are here.</p>
+      <div class="nf-actions">
+        <button class="btn" id="nf-play" type="button">▶ Play Signal Run</button>
+        <a class="btn" href="/">← Back to home</a>
+      </div>
+      <p class="mono nf-hint" id="nf-hint">Move with mouse, touch, arrow keys or WASD · dodge the rocks · fly through the rings</p>
+      <noscript><p class="nf-sub"><a href="/">Go back to the home page</a></p></noscript>
+    </section>
+
+    <section class="nf-card" id="nf-over" hidden aria-live="polite">
+      <p class="mono nf-kicker">hull breached</p>
+      <h2 class="nf-h2">Score <span id="over-score">0</span></h2>
+      <p class="nf-sub" id="over-msg"></p>
+      <div class="nf-actions">
+        <button class="btn" id="nf-retry" type="button">↻ Fly again</button>
+        <a class="btn" href="/">← Back to home</a>
+      </div>
+    </section>
   </main>
+
+  <script>
+    import {
+      WebGLRenderer, Scene, PerspectiveCamera, Fog, Color, Points, BufferGeometry, BufferAttribute,
+      PointsMaterial, CanvasTexture, Mesh, IcosahedronGeometry, MeshStandardMaterial, TorusGeometry, MeshBasicMaterial,
+      SphereGeometry, ConeGeometry, BoxGeometry, Group, AmbientLight, DirectionalLight, AdditiveBlending, MathUtils,
+    } from 'three';
+
+    const $ = (id) => document.getElementById(id);
+    const canvas = $('nf-canvas');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let renderer;
+    try {
+      renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    } catch (e) {
+      renderer = null;
+    }
+
+    if (!renderer) {
+      $('nf-play').hidden = true;
+      $('nf-hint').textContent = 'Your browser cannot run the 3D game, but the way home still works.';
+    } else {
+      const BG = 0x04060a;
+      const BX = 5, BY = 3; // half-size of the area the ship can fly in
+      const scene = new Scene();
+      scene.background = new Color(BG);
+      scene.fog = new Fog(BG, 40, 170);
+      const camera = new PerspectiveCamera(68, 1, 0.1, 700);
+
+      scene.add(new AmbientLight(0x5a6a8a, 0.9));
+      const sun = new DirectionalLight(0xffe2b8, 2.2);
+      sun.position.set(6, 8, 4);
+      scene.add(sun);
+      const rim = new DirectionalLight(0x4aa8ff, 1.1);
+      rim.position.set(-6, -2, -4);
+      scene.add(rim);
+
+      // stars rushing past the ship
+      const SN = 1400, SZ0 = -210, SZ1 = 12;
+      const sp = new Float32Array(SN * 3);
+      for (let i = 0; i < SN; i++) {
+        const a = Math.random() * Math.PI * 2, r = 5 + Math.random() * 70;
+        sp[i * 3] = Math.cos(a) * r; sp[i * 3 + 1] = Math.sin(a) * r * 0.7; sp[i * 3 + 2] = SZ0 + Math.random() * (SZ1 - SZ0);
+      }
+      const sg = new BufferGeometry();
+      sg.setAttribute('position', new BufferAttribute(sp, 3));
+      const dot = document.createElement('canvas'); dot.width = dot.height = 32;
+      const dc = dot.getContext('2d'); const gr = dc.createRadialGradient(16, 16, 0, 16, 16, 16);
+      gr.addColorStop(0, '#fff'); gr.addColorStop(0.4, 'rgba(255,255,255,.7)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+      dc.fillStyle = gr; dc.fillRect(0, 0, 32, 32);
+      const stars = new Points(sg, new PointsMaterial({ map: new CanvasTexture(dot), color: 0xcfe0ff, size: 0.5, alphaTest: 0.02, sizeAttenuation: true, transparent: true, opacity: 0.9, depthWrite: false }));
+      stars.frustumCulled = false;
+      scene.add(stars);
+
+      // black hole far away in the distance
+      const bh = new Group();
+      bh.position.set(34, 9, -330);
+      bh.add(new Mesh(new SphereGeometry(15, 32, 32), new MeshBasicMaterial({ color: 0x000000, fog: false })));
+      const disk = new Mesh(new TorusGeometry(26, 2.6, 8, 96), new MeshBasicMaterial({ color: 0xff8a3d, blending: AdditiveBlending, transparent: true, opacity: 0.85, fog: false }));
+      disk.scale.z = 0.12; disk.rotation.x = 1.25;
+      const glow = new Mesh(new TorusGeometry(26, 7, 8, 96), new MeshBasicMaterial({ color: 0xff5a1f, blending: AdditiveBlending, transparent: true, opacity: 0.18, fog: false }));
+      glow.scale.z = 0.12; glow.rotation.x = 1.25;
+      bh.add(disk, glow);
+      scene.add(bh);
+
+      // the ship
+      const ship = new Group();
+      const hullMat = new MeshStandardMaterial({ color: 0xcfd6e4, metalness: 0.6, roughness: 0.35, emissive: 0x0a1424 });
+      const body = new Mesh(new ConeGeometry(0.42, 2.2, 6), hullMat);
+      body.rotation.x = -Math.PI / 2;
+      const wings = new Mesh(new BoxGeometry(2.3, 0.06, 0.9), hullMat);
+      wings.position.z = 0.5;
+      const fin = new Mesh(new BoxGeometry(0.06, 0.5, 0.6), hullMat);
+      fin.position.set(0, 0.28, 0.7);
+      const engineMat = new MeshBasicMaterial({ color: 0x6ee7ff });
+      const engine = new Mesh(new SphereGeometry(0.2, 12, 12), engineMat);
+      engine.position.z = 1.2;
+      const flame = new Mesh(new ConeGeometry(0.16, 1.2, 10), new MeshBasicMaterial({ color: 0x6ee7ff, transparent: true, opacity: 0.55, blending: AdditiveBlending }));
+      flame.rotation.x = Math.PI / 2; flame.position.z = 1.8;
+      ship.add(body, wings, fin, engine, flame);
+      scene.add(ship);
+
+      // a few different rock shapes (icospheres pushed around with noise)
+      function rock(seed) {
+        const g = new IcosahedronGeometry(1, 2);
+        const p = g.attributes.position;
+        for (let i = 0; i < p.count; i++) {
+          const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+          const n = Math.sin(x * 3.1 + seed) * Math.cos(y * 2.7 + seed * 1.3) * Math.sin(z * 3.7 + seed * 0.7);
+          const k = 1 + n * 0.28 + Math.sin((x + y + z) * 6 + seed) * 0.06;
+          p.setXYZ(i, x * k, y * k, z * k);
+        }
+        g.computeVertexNormals();
+        return g;
+      }
+      const rockGeos = [rock(1.3), rock(4.1), rock(7.7)];
+      const rockMat = new MeshStandardMaterial({ color: 0x6b6258, roughness: 0.95, metalness: 0.05, flatShading: true });
+      const ringGeo = new TorusGeometry(1.5, 0.11, 10, 40);
+      const ringMat = new MeshBasicMaterial({ color: 0x6ee7a8 });
+
+      const rocks = [], rings = [];
+      for (let i = 0; i < 36; i++) {
+        const m = new Mesh(rockGeos[i % 3], rockMat);
+        m.visible = false; m.userData = { rx: 0, ry: 0, r: 1, off: true };
+        scene.add(m); rocks.push(m);
+      }
+      for (let i = 0; i < 12; i++) {
+        const m = new Mesh(ringGeo, new MeshBasicMaterial({ color: 0x6ee7a8 }));
+        m.visible = false; m.userData = { off: true };
+        scene.add(m); rings.push(m);
+      }
+
+      // game state
+      let state = 'idle'; // idle, play or over
+      let t = 0, score = 0, hull = 3, inv = 0, spawn = 0, shake = 0, shownScore = -1;
+      let best = 0;
+      try { best = parseInt(localStorage.getItem('nf-best') || '0', 10) || 0; } catch (e) {}
+      const tgt = { x: 0, y: 0 };
+      const pos = { x: 0, y: 0 };
+      const keys = {};
+      let usingPointer = false;
+
+      const hudScore = $('hud-score'), hudBest = $('hud-best'), hudHull = $('hud-hull');
+      hudBest.textContent = best;
+
+      function resize() {
+        const w = window.innerWidth, h = window.innerHeight;
+        renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.fov = w / h < 0.8 ? 80 : 68; // wider view on tall phone screens
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function free(list) { return list.find((m) => m.userData.off); }
+      function spawnOne() {
+        const rr = Math.random();
+        if (rr < 0.28) {
+          const m = free(rings); if (!m) return;
+          m.userData.off = false; m.userData.got = false; m.visible = true;
+          m.material.color.set(0x6ee7a8); m.scale.setScalar(1);
+          m.position.set((Math.random() * 2 - 1) * (BX - 0.5), (Math.random() * 2 - 1) * (BY - 0.5), -170);
+          m.rotation.set(0, 0, 0);
+        } else {
+          const m = free(rocks); if (!m) return;
+          const s = 0.9 + Math.random() * 1.1;
+          m.userData.off = false; m.userData.r = s * 0.9; m.visible = true;
+          m.userData.rx = (Math.random() - 0.5) * 1.6; m.userData.ry = (Math.random() - 0.5) * 1.6;
+          m.scale.setScalar(s);
+          m.position.set((Math.random() * 2 - 1) * (BX + 0.8), (Math.random() * 2 - 1) * (BY + 0.6), -170);
+        }
+      }
+      function clearAll() { for (const m of rocks.concat(rings)) { m.visible = false; m.userData.off = true; } }
+
+      function setHull() { hudHull.textContent = '●'.repeat(Math.max(hull, 0)) + '○'.repeat(Math.max(3 - hull, 0)); }
+
+      function start() {
+        clearAll();
+        state = 'play'; t = 0; score = 0; hull = 3; inv = 0; spawn = 0; shownScore = -1;
+        pos.x = pos.y = tgt.x = tgt.y = 0;
+        setHull();
+        $('nf-hud').hidden = false; $('nf-start').hidden = true; $('nf-over').hidden = true;
+      }
+      function end() {
+        state = 'over';
+        const s = Math.floor(score);
+        let msg = 'Good flying. Try again?';
+        if (s > best) {
+          best = s; msg = 'New best score!';
+          try { localStorage.setItem('nf-best', String(best)); } catch (e) {}
+        } else msg = 'Best: ' + best + '. Beat it?';
+        hudBest.textContent = best;
+        $('over-score').textContent = s;
+        $('over-msg').textContent = msg;
+        $('nf-hud').hidden = true;
+        $('nf-over').hidden = false;
+        $('nf-retry').focus({ preventScroll: true });
+      }
+
+      $('nf-play').addEventListener('click', start);
+      $('nf-retry').addEventListener('click', start);
+
+      // controls
+      window.addEventListener('pointermove', (e) => {
+        usingPointer = true;
+        tgt.x = ((e.clientX / window.innerWidth) * 2 - 1) * BX;
+        tgt.y = -((e.clientY / window.innerHeight) * 2 - 1) * BY;
+      }, { passive: true });
+      window.addEventListener('pointerdown', (e) => {
+        if (state !== 'play') return;
+        usingPointer = true;
+        tgt.x = ((e.clientX / window.innerWidth) * 2 - 1) * BX;
+        tgt.y = -((e.clientY / window.innerHeight) * 2 - 1) * BY;
+      }, { passive: true });
+      window.addEventListener('keydown', (e) => {
+        const k = e.key.toLowerCase();
+        if (['arrowleft', 'arrowright', 'arrowup', 'arrowdown', 'a', 'd', 'w', 's'].includes(k)) {
+          keys[k] = true; usingPointer = false;
+          if (state === 'play') e.preventDefault();
+        } else if ((k === 'enter' || k === ' ') && state !== 'play' && document.activeElement === document.body) {
+          e.preventDefault(); start();
+        }
+      });
+      window.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+      window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
+
+      let last = performance.now();
+      function frame(now) {
+        requestAnimationFrame(frame);
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        const playing = state === 'play';
+        t += dt;
+
+        const speed = playing ? Math.min(30 + t * 0.9, 70) : (reduce ? 3 : 12);
+
+        // keyboard steering
+        if (!usingPointer) {
+          const dx = (keys.arrowright || keys.d ? 1 : 0) - (keys.arrowleft || keys.a ? 1 : 0);
+          const dy = (keys.arrowup || keys.w ? 1 : 0) - (keys.arrowdown || keys.s ? 1 : 0);
+          tgt.x = MathUtils.clamp(tgt.x + dx * dt * 11, -BX, BX);
+          tgt.y = MathUtils.clamp(tgt.y + dy * dt * 8, -BY, BY);
+        }
+        tgt.x = MathUtils.clamp(tgt.x, -BX, BX); tgt.y = MathUtils.clamp(tgt.y, -BY, BY);
+        const px = pos.x, py = pos.y;
+        const f = Math.min(1, dt * 9);
+        pos.x += (tgt.x - pos.x) * f; pos.y += (tgt.y - pos.y) * f;
+        const vx = (pos.x - px) / Math.max(dt, 1e-3), vy = (pos.y - py) / Math.max(dt, 1e-3);
+
+        // not playing: let the ship drift around
+        if (!playing) {
+          pos.x = Math.sin(now / 1700) * 2.2; pos.y = Math.cos(now / 2300) * 1.1;
+        }
+        ship.position.set(pos.x, pos.y, 0);
+        ship.rotation.z = -MathUtils.clamp(vx * 0.04, -0.7, 0.7);
+        ship.rotation.x = MathUtils.clamp(vy * 0.02, -0.4, 0.4);
+        ship.rotation.y = -MathUtils.clamp(vx * 0.015, -0.3, 0.3);
+        flame.scale.y = 0.8 + Math.random() * 0.5;
+        ship.visible = playing && inv > 0 ? Math.floor(now / 90) % 2 === 0 : true;
+        if (inv > 0) inv -= dt;
+
+        // stars
+        const arr = sg.attributes.position.array;
+        for (let i = 0; i < SN; i++) {
+          let z = arr[i * 3 + 2] + speed * dt;
+          if (z > SZ1) z = SZ0;
+          arr[i * 3 + 2] = z;
+        }
+        sg.attributes.position.needsUpdate = true;
+
+        // spawn stuff (just scenery when idle, real rocks when playing)
+        spawn -= dt;
+        if (spawn <= 0) {
+          spawnOne();
+          spawn = playing ? Math.max(0.22, 0.8 - t * 0.009) : 0.9;
+        }
+
+        // move everything and check for hits
+        for (const m of rocks) {
+          if (m.userData.off) continue;
+          m.position.z += speed * dt;
+          m.rotation.x += m.userData.rx * dt; m.rotation.y += m.userData.ry * dt;
+          if (m.position.z > 10) { m.visible = false; m.userData.off = true; continue; }
+          if (playing && inv <= 0 && m.position.z > -1.4 && m.position.z < 1.6) {
+            const d = Math.hypot(m.position.x - pos.x, m.position.y - pos.y);
+            if (d < m.userData.r + 0.55) {
+              hull--; inv = 1.4; shake = 0.6; setHull();
+              m.visible = false; m.userData.off = true;
+              if (hull <= 0) { end(); }
+            }
+          }
+        }
+        for (const m of rings) {
+          if (m.userData.off) continue;
+          m.position.z += speed * dt;
+          m.rotation.z += dt * 1.5;
+          if (m.userData.got) m.scale.addScalar(dt * 6), m.material.opacity = 0;
+          if (m.position.z > 10 || m.scale.x > 3) { m.visible = false; m.userData.off = true; continue; }
+          if (playing && !m.userData.got && m.position.z > -1 && m.position.z < 1.4) {
+            const d = Math.hypot(m.position.x - pos.x, m.position.y - pos.y);
+            if (d < 1.6) { m.userData.got = true; score += 25; m.material.color.set(0xffffff); }
+          }
+        }
+
+        if (playing) {
+          score += dt * 10 * (speed / 30);
+          const s = Math.floor(score);
+          if (s !== shownScore) { shownScore = s; hudScore.textContent = s; }
+        }
+
+        // black hole spin and camera follow
+        bh.rotation.z += dt * 0.15;
+        disk.rotation.z += dt * 0.6;
+        shake = Math.max(0, shake - dt * 1.6);
+        const sh = reduce ? 0 : shake;
+        camera.position.set(pos.x * 0.55 + (Math.random() - 0.5) * sh, pos.y * 0.55 + 1.7 + (Math.random() - 0.5) * sh, 7);
+        camera.lookAt(pos.x * 0.3, pos.y * 0.3, -14);
+
+        renderer.render(scene, camera);
+      }
+      requestAnimationFrame(frame);
+    }
+  </script>
 </Base>
+
+<style>
+  .nf { position: fixed; inset: 0; overflow: hidden; background: #04060a; color: var(--ink, #eef2fa); }
+  #nf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+  .nf-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, .65) 100%); }
+
+  .nf-hud { position: absolute; top: max(16px, env(safe-area-inset-top)); left: 16px; right: 16px; display: flex; gap: 20px; flex-wrap: wrap; font-size: .85rem; letter-spacing: .08em; color: var(--muted, #98a3b8); pointer-events: none; }
+  .nf-hud b { color: var(--ink, #eef2fa); font-weight: 700; }
+
+  .nf-card { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(560px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow: auto; padding: 28px 24px 24px; text-align: center; border-radius: 22px; background: rgba(7, 11, 20, .55); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px var(--bd, rgba(255, 255, 255, .12)), 0 30px 80px rgba(0, 0, 0, .5); }
+  .nf-card[hidden], .nf-hud[hidden] { display: none; }
+  .nf-kicker { margin: 0 0 4px; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted, #98a3b8); }
+  .nf-big { font: 800 clamp(96px, 26vw, 200px) / .9 var(--head); letter-spacing: -.06em; margin: 4px 0 0; background: linear-gradient(180deg, #fff 10%, #6ee7ff 55%, #5b6cff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 28px rgba(110, 231, 255, .35)); animation: nf-float 6s ease-in-out infinite; user-select: none; }
+  h1 { font: 800 clamp(26px, 6vw, 40px) / 1.1 var(--head); letter-spacing: -.03em; margin: 2px 0 10px; }
+  .nf-h2 { font: 800 clamp(28px, 7vw, 44px) / 1.1 var(--head); letter-spacing: -.03em; margin: 4px 0 10px; }
+  .nf-sub { margin: 0 auto 18px; max-width: 44ch; color: var(--muted, #98a3b8); font-size: 1rem; line-height: 1.55; }
+  .nf-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .nf-hint { margin: 16px 0 0; font-size: .74rem; line-height: 1.5; color: var(--muted, #98a3b8); }
+
+  @keyframes nf-float { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+  @media (prefers-reduced-motion: reduce) { .nf-big { animation: none; } }
+</style>

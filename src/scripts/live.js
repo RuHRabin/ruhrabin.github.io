@@ -1,3 +1,6 @@
+// live github data in the browser. every source is optional: if one fails we keep the snapshot from build time.
+//  - profile, repos, events: public GitHub REST API (CORS works, 60 requests/hour per visitor, cached for 10 min)
+//  - contribution calendar: my own worker (PUBLIC_GH_ENDPOINT, see worker/github-worker.js) or a public community API
 const USER = 'RuHRabin';
 const EP = (import.meta.env.PUBLIC_GH_ENDPOINT || '').replace(/\/$/, '');
 const TTL = 10 * 60e3;
@@ -11,7 +14,7 @@ async function j(url, ms = 8000) {
   try { const r = await fetch(url, { signal: ac.signal, headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) throw new Error(String(r.status)); return await r.json(); }
   finally { clearTimeout(t); }
 }
-// accepts {s,w,total} (our worker) or {contributions:[{date,count,level}]} (community API) and returns Sunday-aligned weeks
+// takes {s,w,total} (my worker) or {contributions:[{date,count,level}]} (community API) and returns weeks that start on Sunday
 function calendar(raw) {
   if (raw && raw.w && raw.s) return raw;
   const list = (raw && raw.contributions) || [];

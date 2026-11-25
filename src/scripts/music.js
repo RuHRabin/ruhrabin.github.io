@@ -1,11 +1,11 @@
-// Generative score engine (WebAudio, no files). A slow cinematic progression in three moods that follows the scroll:
+// generative music engine (WebAudio, no audio files). a slow, cinematic chord progression in three moods that follows your scroll:
 //   orbit (A minor, hopeful) → moon (D lydian, bright) → horizon (D minor, tense, with a pulse).
-// Layers: detuned saw pads, sine/triangle bass, FM-bell arpeggio through a ping-pong delay, high shimmer, filtered risers.
-// createMusic() takes its audio context, output node, reverb node and a read() callback so it can also be rendered offline.
+// layers: detuned saw pads, sine/triangle bass, FM bell arpeggio through a ping-pong delay, high shimmer and filtered risers.
+// createMusic() takes the audio context, output node, reverb node and a read() callback, so it can also render offline.
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const R = (a, b) => a + Math.random() * (b - a);
 const MID = (n) => 440 * Math.pow(2, (n - 69) / 12);
-// [bass, pad voices, arpeggio pool] as MIDI notes
+// each entry: [bass, pad voices, arpeggio notes] as MIDI numbers
 const SCENES = [
   [[33, [57, 64, 67, 71, 72], [69, 72, 76, 79, 83, 84]], [29, [57, 60, 65, 69, 72], [65, 69, 72, 76, 77, 81]], [36, [55, 60, 64, 67, 71], [64, 67, 71, 72, 76, 79]], [31, [59, 62, 67, 69, 74], [67, 71, 74, 76, 79, 81]]],
   [[38, [57, 62, 66, 69, 73], [74, 78, 81, 85, 86]], [35, [59, 62, 66, 69, 73], [71, 74, 78, 81, 85]], [31, [59, 62, 66, 67, 71], [74, 78, 79, 83, 85]], [33, [61, 64, 66, 69, 71], [76, 78, 81, 83, 85]]],
@@ -18,23 +18,23 @@ export function createMusic(ac, dest, verb, read) {
   const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 380; lp.Q.value = 0.4;
   bus.connect(lp); lp.connect(dest);
   const send = ac.createGain(); send.gain.value = 0.5; lp.connect(send); send.connect(verb);
-  // ping-pong delay (dotted eighth)
+  // ping-pong delay, dotted eighth
   const din = ac.createGain(), dl = ac.createDelay(2), dr = ac.createDelay(2), f1 = ac.createGain(), f2 = ac.createGain(), tone = ac.createBiquadFilter(), pl = ac.createStereoPanner(), pr = ac.createStereoPanner(), dout = ac.createGain();
   dl.delayTime.value = EIGHTH * 1.5; dr.delayTime.value = EIGHTH * 1.5; f1.gain.value = 0.38; f2.gain.value = 0.38; tone.type = 'lowpass'; tone.frequency.value = 2600; pl.pan.value = -0.7; pr.pan.value = 0.7; dout.gain.value = 0.55;
   din.connect(dl); dl.connect(tone); tone.connect(f1); f1.connect(dr); dr.connect(f2); f2.connect(dl); dl.connect(pl); dr.connect(pr); pl.connect(dout); pr.connect(dout); dout.connect(dest); dout.connect(send);
-  // shared noise for risers
+  // noise buffer reused by the risers
   const nbuf = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate), nd = nbuf.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
 
   let timer = 0, vol = 0.8, nextChord = 0, nextEighth = 0, chordIdx = 0, arpIdx = 2, chords = [], running = false, sample = null, sampleSrc = null;
 
   function env(g, t, a, peak, hold, r) { g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.setValueAtTime(peak, t + a + hold); g.gain.exponentialRampToValueAtTime(0.0001, t + a + hold + r); return t + a + hold + r; }
-  // linear release so overlapping chords crossfade at constant loudness (no dip between chords)
+  // linear release so chords crossfade without a dip in volume
   function envL(g, t, a, peak, hold, r) { g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.setValueAtTime(peak, t + a + hold); g.gain.linearRampToValueAtTime(0.0001, t + a + hold + r); return t + a + hold + r; }
   function pad(t, midi, inten) {
     const f = MID(midi), g = ac.createGain(), flt = ac.createBiquadFilter(), cut = 520 + inten * 2200; flt.type = 'lowpass'; flt.Q.value = 0.7;
     flt.frequency.setValueAtTime(cut * 0.7, t); flt.frequency.linearRampToValueAtTime(cut * 1.35, t + 4); flt.frequency.linearRampToValueAtTime(cut * 0.8, t + CHORD + 2.6);
     const end = envL(g, t, 2.4, 0.05, CHORD - 2.4, 2.6), sp = R(0.7, 1);
-    [[-10, -sp, 0], [10, sp, R(0.009, 0.021)]].forEach(([d, pn, ph]) => { const o = ac.createOscillator(), pa = ac.createStereoPanner(); o.type = 'sawtooth'; o.frequency.value = f; o.detune.value = d + R(-3, 3); pa.pan.value = pn; o.connect(flt); flt.connect(pa); pa.connect(g); o.start(t + ph); o.stop(end + 0.1); }); // offset start decorrelates left and right
+    [[-10, -sp, 0], [10, sp, R(0.009, 0.021)]].forEach(([d, pn, ph]) => { const o = ac.createOscillator(), pa = ac.createStereoPanner(); o.type = 'sawtooth'; o.frequency.value = f; o.detune.value = d + R(-3, 3); pa.pan.value = pn; o.connect(flt); flt.connect(pa); pa.connect(g); o.start(t + ph); o.stop(end + 0.1); }); // start offset so left and right don't line up
     const s = ac.createOscillator(), sg = ac.createGain(); s.type = 'sine'; s.frequency.value = f / 2; sg.gain.value = 0.6; s.connect(sg); sg.connect(g); s.start(t); s.stop(end + 0.1);
     g.connect(bus);
   }

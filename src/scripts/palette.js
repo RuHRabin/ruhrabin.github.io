@@ -1,4 +1,4 @@
-// Command palette: Ctrl/Cmd + K (or "/") to jump anywhere or run an action.
+// command palette: press Ctrl/Cmd + K (or /) to jump somewhere or run a command.
 import { $, h, reduce, state } from './lib.js';
 import { Sfx, setSound } from './sfx.js';
 import { skin } from './ui.js';

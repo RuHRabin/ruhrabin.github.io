@@ -1,5 +1,5 @@
-// Scroll engine: cached geometry (no layout reads per frame), eased progress, hero break-apart, pinned focus gallery,
-// velocity-reactive marquees, light parallax and a chapter rail. One rAF loop drives everything.
+// scroll engine: caches geometry (no layout reads per frame), eased progress, hero break-apart, pinned gallery,
+// marquees that react to speed, light parallax and a chapter rail. one rAF loop runs everything.
 import { $, $$, h, reduce, SC } from './lib.js';
 import { Sfx } from './sfx.js';
 
@@ -7,13 +7,13 @@ const prog = $('#prog'), hero = $('#hero'), pin = $('#focus'), hx = $('#hx'), ca
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const CH = [['hero', 'Home'], ['focus', 'Focus'], ['stack', 'Stack'], ['archive', 'Archive'], ['terminal', 'Terminal'], ['about', 'About'], ['contact', 'Contact']];
 let vw = innerWidth, vh = innerHeight, pinTop = 0, pinH = 0, pd = 0, centers = [], tops = [], cur = -1, prevY = scrollY, last = 0, ready = false;
-let lastP = -1, lastFp = -1, lastTx = NaN, lastFc = '', bw = 0, bh = 0; // change guards: no style/text writes when the value did not move
+let lastP = -1, lastFp = -1, lastTx = NaN, lastFc = '', bw = 0, bh = 0; // guards so we only touch styles/text when a value actually changed
 const railLinks = [];
 
 const mq = $$('.mq').map((e) => { const inner = e.firstElementChild; e.appendChild(inner.cloneNode(true)); e.appendChild(inner.cloneNode(true)); return { e, w: 0, x: 0, dir: +e.dataset.dir, sp: +e.dataset.sp }; });
 const pxs = $$('section > h2,section > .sub').filter((e) => !e.closest('.pin')).map((e) => ({ e, top: 0, k: e.matches('h2') ? 0.07 : 0.045, ty: 0 }));
 
-// chapter rail (desktop)
+// chapter rail (desktop only)
 const rail = h('nav'); rail.id = 'rail'; rail.setAttribute('aria-label', 'Page chapters');
 const rl = h('i', 'rl'); rl.appendChild(h('b')); rail.appendChild(rl);
 CH.forEach(([id, label], i) => { const a = h('a'); a.href = '#' + id; a.setAttribute('aria-label', label); a.append(h('span', '', label), h('i')); a.dataset.i = i; rail.appendChild(a); });

@@ -1,6 +1,7 @@
 import { $, reduce, SC, state } from './lib.js';
 import { Sfx } from './sfx.js';
 
+/* ---------- space background: Milky Way, real star colors, lit planets ---------- */
 (function(){
   var cv=$('#space'),g=cv.getContext('2d',{alpha:false}),W,H,dpr,S,sky,twk=[],earth,moon,giant,mars,ready=false,raf=0,last=0,slow=0,lite=false,
       px=0,py=0,tx=0,ty=0,ang=0,met=null,tM=6,sat=null,tS=25,wp=[],BL={},ER=0,ECX=0,ECY=0;

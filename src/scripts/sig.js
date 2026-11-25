@@ -1,3 +1,5 @@
+// SIG, the visitor assistant. answers from the local FAQ by default, and streams from a free AI endpoint if PUBLIC_SIG_ENDPOINT is set
+// (see worker/sig-worker.js, a free Cloudflare Workers AI proxy, so no API key ever reaches the browser).
 import { $, $$, h, root, state, REPOS } from './lib.js';
 import { Sfx } from './sfx.js';
 import { faq } from '../data/site.js';

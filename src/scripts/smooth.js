@@ -1,3 +1,4 @@
+// smooth inertial scrolling (Lenis), anchor navigation, word-by-word heading reveals and the custom cursor.
 import Lenis from 'lenis';
 import { $, $$, h, reduce, coarse } from './lib.js';
 
@@ -13,7 +14,7 @@ if (!reduce) {
 }
 ['#log', '#sigl', '.hm-s', '#menu'].forEach((s) => $$(s).forEach((e) => e.setAttribute('data-lenis-prevent', '')));
 
-// split headings into masked words
+// split headings into words so each one can be masked and revealed
 $$('h2.rv').forEach((hd) => {
   const words = hd.textContent.trim().split(/\s+/); hd.textContent = ''; hd.dataset.split = '1'; hd.setAttribute('aria-label', words.join(' '));
   words.forEach((w, i) => { const o = h('span', 'w'), s = h('span', '', w); o.setAttribute('aria-hidden', 'true'); s.style.setProperty('--wi', i); o.appendChild(s); hd.appendChild(o); hd.appendChild(document.createTextNode(' ')); });

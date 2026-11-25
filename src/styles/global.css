@@ -1,3 +1,4 @@
+/* main stylesheet for ruhrbin.site. sizes and colors are tokens at the top, then each section in page order. */
 :root{--pad:16px;--fs-h2:36px;--fs-tag:24px;--fs-mf:30px;--fs-hero:48px;--fs-big:40px;--fs-stat:28px;--fs-lets:44px;--fs-mail:20px;--sp-sec:88px;--card-w:300px;--fs-pct:96px}
 @media(min-width:768px){:root{--pad:32px;--fs-h2:48px;--fs-tag:32px;--fs-mf:42px;--fs-hero:120px;--fs-big:64px;--fs-stat:34px;--fs-lets:80px;--fs-mail:32px;--sp-sec:120px;--card-w:360px;--fs-pct:140px}.abn{font-size:10px}}
 @media(min-width:1200px){:root{--pad:48px;--fs-h2:64px;--fs-tag:40px;--fs-mf:56px;--fs-hero:190px;--fs-big:80px;--fs-stat:38px;--fs-lets:120px;--fs-mail:48px;--sp-sec:152px;--card-w:410px}.abn{font-size:13px}}
@@ -296,6 +297,7 @@ html.boot #boot,#boot.on{display:block}
 @media(prefers-reduced-motion:reduce){.js #rail a span{opacity:1;transform:none}}
 html.boot #cur,html.boot #cur2{display:none}
 
+/* fixed, stepped sizes for the ASCII art (kept last so they win over the base values) */
 @media(min-width:768px){.abn{font-size:14px}#ahm{font-size:13px}}
 @media(min-width:1200px){.abn{font-size:20px}#ahm{font-size:15px}}
 button:disabled,input:disabled{opacity:.5;cursor:not-allowed}

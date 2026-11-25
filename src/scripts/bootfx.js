@@ -1,3 +1,10 @@
+// loader visuals. loaderEngine has no imports and uses no outside variables on purpose,
+// so boot.js can run it inside a web worker on an OffscreenCanvas. that way it keeps animating smoothly
+// even when the main thread is busy. if workers aren't available it just runs on the main thread.
+//
+// the idea: a spiral galaxy spins in the dark. while the page loads, stars leave it and fly along curved paths
+// to form the wordmark from left to right (so the logo is the progress bar). at 100% the dotted letters turn solid,
+// a light sweep crosses them, and everything jumps to hyperspace into the 3D scene.
 export function loaderEngine(cv, mk, post) {
   const TAU = Math.PI * 2, clamp = (v, a, b) => (v < a ? a : v > b ? b : v), sm = (a, b, x) => { x = clamp((x - a) / (b - a), 0, 1); return x * x * (3 - 2 * x); };
   const ctx = cv.getContext('2d', { alpha: false }), sc = mk(2, 2), g = sc.getContext('2d'), b1 = mk(2, 2), g1 = b1.getContext('2d'), b2 = mk(2, 2), g2 = b2.getContext('2d'), hc = mk(2, 2), hg = hc.getContext('2d');
@@ -8,8 +15,8 @@ export function loaderEngine(cv, mk, post) {
   let uiA = 0, uiY = 0, uiX0 = 0, uiX1 = 0, target = 0, shown = 0, label = 'Initialising', prevLabel = '', labelA = 1, t = 0, lock = 0, formed = false, settled = 0, skip = false, phase = 0, pt = 0, chargeD = 0.6, warpD = 1, revealed = false, closed = false, started = false, lastT = 0, lastPost = 0, seed = 7, OX = 0, OY = 0;
   const NE = 1400, rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const PAL = [], MV = [];
-  for (let k = 0; k < 32; k++) { const u = k / 31; PAL.push('rgb(' + Math.round(255 - 110 * u) + ',' + Math.round(212 - 12 * u) + ',' + Math.round(158 + 97 * u) + ')'); } // galaxy: warm core -> blue arms
-  for (let k = 0; k < 16; k++) { const u = k / 15; MV.push('rgb(' + Math.round(222 + 33 * u) + ',' + Math.round(236 - 14 * u) + ',' + Math.round(255 - 79 * u) + ')'); } // formation: cool white at rest -> warm when fast
+  for (let k = 0; k < 32; k++) { const u = k / 31; PAL.push('rgb(' + Math.round(255 - 110 * u) + ',' + Math.round(212 - 12 * u) + ',' + Math.round(158 + 97 * u) + ')'); } // galaxy colors: warm in the middle, blue at the arms
+  for (let k = 0; k < 16; k++) { const u = k / 15; MV.push('rgb(' + Math.round(222 + 33 * u) + ',' + Math.round(236 - 14 * u) + ',' + Math.round(255 - 79 * u) + ')'); } // colors while forming: cool white when slow, warm when fast
   const gs = mk(64, 64), gx = gs.getContext('2d'); { const q = gx.createRadialGradient(32, 32, 0, 32, 32, 32); q.addColorStop(0, 'rgba(255,255,255,1)'); q.addColorStop(0.22, 'rgba(255,238,215,.5)'); q.addColorStop(1, 'rgba(255,190,140,0)'); gx.fillStyle = q; gx.fillRect(0, 0, 64, 64); }
 
   const omega = (u) => 0.2 * Math.pow(u + 0.08, -0.75);
@@ -25,13 +32,13 @@ export function loaderEngine(cv, mk, post) {
     ED = f(NE); EX = f(NE); EY = f(NE); EDX = f(NE); EDY = f(NE); ER = f(NE); ESP = f(NE); ESZ = f(NE);
     for (let i = 0; i < N; i++) {
       const u = Math.pow(rnd(), 1.45) * 0.96 + 0.04, arm = rnd() < 0.5 ? 0 : Math.PI; RR[i] = u;
-      AN[i] = arm + 3.3 * Math.log(1 + u * 5.2) + (rnd() + rnd() + rnd() - 1.5) * (0.55 + 0.9 * (1 - u)); // two logarithmic spiral arms with scatter
+      AN[i] = arm + 3.3 * Math.log(1 + u * 5.2) + (rnd() + rnd() + rnd() - 1.5) * (0.55 + 0.9 * (1 - u)); // two spiral arms with some random scatter
       SD[i] = rnd(); SZ[i] = i < NF ? 1.35 + rnd() * 0.75 : 0.55 + rnd() * 1.15; KK[i] = 0.8 + rnd() * 0.45;
-      if (i < NF) TH[i] = clamp(0.03 + 0.9 * ((pts[2 * i] + 0.5) * 0.78 + rnd() * 0.22), 0, 0.985); // released left -> right with some chaos
+      if (i < NF) TH[i] = clamp(0.03 + 0.9 * ((pts[2 * i] + 0.5) * 0.78 + rnd() * 0.22), 0, 0.985); // stars leave left to right, with a bit of randomness
     }
     layout();
   }
-  function release(i) { // hand the star its orbital velocity so it leaves the galaxy on a natural arc
+  function release(i) { // give the star its orbit speed so it leaves the galaxy on a natural curve
     orb(i, AN[i]); const x0 = OX, y0 = OY; orb(i, AN[i] + omega(RR[i]) * 0.016); X[i] = x0; Y[i] = y0; VX[i] = (OX - x0) / 0.016; VY[i] = (OY - y0) / 0.016; ST[i] = 1; RT[i] = 0;
   }
   function step(dt) {
@@ -44,7 +51,7 @@ export function loaderEngine(cv, mk, post) {
         if (s === 0) { AN[i] += omega(RR[i]) * dt; if (i < NF && shown >= TH[i]) release(i); }
         else if (s === 1) {
           RT[i] += dt; const ramp = sm(0, 0.65, RT[i]), k = (12 + 56 * ramp) * KK[i], c = 2 * Math.sqrt(k) * 0.56;
-          const dx = TX[i] - X[i], dy = TY[i] - Y[i], d = Math.hypot(dx, dy) + 1e-3, sw = 360 * (1 - ramp) * Math.min(1, d / 240); // spring (slightly underdamped = energetic overshoot) + curl
+          const dx = TX[i] - X[i], dy = TY[i] - Y[i], d = Math.hypot(dx, dy) + 1e-3, sw = 360 * (1 - ramp) * Math.min(1, d / 240); // spring toward the target (a little underdamped so it overshoots) plus some swirl
           VX[i] += (k * dx - c * VX[i] - (dy / d) * sw) * dt; VY[i] += (k * dy - c * VY[i] + (dx / d) * sw) * dt; X[i] += VX[i] * dt; Y[i] += VY[i] * dt;
           if (d < 0.8 && Math.abs(VX[i]) + Math.abs(VY[i]) < 7) { ST[i] = 2; X[i] = TX[i]; Y[i] = TY[i]; }
         } else settled++;
@@ -72,7 +79,7 @@ export function loaderEngine(cv, mk, post) {
   function drawLoad() {
     const ch = phase === 1 ? sm(0, 1, pt / chargeD) : 0, boost = 1 + ch * 1.4;
     g.setTransform(D, 0, 0, D, 0, 0); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.fillStyle = 'rgba(3,5,10,.3)'; g.fillRect(0, 0, W, H); g.globalCompositeOperation = 'lighter';
-    const gr = Rg * 0.42; g.globalAlpha = (0.2 - 0.12 * shown) * sm(0, 1.5, t) * (1 + ch * 0.6); g.drawImage(gs, cx - gr, cy - gr * 0.5, gr * 2, gr); // galaxy core
+    const gr = Rg * 0.42; g.globalAlpha = (0.2 - 0.12 * shown) * sm(0, 1.5, t) * (1 + ch * 0.6); g.drawImage(gs, cx - gr, cy - gr * 0.5, gr * 2, gr); // glow in the galaxy center
     const fadeIn = sm(0, 1.4, t), bx = (((t * 0.42) % 2.4) - 0.5) * bwPx + cx - bwPx / 2, k0 = 1 - 0.012 * ch;
     g.beginPath();
     for (let i = 0; i < N; i++) {
@@ -85,8 +92,8 @@ export function loaderEngine(cv, mk, post) {
       }
       g.globalAlpha = a > 1 ? 1 : a; g.fillStyle = col; g.fillRect(x - z * 0.5, y - z * 0.5, z, z);
     }
-    g.globalAlpha = 0.5; g.strokeStyle = 'rgb(255,226,186)'; g.lineWidth = 1; g.stroke(); // curved motion trails of stars in flight
-    if (img && lock > 0.01) { // crisp type fades in under the stipple, with a travelling light sweep
+    g.globalAlpha = 0.5; g.strokeStyle = 'rgb(255,226,186)'; g.lineWidth = 1; g.stroke(); // curved trails behind the flying stars
+    if (img && lock > 0.01) { // sharp text fades in over the dots, with a light sweep
       hg.globalCompositeOperation = 'source-over'; hg.clearRect(0, 0, hc.width, hc.height); hg.drawImage(img, 0, 0, hc.width, hc.height); hg.globalCompositeOperation = 'source-atop';
       const p = ((t * 0.42) % 2.4) / 2.4 * 1.8 - 0.4, w0 = hc.width, q = hg.createLinearGradient(w0 * (p - 0.14), 0, w0 * (p + 0.14), 0); q.addColorStop(0, 'rgba(255,255,255,0)'); q.addColorStop(0.5, 'rgba(255,248,236,.8)'); q.addColorStop(1, 'rgba(255,255,255,0)');
       hg.fillStyle = q; hg.fillRect(0, 0, w0, hc.height); hg.globalCompositeOperation = 'source-over';
@@ -97,7 +104,7 @@ export function loaderEngine(cv, mk, post) {
   function drawWarp() {
     g.setTransform(D, 0, 0, D, 0, 0); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.fillStyle = 'rgba(3,5,10,.62)'; g.fillRect(0, 0, W, H); g.globalCompositeOperation = 'lighter';
     const v0 = diag * 0.5, fade = (0.5 + 0.3 * sm(0, 0.25, pt)) * (1 - sm(0.95, 1.7, pt));
-    const lines = (n, get, wOf, col, lw) => { // batched streaks: each star flies radially, accelerating hard; length follows speed
+    const lines = (n, get, wOf, col, lw) => { // batched streaks: each star flies outward and speeds up, and the streak gets longer with speed
       g.beginPath();
       for (let i = 0; i < n; i += 2) {
         if (wOf(i) !== lw) continue; const d = get(i), p = d.p; if (p <= 0) continue;
@@ -156,11 +163,12 @@ export function loaderEngine(cv, mk, post) {
   };
 }
 
-// Samples the wordmark into normalised star targets (relative to the wordmark width) plus a crisp bitmap of the type. It runs on the main thread because it needs the page's real font; the result is sent to the worker (or engine) once.
+// turns the wordmark into star target positions (relative to its width) plus a sharp bitmap of the text.
+// needs the real page font, so it runs on the main thread and the result goes to the worker once.
 export async function sampleWordmark(W, H) {
   const portrait = W < H * 0.9, lines = portrait ? ['RUHR', 'ABIN'] : ['RUHRABIN'], bwf = portrait ? 0.84 : 0.8, bwmax = portrait ? 640 : 1300, bw = Math.min(W * bwf, bwmax);
   const fam = '"Geist Variable","Geist","Helvetica Neue",Arial,system-ui,sans-serif';
-  try { if (document.fonts) await Promise.race([document.fonts.load('800 100px "Geist Variable"'), new Promise((r) => setTimeout(r, 1200))]); } catch (e) { /* fall back to system sans */ }
+  try { if (document.fonts) await Promise.race([document.fonts.load('800 100px "Geist Variable"'), new Promise((r) => setTimeout(r, 1200))]); } catch (e) { /* no font? system sans is fine */ }
   const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true }); x.font = '800 100px ' + fam;
   const lw = (s) => { let w = 0; for (const ch of s) w += x.measureText(ch).width; return w; }, fs = 100 * bw * (portrait ? 0.8 : 0.84) / Math.max(...lines.map(lw));
   const lh = fs * 0.78, pad = Math.ceil(fs * 0.14); c.width = Math.ceil(bw + pad * 2); c.height = Math.ceil(lines.length * lh * 1.18 + pad * 2);

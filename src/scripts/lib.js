@@ -5,7 +5,7 @@ export function h(t, c, x) { const e = document.createElement(t); if (c) e.class
 export const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 export const root = document.documentElement;
 export const coarse = !matchMedia('(hover:hover)').matches;
-export const SC = { y: scrollY, ty: scrollY, vel: 0, p: 0, hp: 0 }; // shared scroll state
+export const SC = { y: scrollY, ty: scrollY, vel: 0, p: 0, hp: 0 }; // scroll state shared by every script
 export const state = { warp: 0, gh: { total: GH.total, repos: GH.repos, followers: GH.followers } };
 export const REPOS = [...GH.list].sort((a, b) => b.u.localeCompare(a.u)).slice(0, 8).map((r) => ({ n: r.n, l: r.l || 'code', u: r.u }));
 export function ago(s) {

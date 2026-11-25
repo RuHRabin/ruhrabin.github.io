@@ -1,5 +1,5 @@
-// Build-time snapshot of my public GitHub data (the browser then refreshes it live; see src/scripts/live.js).
-// Order of preference: official API (uses GITHUB_TOKEN in Actions) → public HTML pages → previous snapshot.
+// grabs my public github data at build time so the page has something to show before the live fetch kicks in (src/scripts/live.js).
+// tries the official API first (GITHUB_TOKEN in actions), then the public html pages, then falls back to the last saved snapshot.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 
 const USER = process.env.GH_USER || 'RuHRabin';

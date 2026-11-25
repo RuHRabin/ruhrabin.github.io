@@ -18,7 +18,7 @@ const want3d = !reduce && !conn.saveData && (navigator.deviceMemory || 8) >= 2 &
 
 (async function start() {
   let scene = null;
-  const enginePromise = want3d ? import('./scene3d.js') : null;
+  const enginePromise = want3d ? import('./scene3d.js') : null; // start downloading the ~150 kB (gzipped) 3D engine now, while we wait for the font
   if (enginePromise) enginePromise.catch(() => {});
   Loader.begin('fonts', 'Loading typefaces');
   await Promise.race([document.fonts ? document.fonts.ready : 0, sleep(1800)]);

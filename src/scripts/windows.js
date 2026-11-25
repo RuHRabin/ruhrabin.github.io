@@ -1,4 +1,4 @@
-// Window manager: the red / yellow / green buttons really close, minimise and maximise their window.
+// window manager: the red / yellow / green buttons actually close, minimize and maximize their window.
 import { $, $$, h, reduce, lockScroll } from './lib.js';
 import { Sfx } from './sfx.js';
 

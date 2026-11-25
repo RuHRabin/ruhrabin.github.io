@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-
+# AI search and answer engines are welcome to crawl too
 User-agent: GPTBot
 Allow: /
 User-agent: ChatGPT-User

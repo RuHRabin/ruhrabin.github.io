@@ -1,4 +1,4 @@
-// Connects the score engine to the page: sound toggle, boot reveal, volume and the terminal / palette commands.
+// connects the music engine to the page: sound toggle, loader reveal, volume and the terminal / palette commands.
 import { SC, state, root } from './lib.js';
 import { audioHandle } from './sfx.js';
 import { createMusic } from './music.js';
@@ -19,4 +19,4 @@ addEventListener('music:set', (e) => {
   if (typeof d.volume === 'number') { vol = Math.max(0, Math.min(1, d.volume)); if (m) m.volume(vol); }
   sync();
 });
-window.__musicRunning = () => !!(m && m.running); // small hook for tests
+window.__musicRunning = () => !!(m && m.running); // tiny hook so tests can check if music is playing
