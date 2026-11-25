@@ -1,0 +1,12 @@
+---
+import { faq } from '../data/site.js';
+const ld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<div class="win glow rv faq" style="margin-top:var(--gap)">
+  <div class="wt"><i class="tl"></i><i class="tl"></i><i class="tl"></i><span class="wtt">faq.md</span></div>
+  <div class="wb">
+    <h3 class="faqh">Questions people ask</h3>
+    {faq.map((f) => (<details><summary>{f.q}</summary><p>{f.a}</p></details>))}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</div>

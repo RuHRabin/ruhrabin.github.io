@@ -1,5 +1,6 @@
-name = "signal-chat"
-main = "worker.js"
-compatibility_date = "2025-10-01"
-# Secrets (never in this file):  npx wrangler secret put GEMINI_KEY
-# Optional vars: GEMINI_MODEL, ALLOWED_ORIGINS (comma-separated extra origins)
+name = "sig"
+main = "sig-worker.js"
+compatibility_date = "2025-01-01"
+
+[ai]
+binding = "AI"

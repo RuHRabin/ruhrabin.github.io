@@ -1,0 +1,3 @@
+name = "gh-live"
+main = "github-worker.js"
+compatibility_date = "2025-01-01"

@@ -1,0 +1,38 @@
+---
+import gh from '../data/github.json';
+import banner from '../data/banner.json';
+import { site } from '../data/site.js';
+let days = 0, best = 0, run = 0, long = 0;
+for (const wk of gh.w) for (const c of wk) { if (!c) continue; if (c[1] > 0) { days++; run++; long = Math.max(long, run); } else run = 0; best = Math.max(best, c[1]); }
+const recent = [...gh.list].sort((a, b) => b.u.localeCompare(a.u)).slice(0, 5);
+const ld = { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Open-source repositories by Rakib Ul Hasan Rabin',
+  itemListElement: gh.list.map((r, i) => ({ '@type': 'ListItem', position: i + 1, item: { '@type': 'SoftwareSourceCode', name: r.n, description: r.d || undefined, programmingLanguage: r.l || undefined, codeRepository: `${site.github}/${r.n}`, dateModified: r.u || undefined, author: { '@id': `${site.url}/#person` } } })) };
+---
+<section class="sec wrap" id="archive">
+  <h2 class="rv">The work lives on GitHub.</h2>
+  <p class="sub rv">Live activity from my GitHub account, drawn in ASCII.</p>
+  <div class="win glow rv" id="gh">
+    <div class="wt"><i class="tl"></i><i class="tl"></i><i class="tl"></i><span class="wtt">github.com/RuHRabin</span></div>
+    <div class="wb">
+      <pre class="abn" id="abn" aria-label="RUHRABIN">{banner.join("\n")}</pre>
+      <div class="gst" id="gst">
+        <div><b id="st-total" data-n={gh.total}>{gh.total}</b><span>contributions</span></div>
+        <div><b id="st-days" data-n={days}>{days}</b><span>active days</span></div>
+        <div><b id="st-long" data-n={long}>{long}</b><span>longest streak</span></div>
+        <div><b id="st-best" data-n={best}>{best}</b><span>busiest day</span></div>
+        <div><b id="st-repos" data-n={gh.repos}>{gh.repos}</b><span>repositories</span></div>
+        <div><b id="st-fol" data-n={gh.followers}>{gh.followers}</b><span>followers</span></div>
+      </div>
+      <div class="hm-s"><pre id="ahm" role="img" aria-label={`Contribution heatmap for the last year on GitHub, ${gh.total} contributions in total`}></pre></div>
+      <div class="lg2" aria-hidden="true"><span>Less</span><i class="k0">·</i><i class="k1">░</i><i class="k2">▒</i><i class="k3">▓</i><i class="k4">█</i><span>More</span></div>
+      <div class="feed" id="feed">
+        <div class="fh"><span class="fl" id="flive" data-live="0"><i></i><b id="fstate">Snapshot</b></span><span id="fupd">Synced at build, {gh.updated}</span></div>
+        <ol id="flog" aria-label="Recent GitHub activity">
+          {recent.map((r) => (<li><b class="fk">updated</b><span class="fr">{r.n}</span><span class="fm">{r.l || 'repository'}</span><time class="ft" datetime={r.u}>{r.u}</time></li>))}
+        </ol>
+      </div>
+      <div class="row"><a class="btn main mag" href="https://github.com/RuHRabin" target="_blank" rel="noopener">Open profile</a><a class="btn mag" href="https://github.com/RuHRabin?tab=repositories" target="_blank" rel="noopener">All repositories</a></div>
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</section>

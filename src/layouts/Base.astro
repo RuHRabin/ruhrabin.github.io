@@ -1,0 +1,72 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+import geistFont from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import monoFont from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
+import { site, faq } from '../data/site.js';
+const { title = site.title, description = site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const og = new URL('og.png', Astro.site).href;
+const person = {
+  '@type': 'Person', '@id': `${site.url}/#person`, name: site.name, alternateName: site.alt, url: site.url,
+  jobTitle: 'Python Developer & AI Builder', description: site.description, nationality: undefined, homeLocation: { '@type': 'Country', name: 'Bangladesh' }, email: `mailto:${site.email}`, image: og,
+  address: { '@type': 'PostalAddress', addressCountry: 'BD' },
+  knowsAbout: ['Python', 'Machine learning', 'Artificial intelligence', 'Linux', 'Arch Linux', 'TypeScript', 'C', 'Operating systems'],
+  sameAs: [site.github, site.x],
+};
+const ld = { '@context': 'https://schema.org', '@graph': [
+  person,
+  { '@type': 'WebSite', '@id': `${site.url}/#website`, url: site.url, name: site.alt, inLanguage: 'en', publisher: { '@id': `${site.url}/#person` } },
+  { '@type': 'ProfilePage', '@id': `${site.url}/#profile`, url: site.url, name: title, description, mainEntity: { '@id': `${site.url}/#person` }, isPartOf: { '@id': `${site.url}/#website` } },
+] };
+---
+<!doctype html>
+<html lang="en" data-skin="linux">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="author" content={site.name} />
+  <meta name="theme-color" content="#04060a" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="preload" as="font" type="font/woff2" href={geistFont} crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href={monoFont} crossorigin />
+  <link rel="preload" as="image" href="/logo-64.png" />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.ico" sizes="16x16" />
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+  <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="me" href={site.github} />
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+  <link rel="alternate" type="application/json" href="/profile.json" title="Profile (JSON)" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content={site.alt} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={og} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@RuHRabin" />
+  <meta name="twitter:image" content={og} />
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <script is:inline>
+    (function (d) {
+      d.classList.add('js');
+      try { var s = localStorage.getItem('skin'); if (s === 'mac' || s === 'linux') d.dataset.skin = s; } catch (e) {}
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('boot');
+    })(document.documentElement);
+  </script>
+<style is:global>html,body{overflow-x:clip}</style>
+</head>
+<body>
+  <slot />
+</body>
+</html>

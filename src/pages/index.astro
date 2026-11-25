@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Boot from '../components/Boot.astro';
+import Bar from '../components/Bar.astro';
+import Hero from '../components/Hero.astro';
+import Manifesto from '../components/Manifesto.astro';
+import Focus from '../components/Focus.astro';
+import Stack from '../components/Stack.astro';
+import Archive from '../components/Archive.astro';
+import Terminal from '../components/Terminal.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import Sig from '../components/Sig.astro';
+---
+<Base>
+  <a class="skip" href="#main">Skip to content</a>
+  <div id="prog" aria-hidden="true"></div>
+  <canvas id="space" aria-hidden="true"></canvas>
+  <div id="vig" aria-hidden="true"></div>
+  <Boot />
+  <Bar />
+  <main id="main">
+    <Hero />
+    <Manifesto />
+    <Focus />
+    <Stack />
+    <Archive />
+    <Terminal />
+    <About />
+    <Contact />
+  </main>
+  <Footer />
+  <Sig />
+  <script>
+    import '../scripts/main.js';
+  </script>
+</Base>
