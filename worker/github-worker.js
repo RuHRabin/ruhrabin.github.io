@@ -1,7 +1,7 @@
 // optional worker that serves my GitHub contribution calendar as JSON with CORS (github.com doesn't let browsers read it directly).
 // deploy:  cd worker && npx wrangler deploy --name gh-live --config wrangler.gh.toml   (or paste it into the Cloudflare dashboard)
 // then set the repo variable PUBLIC_GH_ENDPOINT to the worker URL and redeploy the site.
-const ALLOW = ['https://ruhrbin.site', 'http://localhost:4321'];
+const ALLOW = ['https://ruhrbin.site'];
 export default {
   async fetch(req, env, ctx) {
     const origin = req.headers.get('Origin') || '', ok = ALLOW.includes(origin);
