@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "17 3 * * *"   # rebuild daily so the GitHub activity section stays fresh
+    - cron: "17 3 * * *"   # rebuild every day so the github activity stays up to date
   workflow_dispatch:
 permissions:
   contents: read
