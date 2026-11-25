@@ -1,7 +1,7 @@
 // backend for SIG: a free Cloudflare Worker using Workers AI (so there's no API key to leak).
 // deploy:  cd worker && npx wrangler deploy
 // then set the repo variable PUBLIC_SIG_ENDPOINT to the worker URL (GitHub → Settings → Variables).
-const ALLOW = ['https://ruhrbin.site', 'http://localhost:4321'];
+const ALLOW = ['https://ruhrbin.site'];
 const MODEL = '@cf/meta/llama-3.1-8b-instruct';
 const SYSTEM = `You are SIG, the assistant on the portfolio of Rakib Ul Hasan Rabin (RuH Rabin).
 Facts you may use: Python developer and AI builder from Bangladesh; obsessed with how computers work at the lowest level; uses Arch Linux and Bash;
